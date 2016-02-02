@@ -1,0 +1,2 @@
+﻿# AndroidNotificationNotifier
+Android端末に来た通知をPCに送るアプリ
