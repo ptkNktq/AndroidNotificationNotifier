@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="app_name">通知配達ドロイド君</string>
+    <string name="activity_main">通知配達ドロイド君</string>
+    <string name="activity_target_selection">アプリ一覧</string>
+
+</resources>

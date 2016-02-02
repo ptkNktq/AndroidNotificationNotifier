@@ -1,0 +1,23 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iconImageView"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_toEndOf="@+id/iconImageView"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:gravity="center|start"
+        android:textSize="18sp"
+        android:textColor="@color/dark"/>
+
+</RelativeLayout>
