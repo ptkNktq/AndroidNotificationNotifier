@@ -1,5 +1,4 @@
-﻿using Codeplex.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -7,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,15 +30,18 @@ namespace AndroidNotifier
 
             Task.Run(() => {
                 var data = new StreamReader("./settings.json").ReadToEnd();
-                var json = DynamicJson.Parse(data);
-                int port = (int) json.port;
-                IPEndPoint ep = new IPEndPoint(IPAddress.Any, port);
-                var client = new UdpClient(port);
-                while(true)
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(SettingData));
+                using(MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(data)))
                 {
-                    var buff = client.Receive(ref ep);
-                    var text = Encoding.UTF8.GetString(buff);
-                    component.notify(text);
+                    SettingData setting = (SettingData)serializer.ReadObject(ms);
+                    IPEndPoint ep = new IPEndPoint(IPAddress.Any, setting.port);
+                    var client = new UdpClient(setting.port);
+                    while (true)
+                    {
+                        var buff = client.Receive(ref ep);
+                        var text = Encoding.UTF8.GetString(buff);
+                        component.notify(text);
+                    }
                 }
             });
         }
@@ -47,5 +51,12 @@ namespace AndroidNotifier
             base.OnExit(e);
             component.Dispose();
         }
+    }
+
+    [DataContract]
+    class SettingData
+    {
+        [DataMember]
+        public int port;
     }
 }
