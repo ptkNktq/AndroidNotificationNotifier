@@ -3,7 +3,7 @@
 Android端末の通知をPCに送信するアプリケーション
 
 ### 使い方
-[ここ](https://github.com/ptkNktq/AndroidNotificationNotifier/releases)からダウンロードして解凍してください。
+[ここ](https://github.com/ptkNktq/AndroidNotificationNotifier/releases)からダウンロードして解凍してください。  
 次の3つのファイルがあります。
 * android.apk (Androidアプリ)
 * desktop.exe (デスクトップアプリ)
@@ -23,12 +23,15 @@ android.apkをインストールします。
 
 3. 各種設定  
 アプリを起動して、PCのプライベートIPアドレスを入力します。  
-もしデスクトップアプリでポート番号を変更したのなら、ポート番号をそれと同じ番号に変更します。テスト通知ボタンを押してPCに通知が表示されたら準備完了です。
+もしデスクトップアプリでポート番号を変更したのなら、ポート番号をそれと同じ番号に変更します。テスト通知ボタンを押してPCに通知が表示されたら準備完了です。  
+　<img src="https://raw.githubusercontent.com/ptkNktq/AndroidNotificationNotifier/images/20160203113940.png" width="320px">
 
 4. 通知を送るアプリの追加  
 右下のボタンからアプリ一覧を表示できます。  
+　<img src="https://raw.githubusercontent.com/ptkNktq/AndroidNotificationNotifier/images/20160203113217.png" width="320px">  
 この中からPCに通知を送りたいアプリを選択してください(複数選択可)。  
-戻るキーを押すと選択したアプリが下に表示されます。
+戻るキーを押すと選択したアプリが下に表示されます。  
+　<img src="https://raw.githubusercontent.com/ptkNktq/AndroidNotificationNotifier/images/20160203114427.png" width="320px">  
 後は通知が来るのを待つだけ。
 
 ### 著作権
