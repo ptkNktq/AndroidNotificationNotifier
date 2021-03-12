@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_selection.*
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentSelectionBinding
 import me.nya_n.notificationnotifier.entities.InstalledApp
@@ -22,6 +21,7 @@ import java.util.*
 
 class SelectionFragment : Fragment() {
 
+    private lateinit var binding: FragmentSelectionBinding
     private val model: SelectionViewModel by viewModel()
     private val shared: SharedViewModel by sharedViewModel()
     private val filter = object: AppAdapter.Filter {
@@ -44,7 +44,7 @@ class SelectionFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        return DataBindingUtil.inflate<FragmentSelectionBinding>(
+        binding = DataBindingUtil.inflate<FragmentSelectionBinding>(
             inflater,
             R.layout.fragment_selection,
             container,
@@ -53,7 +53,8 @@ class SelectionFragment : Fragment() {
             it.lifecycleOwner = this
             it.model = model
             it.shared = shared
-        }.root
+        }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,7 +67,7 @@ class SelectionFragment : Fragment() {
         val adapter = AppAdapter(filter) { app ->
             shared.addTarget(app)
         }
-        list.apply {
+        binding.list.apply {
             val divider = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
             addItemDecoration(divider)
             layoutManager = LinearLayoutManager(requireContext())
@@ -77,11 +78,11 @@ class SelectionFragment : Fragment() {
     private fun observes() {
         model.query.observe(viewLifecycleOwner) {
             filter.query = it
-            val adapter = list.adapter as AppAdapter
+            val adapter = binding.list.adapter as AppAdapter
             adapter.targetChanged()
         }
         shared.list.observe(viewLifecycleOwner) {
-            val adapter = list.adapter as AppAdapter
+            val adapter = binding.list.adapter as AppAdapter
             adapter.addAll(it)
         }
         shared.addedMessage.observe(viewLifecycleOwner) {

@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_main.*
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentMainBinding
 import me.nya_n.notificationnotifier.entities.InstalledApp
@@ -22,6 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
 
+    private lateinit var binding: FragmentMainBinding
     private val model: MainViewModel by viewModel()
     private val shared: SharedViewModel by sharedViewModel()
     private val filter = object : AppAdapter.Filter {
@@ -44,7 +44,7 @@ class MainFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        return DataBindingUtil.inflate<FragmentMainBinding>(
+        binding = DataBindingUtil.inflate<FragmentMainBinding>(
             inflater,
             R.layout.fragment_main,
             container,
@@ -53,7 +53,8 @@ class MainFragment : Fragment() {
             it.lifecycleOwner = this
             it.model = model
             it.shared = shared
-        }.root
+        }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,13 +67,13 @@ class MainFragment : Fragment() {
         val adapter = AppAdapter(filter) { app ->
             shared.deleteTarget(app)
         }
-        list.apply {
+        binding.list.apply {
             val divider = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
             addItemDecoration(divider)
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
         }
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
     }
@@ -84,11 +85,11 @@ class MainFragment : Fragment() {
         }
         shared.targets.observe(viewLifecycleOwner) {
             filter.targetChanged(it)
-            val adapter = list.adapter as AppAdapter
+            val adapter = binding.list.adapter as AppAdapter
             adapter.targetChanged()
         }
         shared.list.observe(viewLifecycleOwner) {
-            val adapter = list.adapter as AppAdapter
+            val adapter = binding.list.adapter as AppAdapter
             adapter.addAll(it)
         }
         shared.deletedMessage.observe(viewLifecycleOwner) {
