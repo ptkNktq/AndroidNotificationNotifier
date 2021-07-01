@@ -10,8 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentDetailBinding
+import me.nya_n.notificationnotifier.entities.Fab
+import me.nya_n.notificationnotifier.utils.Event
 import me.nya_n.notificationnotifier.utils.Snackbar
 import me.nya_n.notificationnotifier.viewmodels.DetailViewModel
+import me.nya_n.notificationnotifier.viewmodels.MainViewModel
 import me.nya_n.notificationnotifier.viewmodels.SharedViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,6 +27,7 @@ class DetailFragment : Fragment() {
         parametersOf(args.app)
     }
     private val shared: SharedViewModel by sharedViewModel()
+    private val activityModel: MainViewModel by sharedViewModel()
     private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -47,6 +51,13 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         observes()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activityModel.fab.postValue(Event(Fab(true) {
+
+        }))
     }
 
     private fun initViews() {

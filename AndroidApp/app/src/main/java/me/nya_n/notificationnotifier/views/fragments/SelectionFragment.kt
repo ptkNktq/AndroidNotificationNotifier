@@ -6,12 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentSelectionBinding
+import me.nya_n.notificationnotifier.entities.Fab
 import me.nya_n.notificationnotifier.entities.InstalledApp
+import me.nya_n.notificationnotifier.utils.Event
 import me.nya_n.notificationnotifier.utils.Snackbar
+import me.nya_n.notificationnotifier.viewmodels.MainViewModel
 import me.nya_n.notificationnotifier.viewmodels.SelectionViewModel
 import me.nya_n.notificationnotifier.viewmodels.SharedViewModel
 import me.nya_n.notificationnotifier.views.adapters.AppAdapter
@@ -23,6 +27,7 @@ class SelectionFragment : Fragment() {
     private lateinit var binding: FragmentSelectionBinding
     private val model: SelectionViewModel by viewModel()
     private val shared: SharedViewModel by sharedViewModel()
+    private val activityModel: MainViewModel by sharedViewModel()
     private val filter = object : AppAdapter.Filter {
         private val targets = ArrayList<String>()
         var query = ""
@@ -62,6 +67,11 @@ class SelectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         observes()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activityModel.fab.postValue(Event(Fab(false)))
     }
 
     private fun initViews() {
