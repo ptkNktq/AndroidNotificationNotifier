@@ -55,9 +55,7 @@ class DetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        activityModel.fab.postValue(Event(Fab(true) {
-
-        }))
+        activityModel.fab.postValue(Event(Fab(false)))
     }
 
     private fun initViews() {

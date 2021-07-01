@@ -100,8 +100,10 @@ class SelectionFragment : Fragment() {
             shared.loadApps()
         }
         shared.list.observe(viewLifecycleOwner) {
-            val adapter = binding.list.adapter as AppAdapter
-            adapter.addAll(it)
+            (binding.list.adapter as AppAdapter).apply {
+                clear()
+                addAll(it)
+            }
         }
         shared.targets.observe(viewLifecycleOwner) {
             filter.targetChanged(it)

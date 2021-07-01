@@ -1,6 +1,7 @@
 package me.nya_n.notificationnotifier
 
 import android.app.Application
+import me.nya_n.notificationnotifier.repositories.AppRepository
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
 import me.nya_n.notificationnotifier.viewmodels.*
 import org.koin.android.ext.koin.androidContext
@@ -21,12 +22,13 @@ class App : Application() {
     private val modules = module {
         // Repository
         single { UserSettingRepository(get()) }
+        single { AppRepository(get()) }
 
         // ViewModel
         viewModel { MainViewModel() }
         viewModel { SharedViewModel(get(), get()) }
         viewModel { TopViewModel(get()) }
         viewModel { SelectionViewModel(get()) }
-        viewModel { params -> DetailViewModel(get(), get(), params.get()) }
+        viewModel { params -> DetailViewModel(get(), get(), get(), params.get()) }
     }
 }

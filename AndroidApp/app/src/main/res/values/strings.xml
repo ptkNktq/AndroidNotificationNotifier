@@ -16,4 +16,7 @@
     <string name="search_by_app_name">アプリ名で検索</string>
     <string name="next">[次へ]</string>
     <string name="require_permission">次の画面で「通知へのアクセス」を許可してください。</string>
+    <string name="condition_hint">PCに通知を送信する条件</string>
+    <string name="condition_added">条件を更新しました。</string>
+    <string name="condition_notice">\"${title} ${text}\"に対して正規表現でマッチ判定をします。\nマッチした場合: 通知送信\nマッチしなかった場合: 通知送信なし\n※ 条件なしの場合は全ての通知を送信します。</string>
 </resources>
