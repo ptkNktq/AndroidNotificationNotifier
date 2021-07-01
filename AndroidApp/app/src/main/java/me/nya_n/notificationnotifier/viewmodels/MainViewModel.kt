@@ -20,7 +20,6 @@ import java.net.InetAddress
 class MainViewModel(
     private val userSettingRepository: UserSettingRepository
 ) : ViewModel() {
-
     private val _message = MutableLiveData<Event<Message>>()
     val message: LiveData<Event<Message>> = _message
     val address = MutableLiveData<String>()

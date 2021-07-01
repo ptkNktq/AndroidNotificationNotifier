@@ -1,12 +1,11 @@
 package me.nya_n.notificationnotifier.entities
 
-import android.graphics.drawable.Drawable
+import java.io.Serializable
 import java.util.*
 
 data class InstalledApp(
     val label: String,
-    val packageName: String,
-    val icon: Drawable
-) {
+    val packageName: String
+) : Serializable {
     val lowerLabel by lazy { label.toLowerCase(Locale.getDefault()) }
 }

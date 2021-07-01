@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="model"
             type="me.nya_n.notificationnotifier.viewmodels.SelectionViewModel" />
+
         <variable
             name="shared"
             type="me.nya_n.notificationnotifier.viewmodels.SharedViewModel" />
@@ -22,32 +23,32 @@
             android:id="@+id/inputContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={model.query}"
                 android:hint="@string/search_by_app_name"
+                android:imeOptions="actionDone"
                 android:singleLine="true"
-                android:imeOptions="actionDone"/>
+                android:text="@={model.query}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
+            visible="@{!shared.isLoading()}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            visible="@{!shared.isLoading()}"
-            app:layout_constraintTop_toBottomOf="@+id/inputContainer"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputContainer" />
 
         <include
             layout="@layout/component_loading"
-            app:isLoading="@{shared.isLoading()}"/>
+            app:isLoading="@{shared.isLoading()}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

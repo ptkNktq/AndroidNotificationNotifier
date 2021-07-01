@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">通知配達ドロイド君</string>
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="main_fragment_label">メイン</string>
+    <string name="selection_fragment_label">アプリ選択</string>
+    <string name="detail_fragment_label">詳細</string>
 
     <string name="validation_error_addr">入力形式エラー: hostname:port の形式で入力してください。</string>
     <string name="addr_saved">通知送信先を保存しました。</string>

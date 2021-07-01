@@ -8,20 +8,34 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="me.nya_n.notificationnotifier.views.fragments.MainFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/main_fragment_label"
         tools:layout="@layout/fragment_main">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            android:id="@+id/action_MainFragment_to_SelectionFragment"
             app:destination="@id/SelectionFragment" />
+
+        <action
+            android:id="@+id/action_MainFragment_to_DetailFragment"
+            app:destination="@id/DetailFragment" />
 
     </fragment>
 
     <fragment
         android:id="@+id/SelectionFragment"
         android:name="me.nya_n.notificationnotifier.views.fragments.SelectionFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/selection_fragment_label"
+        tools:layout="@layout/fragment_selection"></fragment>
+
+    <fragment
+        android:id="@+id/DetailFragment"
+        android:name="me.nya_n.notificationnotifier.views.fragments.DetailFragment"
+        android:label="@string/detail_fragment_label"
         tools:layout="@layout/fragment_selection">
+        <argument
+            android:name="app"
+            app:argType="me.nya_n.notificationnotifier.entities.InstalledApp"
+            app:nullable="false" />
     </fragment>
 
 </navigation>

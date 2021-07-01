@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun permissionCheck() {
         if (NotificationManagerCompat.getEnabledListenerPackages(this)
-                .contains(packageName)) {
+                .contains(packageName)
+        ) {
             return
         }
         AlertDialog.Builder(this)
@@ -28,7 +29,6 @@ class MainActivity : AppCompatActivity() {
                 Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS).apply {
                     startActivity(this)
                 }
-            }
-            .show()
+            }.show()
     }
 }

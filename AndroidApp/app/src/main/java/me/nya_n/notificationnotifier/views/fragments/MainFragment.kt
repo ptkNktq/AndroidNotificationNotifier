@@ -20,7 +20,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
-
     private lateinit var binding: FragmentMainBinding
     private val model: MainViewModel by viewModel()
     private val shared: SharedViewModel by sharedViewModel()
@@ -40,9 +39,9 @@ class MainFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate<FragmentMainBinding>(
             inflater,
@@ -64,8 +63,10 @@ class MainFragment : Fragment() {
     }
 
     private fun initViews() {
-        val adapter = AppAdapter(filter) { app ->
-            shared.deleteTarget(app)
+        val adapter = AppAdapter(requireContext().packageManager, filter) { app ->
+            findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToDetailFragment(app)
+            )
         }
         binding.list.apply {
             val divider = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -74,7 +75,7 @@ class MainFragment : Fragment() {
             this.adapter = adapter
         }
         binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            findNavController().navigate(R.id.action_MainFragment_to_SelectionFragment)
         }
     }
 
@@ -89,12 +90,10 @@ class MainFragment : Fragment() {
             adapter.targetChanged()
         }
         shared.list.observe(viewLifecycleOwner) {
-            val adapter = binding.list.adapter as AppAdapter
-            adapter.addAll(it)
-        }
-        shared.deletedMessage.observe(viewLifecycleOwner) {
-            val message = it.getContentIfNotHandled() ?: return@observe
-            Snackbar.create(requireView(), message).show()
+            (binding.list.adapter as AppAdapter).apply {
+                clear()
+                addAll(it)
+            }
         }
     }
 }

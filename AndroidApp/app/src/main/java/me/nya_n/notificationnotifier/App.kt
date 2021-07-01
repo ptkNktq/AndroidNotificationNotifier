@@ -2,6 +2,7 @@ package me.nya_n.notificationnotifier
 
 import android.app.Application
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
+import me.nya_n.notificationnotifier.viewmodels.DetailViewModel
 import me.nya_n.notificationnotifier.viewmodels.MainViewModel
 import me.nya_n.notificationnotifier.viewmodels.SelectionViewModel
 import me.nya_n.notificationnotifier.viewmodels.SharedViewModel
@@ -27,6 +28,7 @@ class App : Application() {
         // ViewModel
         viewModel { SharedViewModel(get(), get()) }
         viewModel { MainViewModel(get()) }
-        viewModel { SelectionViewModel() }
+        viewModel { SelectionViewModel(get()) }
+        viewModel { params -> DetailViewModel(get(), get(), params.get()) }
     }
 }

@@ -1,5 +1,6 @@
 package me.nya_n.notificationnotifier.views.adapters
 
+import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.entities.InstalledApp
+import me.nya_n.notificationnotifier.utils.AppIcon
 
 class AppAdapter(
+    private val pm: PackageManager,
     private val filter: Filter,
     private val callback: ((InstalledApp) -> Unit)? = null
 ) : RecyclerView.Adapter<AppAdapter.VH>() {
@@ -38,12 +41,19 @@ class AppAdapter(
             callback?.invoke(data)
         }
         holder.name.text = data.label
-        holder.icon.setImageDrawable(data.icon)
+        holder.icon.setImageBitmap(AppIcon.get(data.packageName, pm))
     }
 
     fun addAll(elements: List<InstalledApp>) {
         original.addAll(elements)
         targetChanged()
+    }
+
+    fun clear() {
+        val size = itemCount
+        original.clear()
+        items.clear()
+        notifyItemRangeRemoved(0, size)
     }
 
     fun targetChanged() {
