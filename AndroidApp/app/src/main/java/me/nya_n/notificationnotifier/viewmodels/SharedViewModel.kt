@@ -10,19 +10,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.entities.InstalledApp
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
+import me.nya_n.notificationnotifier.repositories.AppRepository
 
 class SharedViewModel(
     context: Context,
-    private val userSettingRepository: UserSettingRepository
+    private val appRepository: AppRepository
 ) : ViewModel() {
     private val pm = context.packageManager
     private val _list = MutableLiveData<List<InstalledApp>>()
     val list: LiveData<List<InstalledApp>> = _list
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-    private val _targets = MutableLiveData<List<String>>()
-    val targets: LiveData<List<String>> = _targets
+    private val _targets = MutableLiveData<List<InstalledApp>>()
+    val targets: LiveData<List<InstalledApp>> = _targets
 
     init {
         loadApps()
@@ -42,9 +42,7 @@ class SharedViewModel(
                     }
             }
             _list.postValue(apps)
-
-            val setting = userSettingRepository.getUserSetting()
-            _targets.postValue(setting.targets)
+            _targets.postValue(appRepository.getTargetAppList())
             _isLoading.postValue(false)
         }
     }

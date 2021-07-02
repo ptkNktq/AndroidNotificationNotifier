@@ -31,13 +31,12 @@ class NotificationService : NotificationListenerService() {
             val title = getTitle(extra.get("android.title")) ?: return@launch
             val text = extra.getCharSequence("android.text").toString()
 
-            val userSettingRepository = UserSettingRepository(applicationContext)
-            val setting = userSettingRepository.getUserSetting()
-            if (!setting.targets.contains(sbn.packageName)) {
+            val appRepository = AppRepository(applicationContext)
+            val targets = appRepository.getTargetAppList()
+            if (!targets.any { t -> t.packageName == sbn.packageName }) {
                 return@launch
             }
 
-            val appRepository = AppRepository(applicationContext)
             val cond = appRepository.getFilterCondition(sbn.packageName)
             if (cond != null && cond.condition.isNotEmpty()) {
                 val regex = Regex(pattern = cond.condition)
@@ -46,6 +45,8 @@ class NotificationService : NotificationListenerService() {
                 }
             }
 
+            val userSettingRepository = UserSettingRepository(applicationContext)
+            val setting = userSettingRepository.getUserSetting()
             withContext(Dispatchers.IO) {
                 val message = "${title}\n${text}"
                 val buff = message.toByteArray()

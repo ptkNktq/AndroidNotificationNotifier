@@ -3,6 +3,7 @@ package me.nya_n.notificationnotifier.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "conditions")
 data class FilterCondition(
@@ -17,4 +18,5 @@ data class FilterCondition(
      * 条件
      */
     val condition: String
-)
+
+) : Serializable

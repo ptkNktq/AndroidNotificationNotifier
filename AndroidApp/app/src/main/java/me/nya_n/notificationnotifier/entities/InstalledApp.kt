@@ -1,11 +1,15 @@
 package me.nya_n.notificationnotifier.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
-import java.util.*
 
+@Entity(tableName = "targets")
 data class InstalledApp(
     val label: String,
+
+    @PrimaryKey
+    @ColumnInfo(name = "package_name")
     val packageName: String
-) : Serializable {
-    val lowerLabel by lazy { label.toLowerCase(Locale.getDefault()) }
-}
+) : Serializable

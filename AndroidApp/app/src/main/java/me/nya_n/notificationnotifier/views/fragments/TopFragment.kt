@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +16,8 @@ import me.nya_n.notificationnotifier.entities.InstalledApp
 import me.nya_n.notificationnotifier.utils.Event
 import me.nya_n.notificationnotifier.utils.Snackbar
 import me.nya_n.notificationnotifier.viewmodels.MainViewModel
-import me.nya_n.notificationnotifier.viewmodels.TopViewModel
 import me.nya_n.notificationnotifier.viewmodels.SharedViewModel
+import me.nya_n.notificationnotifier.viewmodels.TopViewModel
 import me.nya_n.notificationnotifier.views.adapters.AppAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,15 +28,15 @@ class TopFragment : Fragment() {
     private val shared: SharedViewModel by sharedViewModel()
     private val activityModel: MainViewModel by sharedViewModel()
     private val filter = object : AppAdapter.Filter {
-        private val targets = ArrayList<String>()
+        private val targets = ArrayList<InstalledApp>()
 
         override fun filter(items: List<InstalledApp>): List<InstalledApp> {
             return items.filter { app ->
-                targets.contains(app.packageName)
+                targets.any { t -> t.packageName == app.packageName }
             }
         }
 
-        fun targetChanged(elements: List<String>) {
+        fun targetChanged(elements: List<InstalledApp>) {
             targets.clear()
             targets.addAll(elements)
         }

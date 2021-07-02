@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.nya_n.notificationnotifier.R
@@ -29,17 +28,18 @@ class SelectionFragment : Fragment() {
     private val shared: SharedViewModel by sharedViewModel()
     private val activityModel: MainViewModel by sharedViewModel()
     private val filter = object : AppAdapter.Filter {
-        private val targets = ArrayList<String>()
+        private val targets = ArrayList<InstalledApp>()
         var query = ""
 
         override fun filter(items: List<InstalledApp>): List<InstalledApp> {
-            val q = query.toLowerCase(Locale.getDefault())
+            val q = query.lowercase()
             return items.filter {
-                it.lowerLabel.contains(q) && !targets.contains(it.packageName)
+                it.label.lowercase()
+                    .contains(q) && !targets.any { t -> t.packageName == it.packageName }
             }
         }
 
-        fun targetChanged(elements: List<String>) {
+        fun targetChanged(elements: List<InstalledApp>) {
             targets.clear()
             targets.addAll(elements)
         }

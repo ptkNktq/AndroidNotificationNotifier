@@ -8,13 +8,11 @@ import me.nya_n.notificationnotifier.entities.FilterCondition
 import me.nya_n.notificationnotifier.entities.InstalledApp
 import me.nya_n.notificationnotifier.entities.Message
 import me.nya_n.notificationnotifier.repositories.AppRepository
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
 import me.nya_n.notificationnotifier.utils.AppIcon
 import me.nya_n.notificationnotifier.utils.Event
 
 class DetailViewModel(
     context: Context,
-    private val userSettingRepository: UserSettingRepository,
     private val appRepository: AppRepository,
     private val target: InstalledApp
 ) : ViewModel() {
@@ -39,14 +37,7 @@ class DetailViewModel(
 
     fun deleteTarget() {
         viewModelScope.launch {
-            val newTargets = userSettingRepository.getUserSetting()
-                .targets
-                .filter {
-                    it != target.packageName
-                }
-            val setting = userSettingRepository.getUserSetting()
-                .copy(targets = newTargets)
-            userSettingRepository.saveUserSetting(setting)
+            appRepository.deleteTargetApp(target)
             _message.postValue(Event(Message.Notice(R.string.deleted)))
             _targetDeleted.postValue(Event(target))
         }
