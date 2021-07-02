@@ -1,7 +1,6 @@
 package me.nya_n.notificationnotifier.repositories
 
 import android.content.Context
-import me.nya_n.notificationnotifier.entities.InstalledApp
 import me.nya_n.notificationnotifier.entities.UserSetting
 import me.nya_n.notificationnotifier.repositories.sources.UserSettingDataStore
 

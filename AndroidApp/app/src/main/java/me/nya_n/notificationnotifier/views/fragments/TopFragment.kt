@@ -10,43 +10,46 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.nya_n.notificationnotifier.R
-import me.nya_n.notificationnotifier.databinding.FragmentMainBinding
+import me.nya_n.notificationnotifier.databinding.FragmentTopBinding
+import me.nya_n.notificationnotifier.entities.Fab
 import me.nya_n.notificationnotifier.entities.InstalledApp
+import me.nya_n.notificationnotifier.utils.Event
 import me.nya_n.notificationnotifier.utils.Snackbar
 import me.nya_n.notificationnotifier.viewmodels.MainViewModel
 import me.nya_n.notificationnotifier.viewmodels.SharedViewModel
+import me.nya_n.notificationnotifier.viewmodels.TopViewModel
 import me.nya_n.notificationnotifier.views.adapters.AppAdapter
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
-
-    private lateinit var binding: FragmentMainBinding
-    private val model: MainViewModel by viewModel()
+class TopFragment : Fragment() {
+    private lateinit var binding: FragmentTopBinding
+    private val model: TopViewModel by viewModel()
     private val shared: SharedViewModel by sharedViewModel()
+    private val activityModel: MainViewModel by sharedViewModel()
     private val filter = object : AppAdapter.Filter {
-        private val targets = ArrayList<String>()
+        private val targets = ArrayList<InstalledApp>()
 
         override fun filter(items: List<InstalledApp>): List<InstalledApp> {
             return items.filter { app ->
-                targets.contains(app.packageName)
+                targets.any { t -> t.packageName == app.packageName }
             }
         }
 
-        fun targetChanged(elements: List<String>) {
+        fun targetChanged(elements: List<InstalledApp>) {
             targets.clear()
             targets.addAll(elements)
         }
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate<FragmentMainBinding>(
+        binding = DataBindingUtil.inflate<FragmentTopBinding>(
             inflater,
-            R.layout.fragment_main,
+            R.layout.fragment_top,
             container,
             false
         ).also {
@@ -63,18 +66,24 @@ class MainFragment : Fragment() {
         observes()
     }
 
+    override fun onResume() {
+        super.onResume()
+        activityModel.fab.postValue(Event(Fab(true) {
+            findNavController().navigate(R.id.action_MainFragment_to_SelectionFragment)
+        }))
+    }
+
     private fun initViews() {
-        val adapter = AppAdapter(filter) { app ->
-            shared.deleteTarget(app)
+        val adapter = AppAdapter(requireContext().packageManager, filter) { app ->
+            findNavController().navigate(
+                TopFragmentDirections.actionMainFragmentToDetailFragment(app)
+            )
         }
         binding.list.apply {
             val divider = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
             addItemDecoration(divider)
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
-        }
-        binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
     }
 
@@ -89,12 +98,10 @@ class MainFragment : Fragment() {
             adapter.targetChanged()
         }
         shared.list.observe(viewLifecycleOwner) {
-            val adapter = binding.list.adapter as AppAdapter
-            adapter.addAll(it)
-        }
-        shared.deletedMessage.observe(viewLifecycleOwner) {
-            val message = it.getContentIfNotHandled() ?: return@observe
-            Snackbar.create(requireView(), message).show()
+            (binding.list.adapter as AppAdapter).apply {
+                clear()
+                addAll(it)
+            }
         }
     }
 }

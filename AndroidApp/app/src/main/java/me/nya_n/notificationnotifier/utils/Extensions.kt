@@ -1,7 +1,9 @@
 package me.nya_n.notificationnotifier.utils
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.View
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.snackbar.Snackbar
 import me.nya_n.notificationnotifier.entities.Message
@@ -38,4 +40,9 @@ fun View.visible(isVisible: Boolean) {
     } else {
         View.GONE
     }
+}
+
+@BindingAdapter("image")
+fun ImageView.image(bitmap: Bitmap) {
+    setImageBitmap(bitmap)
 }

@@ -4,6 +4,7 @@ import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.text.SpannableString
 import kotlinx.coroutines.*
+import me.nya_n.notificationnotifier.repositories.AppRepository
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -28,14 +29,24 @@ class NotificationService : NotificationListenerService() {
         scope.launch {
             val extra = sbn.notification.extras
             val title = getTitle(extra.get("android.title")) ?: return@launch
-            val text = extra.getCharSequence("android.text")
+            val text = extra.getCharSequence("android.text").toString()
 
-            val userSettingRepository = UserSettingRepository(applicationContext)
-            val setting = userSettingRepository.getUserSetting()
-            if (!setting.targets.contains(sbn.packageName)) {
+            val appRepository = AppRepository(applicationContext)
+            val targets = appRepository.getTargetAppList()
+            if (!targets.any { t -> t.packageName == sbn.packageName }) {
                 return@launch
             }
 
+            val cond = appRepository.getFilterCondition(sbn.packageName)
+            if (cond != null && cond.condition.isNotEmpty()) {
+                val regex = Regex(pattern = cond.condition)
+                if (!regex.matches("$title $text")) {
+                    return@launch
+                }
+            }
+
+            val userSettingRepository = UserSettingRepository(applicationContext)
+            val setting = userSettingRepository.getUserSetting()
             withContext(Dispatchers.IO) {
                 val message = "${title}\n${text}"
                 val buff = message.toByteArray()
