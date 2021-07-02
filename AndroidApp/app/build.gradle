@@ -11,8 +11,8 @@ android {
         applicationId "me.nya_n.notificationnotifier"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 2
-        versionName "2.0"
+        versionCode 3
+        versionName "3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
