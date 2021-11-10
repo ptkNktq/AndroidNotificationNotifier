@@ -11,9 +11,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.entities.InstalledApp
 import me.nya_n.notificationnotifier.repositories.AppRepository
+import me.nya_n.notificationnotifier.repositories.UserSettingRepository
+import me.nya_n.notificationnotifier.utils.Event
 
 class SharedViewModel(
     context: Context,
+    private val userSettingRepository: UserSettingRepository,
     private val appRepository: AppRepository
 ) : ViewModel() {
     private val pm = context.packageManager
@@ -23,6 +26,8 @@ class SharedViewModel(
     val isLoading: LiveData<Boolean> = _isLoading
     private val _targets = MutableLiveData<List<InstalledApp>>()
     val targets: LiveData<List<InstalledApp>> = _targets
+    private val _checkPackageVisibilityEvent = MutableLiveData<Event<Boolean>>()
+    val checkPackageVisibilityEvent: LiveData<Event<Boolean>> = _checkPackageVisibilityEvent
 
     init {
         loadApps()
@@ -30,20 +35,33 @@ class SharedViewModel(
 
     fun loadApps() {
         viewModelScope.launch {
-            _isLoading.postValue(true)
-            val apps = withContext(Dispatchers.IO) {
-                pm.getInstalledApplications(PackageManager.GET_META_DATA)
-                    .map {
-                        val label = pm.getApplicationLabel(it).toString()
-                        InstalledApp(
-                            label,
-                            it.packageName
-                        )
-                    }
+            val setting = userSettingRepository.getUserSetting()
+            if (!setting.isPackageVisibilityGranted) {
+                _checkPackageVisibilityEvent.postValue(Event(true))
+            } else {
+                _isLoading.postValue(true)
+                val apps = withContext(Dispatchers.IO) {
+                    pm.getInstalledApplications(PackageManager.GET_META_DATA)
+                        .map {
+                            val label = pm.getApplicationLabel(it).toString()
+                            InstalledApp(
+                                label,
+                                it.packageName
+                            )
+                        }
+                }
+                _list.postValue(apps)
+                _targets.postValue(appRepository.getTargetAppList())
+                _isLoading.postValue(false)
             }
-            _list.postValue(apps)
-            _targets.postValue(appRepository.getTargetAppList())
-            _isLoading.postValue(false)
+        }
+    }
+
+    fun packageVisibilityGranted() {
+        viewModelScope.launch {
+            val setting = userSettingRepository.getUserSetting()
+                .copy(isPackageVisibilityGranted = true)
+            userSettingRepository.saveUserSetting(setting)
         }
     }
 }
