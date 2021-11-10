@@ -26,7 +26,7 @@ class App : Application() {
 
         // ViewModel
         viewModel { MainViewModel() }
-        viewModel { SharedViewModel(get(), get()) }
+        viewModel { SharedViewModel(get(), get(), get()) }
         viewModel { TopViewModel(get()) }
         viewModel { SelectionViewModel(get()) }
         viewModel { params -> DetailViewModel(get(), get(), params.get()) }

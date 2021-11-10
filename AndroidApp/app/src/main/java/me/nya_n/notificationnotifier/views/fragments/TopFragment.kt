@@ -19,6 +19,7 @@ import me.nya_n.notificationnotifier.viewmodels.MainViewModel
 import me.nya_n.notificationnotifier.viewmodels.SharedViewModel
 import me.nya_n.notificationnotifier.viewmodels.TopViewModel
 import me.nya_n.notificationnotifier.views.adapters.AppAdapter
+import me.nya_n.notificationnotifier.views.dialogs.PackageVisibilityDialog
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -85,6 +86,9 @@ class TopFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
         }
+        binding.refresh.setOnRefreshListener {
+            shared.loadApps()
+        }
     }
 
     private fun observes() {
@@ -98,9 +102,23 @@ class TopFragment : Fragment() {
             adapter.targetChanged()
         }
         shared.list.observe(viewLifecycleOwner) {
+            binding.refresh.isRefreshing = false
             (binding.list.adapter as AppAdapter).apply {
                 clear()
                 addAll(it)
+            }
+        }
+        shared.checkPackageVisibilityEvent.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled() ?: return@observe
+            binding.refresh.isRefreshing = false
+            PackageVisibilityDialog.showOnlyOnce(childFragmentManager)
+            childFragmentManager.setFragmentResultListener(PackageVisibilityDialog.TAG, viewLifecycleOwner) { _, result ->
+                val isGranted = result.getBoolean(PackageVisibilityDialog.KEY_IS_GRANTED)
+                if (isGranted) {
+                    shared.packageVisibilityGranted()
+                    shared.loadApps()
+                    binding.refresh.isRefreshing = true
+                }
             }
         }
     }

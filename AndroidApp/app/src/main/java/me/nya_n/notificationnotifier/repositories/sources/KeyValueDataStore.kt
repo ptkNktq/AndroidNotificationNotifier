@@ -30,6 +30,10 @@ open class KeyValueDataStore(
         return pref.getInt(key, defValue)
     }
 
+    protected fun get(key: String, defValue: Boolean): Boolean {
+        return pref.getBoolean(key, defValue)
+    }
+
     protected fun put(key: String, value: String) {
         pref.edit {
             putString(key, value)
@@ -39,6 +43,12 @@ open class KeyValueDataStore(
     protected fun put(key: String, value: Int) {
         pref.edit {
             putInt(key, value)
+        }
+    }
+
+    protected fun put(key: String, value: Boolean) {
+        pref.edit {
+            putBoolean(key, value)
         }
     }
 }

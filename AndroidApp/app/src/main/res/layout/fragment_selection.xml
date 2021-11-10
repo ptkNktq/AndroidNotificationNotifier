@@ -28,7 +28,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/search_by_app_name"
@@ -38,17 +37,24 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
-            visible="@{!shared.isLoading()}"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputContainer" />
+            app:layout_constraintTop_toBottomOf="@+id/inputContainer">
 
-        <include
-            layout="@layout/component_loading"
-            app:isLoading="@{shared.isLoading()}" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list"
+                visible="@{!shared.isLoading()}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <include
+                layout="@layout/component_loading"
+                app:isLoading="@{shared.isLoading()}" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
