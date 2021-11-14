@@ -15,5 +15,5 @@ interface TargetAppDao {
     fun delete(target: InstalledApp)
 
     @Query("select * from targets")
-    fun get(): List<InstalledApp>
+    fun getAll(): List<InstalledApp>
 }

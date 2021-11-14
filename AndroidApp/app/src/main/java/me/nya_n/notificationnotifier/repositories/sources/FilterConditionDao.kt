@@ -13,4 +13,7 @@ interface FilterConditionDao {
 
     @Query("select * from conditions where target_package_name = :targetPackageName")
     fun get(targetPackageName: String): FilterCondition?
+
+    @Query("select * from conditions")
+    fun getAll(): List<FilterCondition>
 }

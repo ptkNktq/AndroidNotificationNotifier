@@ -35,5 +35,13 @@ abstract class DB : RoomDatabase() {
                 instance
             }
         }
+
+        fun version(context: Context): Int {
+            return try {
+                get(context).openHelper.readableDatabase.version
+            } catch (e: Exception) {
+                -1
+            }
+        }
     }
 }

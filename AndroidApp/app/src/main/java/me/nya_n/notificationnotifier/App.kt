@@ -25,7 +25,7 @@ class App : Application() {
         single { AppRepository(get()) }
 
         // ViewModel
-        viewModel { MainViewModel() }
+        viewModel { MainViewModel(get(), get()) }
         viewModel { SharedViewModel(get(), get(), get()) }
         viewModel { TopViewModel(get()) }
         viewModel { SelectionViewModel(get()) }
