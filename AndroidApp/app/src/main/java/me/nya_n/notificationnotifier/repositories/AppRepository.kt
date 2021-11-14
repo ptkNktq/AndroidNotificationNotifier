@@ -18,9 +18,19 @@ class AppRepository(
         DB.get(context).targetAppDao()
     }
 
+
+    /*
+     * フィルタリング条件関連
+     */
     suspend fun getFilterCondition(targetPackageName: String): FilterCondition? {
         return withContext(Dispatchers.IO) {
             filterConditionDao.get(targetPackageName)
+        }
+    }
+
+    suspend fun getFilterConditionList(): List<FilterCondition> {
+        return withContext(Dispatchers.IO) {
+            filterConditionDao.getAll()
         }
     }
 
@@ -30,9 +40,13 @@ class AppRepository(
         }
     }
 
+
+    /*
+     * ターゲットアプリ関連
+     */
     suspend fun getTargetAppList(): List<InstalledApp> {
         return withContext(Dispatchers.IO) {
-            targetAppDao.get()
+            targetAppDao.getAll()
         }
     }
 

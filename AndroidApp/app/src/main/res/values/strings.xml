@@ -23,6 +23,10 @@
     <string name="condition_added">条件を更新しました。</string>
     <string name="condition_notice">\"${タイトル} ${メッセージ}\"に対して正規表現でマッチ判定をします。\nマッチした場合: 通知送信\nマッチしなかった場合: 通知送信なし\n※ 条件なしの場合は全ての通知を送信します。</string>
     <string name="export_data">バックアップ</string>
+    <string name="export_succeeded">バックアップ成功</string>
+    <string name="export_failed">バックアップ失敗</string>
     <string name="import_data">復元</string>
+    <string name="import_succeeded">復元しました。アプリを再起動してください。</string>
+    <string name="import_failed">復元失敗</string>
     <string name="licence">ライセンス</string>
 </resources>
