@@ -3,6 +3,8 @@ package me.nya_n.notificationnotifier.views.activities
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.DataBindingUtil
@@ -28,6 +30,26 @@ class MainActivity : AppCompatActivity(), DialogListener {
     override fun onResume() {
         super.onResume()
         permissionCheck()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.export_data -> {
+                true
+            }
+            R.id.import_data -> {
+                true
+            }
+            R.id.licence -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onPositiveClick(dialog: DialogFragment) {
