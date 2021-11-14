@@ -22,4 +22,7 @@
     <string name="condition_hint">PCに通知を送信する条件</string>
     <string name="condition_added">条件を更新しました。</string>
     <string name="condition_notice">\"${タイトル} ${メッセージ}\"に対して正規表現でマッチ判定をします。\nマッチした場合: 通知送信\nマッチしなかった場合: 通知送信なし\n※ 条件なしの場合は全ての通知を送信します。</string>
+    <string name="export_data">バックアップ</string>
+    <string name="import_data">復元</string>
+    <string name="licence">ライセンス</string>
 </resources>
