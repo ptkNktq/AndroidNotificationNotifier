@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentDetailBinding
 import me.nya_n.notificationnotifier.entities.Fab
-import me.nya_n.notificationnotifier.utils.Event
 import me.nya_n.notificationnotifier.utils.Snackbar
 import me.nya_n.notificationnotifier.viewmodels.DetailViewModel
 import me.nya_n.notificationnotifier.viewmodels.MainViewModel
@@ -55,7 +54,7 @@ class DetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        activityModel.fab.postValue(Event(Fab(false)))
+        activityModel.changeFabState(Fab(false))
     }
 
     private fun initViews() {
