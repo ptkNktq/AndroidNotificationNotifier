@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.findNavController
 import kotlinx.coroutines.*
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.ActivityMainBinding
@@ -26,25 +27,27 @@ class MainActivity : AppCompatActivity(), DialogListener {
     private lateinit var binding: ActivityMainBinding
     private val model: MainViewModel by viewModel()
 
-    private val exportDataResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_CANCELED) return@registerForActivityResult
-        val uri = it.data?.data
-        if (uri != null) {
-            model.exportData(this, uri)
-        } else {
-            handleMessage(Message.Error(R.string.export_failed))
+    private val exportDataResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_CANCELED) return@registerForActivityResult
+            val uri = it.data?.data
+            if (uri != null) {
+                model.exportData(this, uri)
+            } else {
+                handleMessage(Message.Error(R.string.export_failed))
+            }
         }
-    }
 
-    private val importDataResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_CANCELED) return@registerForActivityResult
-        val uri = it.data?.data
-        if (uri != null) {
-            model.importData(this, uri)
-        } else {
-            handleMessage(Message.Error(R.string.import_failed))
+    private val importDataResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_CANCELED) return@registerForActivityResult
+            val uri = it.data?.data
+            if (uri != null) {
+                model.importData(this, uri)
+            } else {
+                handleMessage(Message.Error(R.string.import_failed))
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +87,8 @@ class MainActivity : AppCompatActivity(), DialogListener {
                 )
                 true
             }
-            R.id.licence -> {
+            R.id.license -> {
+                findNavController(R.id.nav_host_fragment).navigate(R.id.action_MainFragment_to_LicenseFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)

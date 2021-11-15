@@ -19,6 +19,10 @@
             android:id="@+id/action_MainFragment_to_DetailFragment"
             app:destination="@id/DetailFragment" />
 
+        <action
+            android:id="@+id/action_MainFragment_to_LicenseFragment"
+            app:destination="@id/LicenseFragment" />
+
     </fragment>
 
     <fragment
@@ -37,5 +41,11 @@
             app:argType="me.nya_n.notificationnotifier.entities.InstalledApp"
             app:nullable="false" />
     </fragment>
+
+    <fragment
+        android:id="@+id/LicenseFragment"
+        android:name="me.nya_n.notificationnotifier.views.fragments.LicenseFragment"
+        android:label="@string/license_fragment_label"
+        tools:layout="@layout/fragment_license" />
 
 </navigation>

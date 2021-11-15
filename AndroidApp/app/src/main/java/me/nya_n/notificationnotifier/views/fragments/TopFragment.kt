@@ -13,7 +13,6 @@ import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentTopBinding
 import me.nya_n.notificationnotifier.entities.Fab
 import me.nya_n.notificationnotifier.entities.InstalledApp
-import me.nya_n.notificationnotifier.utils.Event
 import me.nya_n.notificationnotifier.utils.Snackbar
 import me.nya_n.notificationnotifier.viewmodels.MainViewModel
 import me.nya_n.notificationnotifier.viewmodels.SharedViewModel
@@ -69,7 +68,7 @@ class TopFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        activityModel.fab.postValue(Event(Fab(true) {
+        activityModel.changeFabState((Fab(true) {
             findNavController().navigate(R.id.action_MainFragment_to_SelectionFragment)
         }))
     }
@@ -112,7 +111,10 @@ class TopFragment : Fragment() {
             it.getContentIfNotHandled() ?: return@observe
             binding.refresh.isRefreshing = false
             PackageVisibilityDialog.showOnlyOnce(childFragmentManager)
-            childFragmentManager.setFragmentResultListener(PackageVisibilityDialog.TAG, viewLifecycleOwner) { _, result ->
+            childFragmentManager.setFragmentResultListener(
+                PackageVisibilityDialog.TAG,
+                viewLifecycleOwner
+            ) { _, result ->
                 val isGranted = result.getBoolean(PackageVisibilityDialog.KEY_IS_GRANTED)
                 if (isGranted) {
                     shared.packageVisibilityGranted()

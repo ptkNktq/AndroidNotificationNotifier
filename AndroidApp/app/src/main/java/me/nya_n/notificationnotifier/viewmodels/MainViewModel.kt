@@ -20,15 +20,22 @@ import me.nya_n.notificationnotifier.repositories.sources.DB
 import me.nya_n.notificationnotifier.utils.Event
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.RuntimeException
 
 class MainViewModel(
     private val userSettingRepository: UserSettingRepository,
     private val appRepository: AppRepository
 ) : ViewModel() {
-    val fab = MutableLiveData<Event<Fab>>()
+    private val _fab = MutableLiveData<Event<Fab>>()
+    val fab: LiveData<Event<Fab>> = _fab
     private val _message = MutableLiveData<Event<Message>>()
     val message: LiveData<Event<Message>> = _message
+
+    /**
+     * Fabの状態を更新
+     */
+    fun changeFabState(fab: Fab) {
+        _fab.postValue(Event(fab))
+    }
 
     /**
      * バックアップのために外部ストレージにデータを保存
@@ -69,6 +76,9 @@ class MainViewModel(
         }
     }
 
+    /**
+     * 外部ストレージのバックアップからデータを復元
+     */
     fun importData(context: Context, uri: Uri) {
         viewModelScope.launch {
             runCatching {

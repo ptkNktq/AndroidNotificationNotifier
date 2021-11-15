@@ -3,6 +3,7 @@
     <string name="main_fragment_label">メイン</string>
     <string name="selection_fragment_label">アプリ選択</string>
     <string name="detail_fragment_label">詳細</string>
+    <string name="license_fragment_label">ライセンス</string>
 
     <string name="ok">[許可]</string>
     <string name="ng">断る</string>
@@ -28,5 +29,5 @@
     <string name="import_data">復元</string>
     <string name="import_succeeded">復元しました。アプリを再起動してください。</string>
     <string name="import_failed">復元失敗</string>
-    <string name="licence">ライセンス</string>
+    <string name="license">ライセンス</string>
 </resources>
