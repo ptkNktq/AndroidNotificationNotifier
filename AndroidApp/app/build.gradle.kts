@@ -7,13 +7,13 @@ plugins {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = 32
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "me.nya_n.notificationnotifier"
-        minSdk = 23
-        targetSdk = 30
+        minSdk = 30
+        targetSdk = 32
         versionCode = 3
         versionName = "4.0"
 
@@ -49,28 +49,28 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.10")
 
     // androidx
-    implementation("androidx.core:core-ktx:1.5.0")
-    implementation("androidx.appcompat:appcompat:1.3.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.preference:preference-ktx:1.1.1")
+    implementation("androidx.preference:preference-ktx:1.2.0")
     implementation("androidx.security:security-crypto:1.1.0-alpha03")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.0")
 
     // test
     testImplementation("junit:junit:4.12")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
     // Room
-    implementation("androidx.room:room-runtime:2.3.0")
-    implementation("androidx.room:room-ktx:2.3.0")
-    kapt("androidx.room:room-compiler:2.3.0")
+    implementation("androidx.room:room-runtime:2.4.2")
+    implementation("androidx.room:room-ktx:2.4.2")
+    kapt("androidx.room:room-compiler:2.4.2")
 
     // その他
-    implementation("com.google.android.material:material:1.4.0-rc01")
+    implementation("com.google.android.material:material:1.7.0-alpha03")
     implementation("io.insert-koin:koin-android:3.1.0")
-    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("com.google.code.gson:gson:2.9.0")
 }
