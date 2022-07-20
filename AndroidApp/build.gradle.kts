@@ -2,7 +2,6 @@
 buildscript {
     extra.apply {
         set("kotlin_version", "1.7.10")
-        set("koin_version", "3.1.0")
     }
     repositories {
         google()
@@ -11,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.2.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.extra["kotlin_version"]}")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0")
         classpath("gradle.plugin.com.cookpad.android.plugin:plugin:1.2.8")
 
