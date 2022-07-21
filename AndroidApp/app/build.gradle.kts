@@ -52,12 +52,13 @@ dependencies {
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.appcompat:appcompat:1.4.2")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.preference:preference-ktx:1.2.0")
     implementation("androidx.security:security-crypto:1.1.0-alpha03")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.0")
+    val navVersion = "2.5.0"
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     // test
     testImplementation("junit:junit:4.12")
