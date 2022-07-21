@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentLicenseBinding
-import me.nya_n.notificationnotifier.entities.Fab
+import me.nya_n.notificationnotifier.domain.entities.Fab
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -40,6 +40,7 @@ class LicenseFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
+        println("!!! onCreateOptionsMenu")
         menu.clear()
     }
 

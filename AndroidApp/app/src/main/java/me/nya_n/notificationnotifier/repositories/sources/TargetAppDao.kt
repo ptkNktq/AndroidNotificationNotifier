@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import me.nya_n.notificationnotifier.entities.InstalledApp
+import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 
 @Dao
 interface TargetAppDao {

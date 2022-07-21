@@ -1,78 +1,59 @@
 package me.nya_n.notificationnotifier.views.screen.top
 
-import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.R
-import me.nya_n.notificationnotifier.entities.Message
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
-import me.nya_n.notificationnotifier.repositories.sources.UserSettingDataStore
+import me.nya_n.notificationnotifier.domain.entities.AppException
+import me.nya_n.notificationnotifier.domain.entities.Message
+import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
+import me.nya_n.notificationnotifier.domain.usecase.NotifyTestUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.utils.Event
-import java.net.DatagramPacket
-import java.net.DatagramSocket
-import java.net.InetAddress
 
 class TopViewModel(
-    private val userSettingRepository: UserSettingRepository
+    loadAddressUseCase: LoadAddressUseCase,
+    private val saveAddressUseCase: SaveAddressUseCase,
+    private val notifyTestUseCase: NotifyTestUseCase,
 ) : ViewModel() {
     private val _message = MutableLiveData<Event<Message>>()
     val message: LiveData<Event<Message>> = _message
-    val address = MutableLiveData<String>()
+    val address = MutableLiveData(loadAddressUseCase())
 
-    init {
-        viewModelScope.launch {
-            val setting = userSettingRepository.getUserSetting()
-            val port = if (setting.port == UserSettingDataStore.DEFAULT_PORT) {
-                ""
-            } else {
-                setting.port
-            }
-            val addr = "${setting.host}:${port}"
-            address.postValue(if (addr.length == 1) "" else addr)
-        }
-    }
-
+    /**
+     * IPアドレスの保存
+     */
     fun save() {
-        viewModelScope.launch {
-            val addr = (address.value ?: "").split(":")
-            if (addr.size != 2 || !(addr[1].isNotEmpty() && addr[1].isDigitsOnly())) {
-                _message.postValue(Event(Message.Error(R.string.validation_error_addr)))
-                return@launch
+        saveAddressUseCase(address.value)
+            .onSuccess {
+                _message.postValue(Event(Message.Notice(R.string.addr_saved)))
             }
-            val setting = userSettingRepository.getUserSetting()
-                .copy(
-                    host = addr[0],
-                    port = addr[1].toInt()
-                )
-            userSettingRepository.saveUserSetting(setting)
-            _message.postValue(Event(Message.Notice(R.string.addr_saved)))
-        }
+            .onFailure {
+                val error = if (it is AppException) {
+                    it.errorTextResourceId
+                } else {
+                    it.printStackTrace()
+                    R.string.unexpected_error
+                }
+                _message.postValue(Event(Message.Error(error)))
+            }
     }
 
+    /**
+     * 通知テスト
+     */
     fun notifyTest() {
         viewModelScope.launch {
-            runCatching {
-                withContext(Dispatchers.IO) {
-                    val setting = userSettingRepository.getUserSetting()
-                    val buff = "通知テスト".toByteArray()
-                    val addr = InetAddress.getByName(setting.host)
-                    val packet = DatagramPacket(buff, buff.size, addr, setting.port)
-                    DatagramSocket().apply {
-                        send(packet)
-                        close()
-                    }
+            notifyTestUseCase()
+                .onSuccess {
+                    _message.postValue(Event(Message.Notice(R.string.notify_test_succeeded)))
                 }
-            }.onSuccess {
-                _message.postValue(Event(Message.Notice(R.string.notify_test_succeeded)))
-            }.onFailure {
-                it.printStackTrace()
-                _message.postValue(Event(Message.Error(R.string.notify_test_failed)))
-            }
+                .onFailure {
+                    it.printStackTrace()
+                    _message.postValue(Event(Message.Error(R.string.notify_test_failed)))
+                }
         }
     }
 }

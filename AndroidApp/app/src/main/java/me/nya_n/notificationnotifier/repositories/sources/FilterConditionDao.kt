@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.repositories.sources
 
 import androidx.room.*
-import me.nya_n.notificationnotifier.entities.FilterCondition
+import me.nya_n.notificationnotifier.domain.entities.FilterCondition
 
 @Dao
 interface FilterConditionDao {

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentSelectionBinding
-import me.nya_n.notificationnotifier.entities.Fab
-import me.nya_n.notificationnotifier.entities.InstalledApp
+import me.nya_n.notificationnotifier.domain.entities.Fab
+import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 import me.nya_n.notificationnotifier.utils.Snackbar
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import me.nya_n.notificationnotifier.views.screen.SharedViewModel

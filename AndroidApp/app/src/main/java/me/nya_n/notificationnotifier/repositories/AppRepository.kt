@@ -1,10 +1,11 @@
 package me.nya_n.notificationnotifier.repositories
 
 import android.content.Context
+import android.content.pm.PackageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import me.nya_n.notificationnotifier.entities.FilterCondition
-import me.nya_n.notificationnotifier.entities.InstalledApp
+import me.nya_n.notificationnotifier.domain.entities.FilterCondition
+import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 import me.nya_n.notificationnotifier.repositories.sources.DB
 
 class AppRepository(
@@ -60,5 +61,16 @@ class AppRepository(
         withContext(Dispatchers.IO) {
             targetAppDao.delete(target)
         }
+    }
+
+    fun loadInstalledAppList(pm: PackageManager): List<InstalledApp> {
+        return pm.getInstalledApplications(PackageManager.GET_META_DATA)
+            .map {
+                val label = pm.getApplicationLabel(it).toString()
+                InstalledApp(
+                    label,
+                    it.packageName
+                )
+            }
     }
 }

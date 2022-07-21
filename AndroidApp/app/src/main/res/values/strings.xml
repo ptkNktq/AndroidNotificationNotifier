@@ -7,6 +7,8 @@
 
     <string name="ok">[許可]</string>
     <string name="ng">断る</string>
+    <string name="permission_denied">権限がありません。</string>
+    <string name="unexpected_error">予期しないエラーが発生しました。</string>
     <string name="validation_error_addr">入力形式エラー: hostname:port の形式で入力してください。</string>
     <string name="addr_saved">通知送信先を保存しました。</string>
     <string name="notify_test_succeeded">通知を送信しました。</string>

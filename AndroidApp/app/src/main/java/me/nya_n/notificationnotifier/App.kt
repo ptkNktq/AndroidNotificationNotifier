@@ -3,6 +3,7 @@ package me.nya_n.notificationnotifier
 import android.app.Application
 import me.nya_n.notificationnotifier.repositories.AppRepository
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
+import me.nya_n.notificationnotifier.domain.usecase.*
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import me.nya_n.notificationnotifier.views.screen.SharedViewModel
 import me.nya_n.notificationnotifier.views.screen.detail.DetailViewModel
@@ -31,8 +32,21 @@ class App : Application() {
         // ViewModel
         viewModel { MainViewModel(get(), get()) }
         viewModel { SharedViewModel(get(), get(), get()) }
-        viewModel { TopViewModel(get()) }
+        viewModel { TopViewModel(get(), get(), get()) }
         viewModel { SelectionViewModel(get()) }
-        viewModel { params -> DetailViewModel(get(), get(), params.get()) }
+        viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
+
+        // UseCase
+        factory { AddTargetAppUseCase(get()) }
+        factory { DeleteTargetAppUseCase(get()) }
+        factory { ExportDataUseCase(get(), get()) }
+        factory { ImportDataUseCase(get(), get()) }
+        factory { LoadAddressUseCase(get()) }
+        factory { LoadAppUseCase(get(), get()) }
+        factory { LoadFilterConditionUseCase(get()) }
+        factory { NotifyTestUseCase(get()) }
+        factory { PackageVisibilityGrantedUseCase(get()) }
+        factory { SaveAddressUseCase(get()) }
+        factory { SaveFilterConditionUseCase(get()) }
     }
 }

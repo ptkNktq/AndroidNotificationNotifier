@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.repositories.sources
 
 import android.content.Context
-import me.nya_n.notificationnotifier.entities.UserSetting
+import me.nya_n.notificationnotifier.domain.entities.UserSetting
 
 class UserSettingDataStore(
     context: Context
