@@ -1,7 +1,8 @@
 name: Android CI
 
 on:
-  push
+  pull_request:
+      types: synchronize
 
 jobs:
   build:
