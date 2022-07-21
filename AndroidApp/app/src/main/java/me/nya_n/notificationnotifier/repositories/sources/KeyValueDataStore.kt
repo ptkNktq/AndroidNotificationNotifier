@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
+import androidx.security.crypto.MasterKey
 
 open class KeyValueDataStore(
     context: Context
@@ -12,11 +12,13 @@ open class KeyValueDataStore(
     private val pref: SharedPreferences
 
     init {
-        val key = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+        val key = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
         pref = EncryptedSharedPreferences.create(
+            context,
             "settings",
             key,
-            context,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
