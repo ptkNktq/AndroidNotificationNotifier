@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.viewmodels
+package me.nya_n.notificationnotifier.views.screen.selection
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

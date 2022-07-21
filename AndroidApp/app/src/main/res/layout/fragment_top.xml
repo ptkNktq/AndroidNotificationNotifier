@@ -2,17 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".views.fragments.TopFragment">
+    tools:context=".views.screen.top.TopFragment">
 
     <data>
 
         <variable
-            name="model"
-            type="me.nya_n.notificationnotifier.viewmodels.TopViewModel" />
+            name="viewModel"
+            type="me.nya_n.notificationnotifier.views.screen.top.TopViewModel" />
 
         <variable
-            name="shared"
-            type="me.nya_n.notificationnotifier.viewmodels.SharedViewModel" />
+            name="sharedViewModel"
+            type="me.nya_n.notificationnotifier.views.screen.SharedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
-                android:text="@={model.address}" />
+                android:text="@={viewModel.address}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -42,7 +42,7 @@
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> model.save()}"
+            android:onClick="@{() -> viewModel.save()}"
             android:text="@string/save"
             app:layout_constraintBottom_toBottomOf="@+id/inputContainer"
             app:layout_constraintEnd_toStartOf="@+id/test"
@@ -52,7 +52,7 @@
             android:id="@+id/test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> model.notifyTest()}"
+            android:onClick="@{() -> viewModel.notifyTest()}"
             android:text="@string/notify_test"
             app:layout_constraintBottom_toBottomOf="@+id/inputContainer"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,14 +67,14 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list"
-                visible="@{!shared.isLoading()}"
+                visible="@{!sharedViewModel.isLoading()}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical" />
 
             <include
                 layout="@layout/component_loading"
-                app:isLoading="@{shared.isLoading()}" />
+                app:isLoading="@{sharedViewModel.isLoading()}" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

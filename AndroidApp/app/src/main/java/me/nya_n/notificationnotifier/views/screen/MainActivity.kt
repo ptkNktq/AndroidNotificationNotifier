@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.views.activities
+package me.nya_n.notificationnotifier.views.screen
 
 import android.content.Intent
 import android.os.Bundle
@@ -17,7 +17,6 @@ import me.nya_n.notificationnotifier.databinding.ActivityMainBinding
 import me.nya_n.notificationnotifier.entities.Backup
 import me.nya_n.notificationnotifier.entities.Message
 import me.nya_n.notificationnotifier.utils.Snackbar
-import me.nya_n.notificationnotifier.viewmodels.MainViewModel
 import me.nya_n.notificationnotifier.views.dialogs.DialogListener
 import me.nya_n.notificationnotifier.views.dialogs.NotificationAccessPermissionDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,14 +24,14 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), DialogListener {
     private lateinit var binding: ActivityMainBinding
-    private val model: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModel()
 
     private val exportDataResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_CANCELED) return@registerForActivityResult
             val uri = it.data?.data
             if (uri != null) {
-                model.exportData(this, uri)
+                viewModel.exportData(this, uri)
             } else {
                 handleMessage(Message.Error(R.string.export_failed))
             }
@@ -43,7 +42,7 @@ class MainActivity : AppCompatActivity(), DialogListener {
             if (it.resultCode == RESULT_CANCELED) return@registerForActivityResult
             val uri = it.data?.data
             if (uri != null) {
-                model.importData(this, uri)
+                viewModel.importData(this, uri)
             } else {
                 handleMessage(Message.Error(R.string.import_failed))
             }
@@ -104,7 +103,7 @@ class MainActivity : AppCompatActivity(), DialogListener {
     }
 
     private fun observes() {
-        model.fab.observe(this) {
+        viewModel.fab.observe(this) {
             val fab = it.getContentIfNotHandled() ?: return@observe
             binding.fab.apply {
                 setOnClickListener {
@@ -117,7 +116,7 @@ class MainActivity : AppCompatActivity(), DialogListener {
                 }
             }
         }
-        model.message.observe(this) {
+        viewModel.message.observe(this) {
             val message = it.getContentIfNotHandled() ?: return@observe
             handleMessage(message)
         }

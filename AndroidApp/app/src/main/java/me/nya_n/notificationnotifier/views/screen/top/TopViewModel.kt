@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.viewmodels
+package me.nya_n.notificationnotifier.views.screen.top
 
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
