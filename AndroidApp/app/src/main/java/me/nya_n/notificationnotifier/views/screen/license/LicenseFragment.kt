@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.views.fragments
+package me.nya_n.notificationnotifier.views.screen.license
 
 import android.os.Bundle
 import android.view.*
@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentLicenseBinding
 import me.nya_n.notificationnotifier.entities.Fab
-import me.nya_n.notificationnotifier.viewmodels.MainViewModel
+import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LicenseFragment : Fragment() {

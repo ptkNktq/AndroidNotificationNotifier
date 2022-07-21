@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="model"
-            type="me.nya_n.notificationnotifier.viewmodels.DetailViewModel" />
+            name="viewModel"
+            type="me.nya_n.notificationnotifier.views.screen.detail.DetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +15,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/icon"
-            image="@{model.targetIcon}"
+            image="@{viewModel.targetIcon}"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:padding="16dp"
@@ -27,7 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="64dp"
             android:gravity="center|start"
-            android:text="@{model.targetName}"
+            android:text="@{viewModel.targetName}"
             app:layout_constraintEnd_toStartOf="@+id/delete"
             app:layout_constraintStart_toEndOf="@+id/icon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/condition_hint"
                 android:imeOptions="actionDone"
-                android:text="@={model.filterCondition}" />
+                android:text="@={viewModel.filterCondition}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:onClick="@{() -> model.save()}"
+            android:onClick="@{() -> viewModel.save()}"
             android:text="@string/save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/inputContainer" />

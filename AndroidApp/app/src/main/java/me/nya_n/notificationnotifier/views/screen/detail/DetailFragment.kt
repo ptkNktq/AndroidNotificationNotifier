@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.views.fragments
+package me.nya_n.notificationnotifier.views.screen.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,8 @@ import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentDetailBinding
 import me.nya_n.notificationnotifier.entities.Fab
 import me.nya_n.notificationnotifier.utils.Snackbar
-import me.nya_n.notificationnotifier.viewmodels.DetailViewModel
-import me.nya_n.notificationnotifier.viewmodels.MainViewModel
-import me.nya_n.notificationnotifier.viewmodels.SharedViewModel
+import me.nya_n.notificationnotifier.views.screen.MainViewModel
+import me.nya_n.notificationnotifier.views.screen.SharedViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -22,11 +21,11 @@ import org.koin.core.parameter.parametersOf
 class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailBinding
-    private val model: DetailViewModel by viewModel {
+    private val viewModel: DetailViewModel by viewModel {
         parametersOf(args.app)
     }
-    private val shared: SharedViewModel by sharedViewModel()
-    private val activityModel: MainViewModel by sharedViewModel()
+    private val sharedViewModel: SharedViewModel by sharedViewModel()
+    private val activityViewModel: MainViewModel by sharedViewModel()
     private val args: DetailFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -40,7 +39,7 @@ class DetailFragment : Fragment() {
             container,
             false
         ).also {
-            it.model = model
+            it.viewModel = viewModel
             it.lifecycleOwner = viewLifecycleOwner
         }
         return binding.root
@@ -54,22 +53,22 @@ class DetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        activityModel.changeFabState(Fab(false))
+        activityViewModel.changeFabState(Fab(false))
     }
 
     private fun initViews() {
         binding.delete.setOnClickListener {
-            model.deleteTarget()
+            viewModel.deleteTarget()
         }
     }
 
     private fun observes() {
-        model.message.observe(viewLifecycleOwner) {
+        viewModel.message.observe(viewLifecycleOwner) {
             val message = it.getContentIfNotHandled() ?: return@observe
             Snackbar.create(requireView(), message).show()
         }
-        model.targetDeleted.observe(viewLifecycleOwner) {
-            shared.loadApps()
+        viewModel.targetDeleted.observe(viewLifecycleOwner) {
+            sharedViewModel.loadApps()
             findNavController().popBackStack()
         }
     }

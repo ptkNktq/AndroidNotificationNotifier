@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.viewmodels
+package me.nya_n.notificationnotifier.views.screen.detail
 
 import android.content.Context
 import androidx.lifecycle.*

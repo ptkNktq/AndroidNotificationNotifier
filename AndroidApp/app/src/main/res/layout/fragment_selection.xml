@@ -6,18 +6,18 @@
     <data>
 
         <variable
-            name="model"
-            type="me.nya_n.notificationnotifier.viewmodels.SelectionViewModel" />
+            name="viewModel"
+            type="me.nya_n.notificationnotifier.views.screen.selection.SelectionViewModel" />
 
         <variable
-            name="shared"
-            type="me.nya_n.notificationnotifier.viewmodels.SharedViewModel" />
+            name="sharedViewModel"
+            type="me.nya_n.notificationnotifier.views.screen.SharedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".views.fragments.SelectionFragment">
+        tools:context=".views.screen.selection.SelectionFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputContainer"
@@ -33,7 +33,7 @@
                 android:hint="@string/search_by_app_name"
                 android:imeOptions="actionDone"
                 android:singleLine="true"
-                android:text="@={model.query}" />
+                android:text="@={viewModel.query}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,13 +46,13 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list"
-                visible="@{!shared.isLoading()}"
+                visible="@{!sharedViewModel.isLoading()}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <include
                 layout="@layout/component_loading"
-                app:isLoading="@{shared.isLoading()}" />
+                app:isLoading="@{sharedViewModel.isLoading()}" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
