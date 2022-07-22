@@ -1,11 +1,11 @@
 package me.nya_n.notificationnotifier.repositories.sources
 
-import android.content.Context
+import android.content.SharedPreferences
 import me.nya_n.notificationnotifier.domain.entities.UserSetting
 
 class UserSettingDataStore(
-    context: Context
-) : KeyValueDataStore(context) {
+    pref: SharedPreferences
+) : KeyValueDataStore(pref) {
 
     fun get(): UserSetting {
         return UserSetting(
@@ -22,6 +22,7 @@ class UserSettingDataStore(
     }
 
     companion object {
+        const val DATA_STORE_NAME = "settings"
         const val KEY_HOST = "host"
         const val DEFAULT_HOST = ""
         const val KEY_PORT = "port"

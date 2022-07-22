@@ -5,6 +5,8 @@ import me.nya_n.notificationnotifier.domain.usecase.*
 import me.nya_n.notificationnotifier.repositories.AppRepository
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
 import me.nya_n.notificationnotifier.repositories.sources.DB
+import me.nya_n.notificationnotifier.repositories.sources.UserSettingDataStore
+import me.nya_n.notificationnotifier.utils.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import me.nya_n.notificationnotifier.views.screen.SharedViewModel
 import me.nya_n.notificationnotifier.views.screen.detail.DetailViewModel
@@ -27,6 +29,14 @@ class App : Application() {
 
     private val modules = module {
         // DataStore
+        single {
+            UserSettingDataStore(
+                SharedPreferenceProvider.create(
+                    get(),
+                    UserSettingDataStore.DATA_STORE_NAME
+                )
+            )
+        }
         single { DB.get(get()).filterConditionDao() }
         single { DB.get(get()).targetAppDao() }
 
