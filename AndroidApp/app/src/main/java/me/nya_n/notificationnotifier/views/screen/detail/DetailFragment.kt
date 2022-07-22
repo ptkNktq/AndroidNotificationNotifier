@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentDetailBinding
-import me.nya_n.notificationnotifier.entities.Fab
+import me.nya_n.notificationnotifier.domain.entities.Fab
 import me.nya_n.notificationnotifier.utils.Snackbar
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import me.nya_n.notificationnotifier.views.screen.SharedViewModel

@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import me.nya_n.notificationnotifier.entities.FilterCondition
-import me.nya_n.notificationnotifier.entities.InstalledApp
+import me.nya_n.notificationnotifier.domain.entities.FilterCondition
+import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 
 @Database(
     entities = [

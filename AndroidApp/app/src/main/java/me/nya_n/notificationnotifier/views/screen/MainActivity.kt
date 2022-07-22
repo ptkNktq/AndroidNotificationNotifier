@@ -11,16 +11,14 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.findNavController
-import kotlinx.coroutines.*
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.ActivityMainBinding
-import me.nya_n.notificationnotifier.entities.Backup
-import me.nya_n.notificationnotifier.entities.Message
+import me.nya_n.notificationnotifier.domain.entities.Backup
+import me.nya_n.notificationnotifier.domain.entities.Message
 import me.nya_n.notificationnotifier.utils.Snackbar
 import me.nya_n.notificationnotifier.views.dialogs.DialogListener
 import me.nya_n.notificationnotifier.views.dialogs.NotificationAccessPermissionDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class MainActivity : AppCompatActivity(), DialogListener {
     private lateinit var binding: ActivityMainBinding

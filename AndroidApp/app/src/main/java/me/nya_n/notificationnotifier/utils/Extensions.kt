@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.snackbar.Snackbar
-import me.nya_n.notificationnotifier.entities.Message
+import me.nya_n.notificationnotifier.domain.entities.Message
 
 object Snackbar {
     fun create(view: View, message: Message): Snackbar {

@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.entities
+package me.nya_n.notificationnotifier.domain.entities
 
 data class Backup(
     val setting: UserSetting,

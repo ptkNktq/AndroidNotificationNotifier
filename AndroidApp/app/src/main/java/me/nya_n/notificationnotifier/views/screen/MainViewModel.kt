@@ -6,24 +6,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.R
-import me.nya_n.notificationnotifier.entities.Backup
-import me.nya_n.notificationnotifier.entities.Fab
-import me.nya_n.notificationnotifier.entities.Message
-import me.nya_n.notificationnotifier.repositories.AppRepository
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
-import me.nya_n.notificationnotifier.repositories.sources.DB
+import me.nya_n.notificationnotifier.domain.entities.Fab
+import me.nya_n.notificationnotifier.domain.entities.Message
+import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.utils.Event
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 class MainViewModel(
-    private val userSettingRepository: UserSettingRepository,
-    private val appRepository: AppRepository
+    private val importDataUseCase: ImportDataUseCase,
+    private val exportDataUseCase: ExportDataUseCase,
 ) : ViewModel() {
     private val _fab = MutableLiveData<Event<Fab>>()
     val fab: LiveData<Event<Fab>> = _fab
@@ -42,37 +35,14 @@ class MainViewModel(
      */
     fun exportData(context: Context, uri: Uri) {
         viewModelScope.launch {
-            runCatching {
-                val data = Backup(
-                    userSettingRepository.getUserSetting(),
-                    DB.version(context),
-                    appRepository.getTargetAppList(),
-                    appRepository.getFilterConditionList()
-                )
-                val json = Gson().toJson(data)
-                withContext(Dispatchers.IO) {
-                    context.contentResolver.openOutputStream(uri).use {
-                        it?.write(json.toByteArray())
-                    }
+            exportDataUseCase(context, uri)
+                .onSuccess {
+                    _message.postValue(Event(Message.Notice(R.string.export_succeeded)))
                 }
-            }.onSuccess {
-                _message.postValue(
-                    Event(
-                        Message.Notice(
-                            R.string.export_succeeded
-                        )
-                    )
-                )
-            }.onFailure {
-                it.printStackTrace()
-                _message.postValue(
-                    Event(
-                        Message.Error(
-                            R.string.export_failed
-                        )
-                    )
-                )
-            }
+                .onFailure {
+                    it.printStackTrace()
+                    _message.postValue(Event(Message.Error(R.string.export_failed)))
+                }
         }
     }
 
@@ -81,45 +51,14 @@ class MainViewModel(
      */
     fun importData(context: Context, uri: Uri) {
         viewModelScope.launch {
-            runCatching {
-                val sb = StringBuilder()
-                withContext(Dispatchers.IO) {
-                    context.contentResolver.openInputStream(uri).use { input ->
-                        BufferedReader(InputStreamReader(input)).use { reader ->
-                            sb.append(reader.readLine())
-                        }
-                    }
+            importDataUseCase(context, uri)
+                .onSuccess {
+                    _message.postValue(Event(Message.Notice(R.string.import_succeeded)))
                 }
-                val json = sb.toString()
-                val backup = Gson().fromJson(json, Backup::class.java)
-                if (backup.version != DB.version(context)) {
-                    throw RuntimeException("bad version.")
+                .onFailure {
+                    it.printStackTrace()
+                    _message.postValue(Event(Message.Error(R.string.import_failed)))
                 }
-                userSettingRepository.saveUserSetting(backup.setting)
-                backup.targets.forEach {
-                    appRepository.addTargetApp(it)
-                }
-                backup.filterCondition.forEach {
-                    appRepository.saveFilterCondition(it)
-                }
-            }.onSuccess {
-                _message.postValue(
-                    Event(
-                        Message.Notice(
-                            R.string.import_succeeded
-                        )
-                    )
-                )
-            }.onFailure {
-                it.printStackTrace()
-                _message.postValue(
-                    Event(
-                        Message.Error(
-                            R.string.import_failed
-                        )
-                    )
-                )
-            }
         }
     }
 }
