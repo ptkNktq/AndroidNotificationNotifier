@@ -14,10 +14,10 @@ import me.nya_n.notificationnotifier.databinding.FragmentTopBinding
 import me.nya_n.notificationnotifier.domain.entities.Fab
 import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 import me.nya_n.notificationnotifier.utils.Snackbar
-import me.nya_n.notificationnotifier.views.screen.MainViewModel
-import me.nya_n.notificationnotifier.views.screen.SharedViewModel
 import me.nya_n.notificationnotifier.views.adapters.AppAdapter
 import me.nya_n.notificationnotifier.views.dialogs.PackageVisibilityDialog
+import me.nya_n.notificationnotifier.views.screen.MainViewModel
+import me.nya_n.notificationnotifier.views.screen.SharedViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

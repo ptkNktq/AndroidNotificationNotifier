@@ -6,12 +6,14 @@ import android.text.SpannableString
 import kotlinx.coroutines.*
 import me.nya_n.notificationnotifier.repositories.AppRepository
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
+import org.koin.android.ext.android.inject
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 
 class NotificationService : NotificationListenerService() {
 
+    private val appRepository: AppRepository by inject()
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
@@ -31,7 +33,6 @@ class NotificationService : NotificationListenerService() {
             val title = getTitle(extra.get("android.title")) ?: return@launch
             val text = extra.getCharSequence("android.text").toString()
 
-            val appRepository = AppRepository(applicationContext)
             val targets = appRepository.getTargetAppList()
             if (!targets.any { t -> t.packageName == sbn.packageName }) {
                 return@launch

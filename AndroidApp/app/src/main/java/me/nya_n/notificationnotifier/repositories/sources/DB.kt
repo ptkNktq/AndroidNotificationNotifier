@@ -21,19 +21,36 @@ abstract class DB : RoomDatabase() {
     abstract fun targetAppDao(): TargetAppDao
 
     companion object {
+        private const val DB_NAME = "db"
+
         @Volatile
         private var INSTANCE: DB? = null
 
-        fun get(context: Context): DB {
+        fun get(context: Context, isInMemory: Boolean = false): DB {
             return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context,
-                    DB::class.java,
-                    "db"
-                ).build()
+                val instance = if (isInMemory) {
+                    createInMemory(context)
+                } else {
+                    createInDisk(context)
+                }
                 INSTANCE = instance
                 instance
             }
+        }
+
+        private fun createInDisk(context: Context): DB {
+            return Room.databaseBuilder(
+                context,
+                DB::class.java,
+                DB_NAME
+            ).build()
+        }
+
+        private fun createInMemory(context: Context): DB {
+            return Room.inMemoryDatabaseBuilder(
+                context,
+                DB::class.java
+            ).build()
         }
 
         fun version(context: Context): Int {
