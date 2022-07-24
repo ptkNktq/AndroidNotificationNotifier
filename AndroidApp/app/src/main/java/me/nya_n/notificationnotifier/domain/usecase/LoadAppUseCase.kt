@@ -1,6 +1,7 @@
 package me.nya_n.notificationnotifier.domain.usecase
 
 import android.content.pm.PackageManager
+import androidx.annotation.VisibleForTesting
 import me.nya_n.notificationnotifier.domain.entities.AppException
 import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 import me.nya_n.notificationnotifier.repositories.AppRepository
@@ -11,13 +12,26 @@ class LoadAppUseCase(
     private val appRepository: AppRepository
 ) {
     suspend operator fun invoke(pm: PackageManager): Result<Outputs> {
-        val setting = userSettingRepository.getUserSetting()
-        if (!setting.isPackageVisibilityGranted) {
-            return Result.failure(AppException.PermissionDeniedException())
+        val apps = loadInstalledAppList(pm).getOrElse {
+            return Result.failure(it)
         }
-        val apps = appRepository.loadInstalledAppList(pm)
-        val targets = appRepository.getTargetAppList()
+        val targets = loadTargetList()
         return Result.success(Outputs(apps, targets))
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    fun loadInstalledAppList(pm: PackageManager): Result<List<InstalledApp>> {
+        val setting = userSettingRepository.getUserSetting()
+        return if (!setting.isPackageVisibilityGranted) {
+            Result.failure(AppException.PermissionDeniedException())
+        } else {
+            Result.success(appRepository.loadInstalledAppList(pm))
+        }
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    suspend fun loadTargetList(): List<InstalledApp> {
+        return appRepository.getTargetAppList()
     }
 
     data class Outputs(

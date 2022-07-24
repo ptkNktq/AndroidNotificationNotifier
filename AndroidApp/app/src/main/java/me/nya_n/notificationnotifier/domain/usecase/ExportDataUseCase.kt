@@ -21,7 +21,7 @@ class ExportDataUseCase(
         return runCatching {
             val data = Backup(
                 userSettingRepository.getUserSetting(),
-                DB.version(context),
+                DB.version(),
                 appRepository.getTargetAppList(),
                 appRepository.getFilterConditionList()
             )

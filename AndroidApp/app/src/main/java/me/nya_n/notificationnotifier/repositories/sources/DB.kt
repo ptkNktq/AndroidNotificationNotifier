@@ -53,9 +53,9 @@ abstract class DB : RoomDatabase() {
             ).build()
         }
 
-        fun version(context: Context): Int {
+        fun version(): Int {
             return try {
-                get(context).openHelper.readableDatabase.version
+                INSTANCE?.openHelper?.readableDatabase?.version ?: -1
             } catch (e: Exception) {
                 -1
             }

@@ -14,6 +14,7 @@ import java.net.InetAddress
 class NotificationService : NotificationListenerService() {
 
     private val appRepository: AppRepository by inject()
+    private val userSettingRepository: UserSettingRepository by inject()
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
@@ -46,7 +47,6 @@ class NotificationService : NotificationListenerService() {
                 }
             }
 
-            val userSettingRepository = UserSettingRepository(applicationContext)
             val setting = userSettingRepository.getUserSetting()
             withContext(Dispatchers.IO) {
                 val message = "${title}\n${text}"

@@ -31,7 +31,7 @@ class ImportDataUseCase(
             }
             val json = sb.toString()
             val backup = Gson().fromJson(json, Backup::class.java)
-            if (backup.version != DB.version(context)) {
+            if (backup.version != DB.version()) {
                 throw RuntimeException("bad version.")
             }
             userSettingRepository.saveUserSetting(backup.setting)
