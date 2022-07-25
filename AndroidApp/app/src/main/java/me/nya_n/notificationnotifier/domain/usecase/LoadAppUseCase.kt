@@ -19,7 +19,7 @@ class LoadAppUseCase(
         return Result.success(Outputs(apps, targets))
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun loadInstalledAppList(pm: PackageManager): Result<List<InstalledApp>> {
         val setting = userSettingRepository.getUserSetting()
         return if (!setting.isPackageVisibilityGranted) {
@@ -29,7 +29,7 @@ class LoadAppUseCase(
         }
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     suspend fun loadTargetList(): List<InstalledApp> {
         return appRepository.getTargetAppList()
     }
