@@ -13,7 +13,9 @@
     <string name="addr_saved">通知送信先を保存しました。</string>
     <string name="notify_test_succeeded">通知を送信しました。</string>
     <string name="notify_test_failed">通知テスト失敗</string>
+    <string name="add">追加</string>
     <string name="added">追加しました。</string>
+    <string name="delete">削除</string>
     <string name="deleted">削除しました。</string>
     <string name="save">保存</string>
     <string name="notify_test">通知テスト</string>

@@ -1,24 +1,24 @@
 package me.nya_n.notificationnotifier.repositories
 
-import android.content.Context
 import android.content.pm.PackageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.domain.entities.FilterCondition
 import me.nya_n.notificationnotifier.domain.entities.InstalledApp
-import me.nya_n.notificationnotifier.repositories.sources.DB
+import me.nya_n.notificationnotifier.repositories.sources.FilterConditionDao
+import me.nya_n.notificationnotifier.repositories.sources.TargetAppDao
 
 class AppRepository(
-    context: Context
+    private val filterConditionDao: FilterConditionDao,
+    private val targetAppDao: TargetAppDao,
 ) {
-    private val filterConditionDao by lazy {
-        DB.get(context).filterConditionDao()
+    /**
+     * データの削除
+     */
+    fun clearAll() {
+        filterConditionDao.clear()
+        targetAppDao.clear()
     }
-
-    private val targetAppDao by lazy {
-        DB.get(context).targetAppDao()
-    }
-
 
     /*
      * フィルタリング条件関連
