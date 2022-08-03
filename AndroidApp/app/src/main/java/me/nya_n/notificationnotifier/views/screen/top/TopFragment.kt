@@ -14,6 +14,7 @@ import me.nya_n.notificationnotifier.databinding.FragmentTopBinding
 import me.nya_n.notificationnotifier.domain.entities.Fab
 import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 import me.nya_n.notificationnotifier.utils.Snackbar
+import me.nya_n.notificationnotifier.utils.autoCleared
 import me.nya_n.notificationnotifier.views.adapters.AppAdapter
 import me.nya_n.notificationnotifier.views.dialogs.PackageVisibilityDialog
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
@@ -22,7 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TopFragment : Fragment() {
-    private lateinit var binding: FragmentTopBinding
+    private var binding: FragmentTopBinding by autoCleared()
     private val viewModel: TopViewModel by viewModel()
     private val sharedViewModel: SharedViewModel by sharedViewModel()
     private val activityViewModel: MainViewModel by sharedViewModel()
@@ -52,7 +53,7 @@ class TopFragment : Fragment() {
             container,
             false
         ).also {
-            it.lifecycleOwner = this
+            it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
             it.sharedViewModel = sharedViewModel
         }
