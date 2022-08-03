@@ -16,4 +16,7 @@ interface FilterConditionDao {
 
     @Query("select * from conditions")
     fun getAll(): List<FilterCondition>
+
+    @Query("delete from conditions")
+    fun clear()
 }

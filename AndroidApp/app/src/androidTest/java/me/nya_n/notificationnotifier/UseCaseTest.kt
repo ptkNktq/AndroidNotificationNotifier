@@ -1,6 +1,8 @@
 package me.nya_n.notificationnotifier
 
+import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.core.content.edit
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -15,20 +17,28 @@ import me.nya_n.notificationnotifier.repositories.sources.DB
 import me.nya_n.notificationnotifier.repositories.sources.UserSettingDataStore
 import me.nya_n.notificationnotifier.utils.SharedPreferenceProvider
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
 
 @RunWith(AndroidJUnit4::class)
 class UseCaseTest {
-
+    private lateinit var appContext: Context
     private lateinit var userSettingRepository: UserSettingRepository
     private lateinit var appRepository: AppRepository
     private lateinit var pm: PackageManager
+    private lateinit var exportFile: File
+    private val exportFileName: String = "export.json"
 
     @Before
     fun setUp() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        exportFile = appContext.filesDir
+        File(exportFile, exportFileName).apply {
+            if (exists()) {
+                delete()
+            }
+        }
         pm = appContext.packageManager
         userSettingRepository = UserSettingRepository(
             UserSettingDataStore(
@@ -178,8 +188,51 @@ class UseCaseTest {
         }
     }
 
-    @Ignore("どんな感じにするか悩み中")
     @Test
     fun `バックアップ、復元`() {
+        val uri = Uri.fromFile(File.createTempFile(exportFileName, null, exportFile))
+        runBlocking {
+            val targetSaver = AddTargetAppUseCase(appRepository)
+            val condSaver = SaveFilterConditionUseCase(appRepository)
+            val addrSaver = SaveAddressUseCase(userSettingRepository)
+
+            // 初期値の保存
+            // ターゲット
+            val app = InstalledApp("export", "test.export")
+            targetSaver(app)
+            // 条件
+            val cond = ".*"
+            condSaver(SaveFilterConditionUseCase.Args(app, cond))
+            // アドレス
+            val addr = "192.168.1.4:5050"
+            addrSaver(addr)
+
+            // バックアップ
+            ExportDataUseCase(userSettingRepository, appRepository)(appContext, uri)
+
+            // バックアップ時とは異なるように適当に変更
+            // ターゲット
+            targetSaver(InstalledApp("new", "new"))
+            // 条件
+            condSaver(SaveFilterConditionUseCase.Args(app, "new"))
+
+            // 復元
+            ImportDataUseCase(userSettingRepository, appRepository)(appContext, uri)
+
+            // 正常に復元できているか確認
+            // ターゲット一覧
+            val restoreTargets =
+                LoadAppUseCase(userSettingRepository, appRepository).loadTargetList()
+            assertThat(restoreTargets).apply {
+                hasSize(1)
+                contains(app)
+            }
+            // 条件
+            val restoreCond = LoadFilterConditionUseCase(appRepository)(app)
+            assertThat(restoreCond).isEqualTo(cond)
+            // アドレス
+            val restoreAddr = LoadAddressUseCase(userSettingRepository)()
+            assertThat(restoreAddr).isEqualTo(addr)
+        }
     }
 }

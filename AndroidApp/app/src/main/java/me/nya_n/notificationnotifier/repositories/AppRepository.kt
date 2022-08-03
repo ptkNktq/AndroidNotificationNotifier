@@ -12,6 +12,13 @@ class AppRepository(
     private val filterConditionDao: FilterConditionDao,
     private val targetAppDao: TargetAppDao,
 ) {
+    /**
+     * データの削除
+     */
+    fun clearAll() {
+        filterConditionDao.clear()
+        targetAppDao.clear()
+    }
 
     /*
      * フィルタリング条件関連

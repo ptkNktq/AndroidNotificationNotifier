@@ -35,6 +35,7 @@ class ImportDataUseCase(
                 throw RuntimeException("bad version.")
             }
             userSettingRepository.saveUserSetting(backup.setting)
+            appRepository.clearAll()
             backup.targets.forEach {
                 appRepository.addTargetApp(it)
             }
