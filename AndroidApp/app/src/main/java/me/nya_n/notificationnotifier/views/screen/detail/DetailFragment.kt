@@ -12,6 +12,7 @@ import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentDetailBinding
 import me.nya_n.notificationnotifier.domain.entities.Fab
 import me.nya_n.notificationnotifier.utils.Snackbar
+import me.nya_n.notificationnotifier.utils.autoCleared
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import me.nya_n.notificationnotifier.views.screen.SharedViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -20,7 +21,7 @@ import org.koin.core.parameter.parametersOf
 
 class DetailFragment : Fragment() {
 
-    private lateinit var binding: FragmentDetailBinding
+    private var binding: FragmentDetailBinding by autoCleared()
     private val viewModel: DetailViewModel by viewModel {
         parametersOf(args.app)
     }

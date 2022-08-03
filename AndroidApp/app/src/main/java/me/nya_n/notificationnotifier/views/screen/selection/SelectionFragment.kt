@@ -13,16 +13,16 @@ import me.nya_n.notificationnotifier.databinding.FragmentSelectionBinding
 import me.nya_n.notificationnotifier.domain.entities.Fab
 import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 import me.nya_n.notificationnotifier.utils.Snackbar
-import me.nya_n.notificationnotifier.views.screen.MainViewModel
-import me.nya_n.notificationnotifier.views.screen.SharedViewModel
+import me.nya_n.notificationnotifier.utils.autoCleared
 import me.nya_n.notificationnotifier.views.adapters.AppAdapter
 import me.nya_n.notificationnotifier.views.dialogs.PackageVisibilityDialog
+import me.nya_n.notificationnotifier.views.screen.MainViewModel
+import me.nya_n.notificationnotifier.views.screen.SharedViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class SelectionFragment : Fragment() {
-    private lateinit var binding: FragmentSelectionBinding
+    private var binding: FragmentSelectionBinding by autoCleared()
     private val viewModel: SelectionViewModel by viewModel()
     private val sharedViewModel: SharedViewModel by sharedViewModel()
     private val activityViewModel: MainViewModel by sharedViewModel()
@@ -55,7 +55,7 @@ class SelectionFragment : Fragment() {
             container,
             false
         ).also {
-            it.lifecycleOwner = this
+            it.lifecycleOwner = viewLifecycleOwner
             it.viewModel = viewModel
             it.sharedViewModel = sharedViewModel
         }
