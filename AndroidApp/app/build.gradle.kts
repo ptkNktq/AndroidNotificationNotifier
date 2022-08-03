@@ -75,4 +75,5 @@ dependencies {
     implementation("com.google.android.material:material:1.7.0-alpha03")
     implementation("io.insert-koin:koin-android:3.1.0")
     implementation("com.google.code.gson:gson:2.9.0")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 }

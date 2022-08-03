@@ -7,11 +7,12 @@ import androidx.fragment.app.Fragment
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentLicenseBinding
 import me.nya_n.notificationnotifier.domain.entities.Fab
+import me.nya_n.notificationnotifier.utils.autoCleared
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class LicenseFragment : Fragment() {
-    private lateinit var binding: FragmentLicenseBinding
+    private var binding: FragmentLicenseBinding by autoCleared()
     private val activityModel: MainViewModel by sharedViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +41,6 @@ class LicenseFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        println("!!! onCreateOptionsMenu")
         menu.clear()
     }
 
