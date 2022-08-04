@@ -1,9 +1,11 @@
 package me.nya_n.notificationnotifier.views.screen.top
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -11,9 +13,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentTopBinding
+import me.nya_n.notificationnotifier.domain.entities.Backup
 import me.nya_n.notificationnotifier.domain.entities.Fab
 import me.nya_n.notificationnotifier.domain.entities.InstalledApp
+import me.nya_n.notificationnotifier.domain.entities.Message
 import me.nya_n.notificationnotifier.utils.Snackbar
+import me.nya_n.notificationnotifier.utils.addMenuProvider
 import me.nya_n.notificationnotifier.utils.autoCleared
 import me.nya_n.notificationnotifier.views.adapters.AppAdapter
 import me.nya_n.notificationnotifier.views.dialogs.PackageVisibilityDialog
@@ -42,6 +47,64 @@ class TopFragment : Fragment() {
         }
     }
 
+    private val exportDataResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == AppCompatActivity.RESULT_CANCELED) return@registerForActivityResult
+            val uri = it.data?.data
+            if (uri != null) {
+                viewModel.exportData(requireContext(), uri)
+            } else {
+                handleMessage(Message.Error(R.string.export_failed))
+            }
+        }
+
+    private val importDataResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == AppCompatActivity.RESULT_CANCELED) return@registerForActivityResult
+            val uri = it.data?.data
+            if (uri != null) {
+                viewModel.importData(requireContext(), uri)
+            } else {
+                handleMessage(Message.Error(R.string.import_failed))
+            }
+        }
+
+    private val menuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.menu, menu)
+        }
+
+        override fun onMenuItemSelected(item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.export_data -> {
+                    exportDataResult.launch(
+                        Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            type = "application/json"
+                            putExtra(Intent.EXTRA_TITLE, Backup.FILE_NAME)
+                        }
+                    )
+                    true
+                }
+                R.id.import_data -> {
+                    importDataResult.launch(
+                        Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            type = "application/json"
+                        }
+                    )
+                    true
+                }
+                R.id.license -> {
+                    findNavController().navigate(R.id.action_MainFragment_to_LicenseFragment)
+                    true
+                }
+                else -> false
+            }
+        }
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -62,6 +125,7 @@ class TopFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addMenuProvider(menuProvider)
         initViews()
         observes()
     }
@@ -93,7 +157,7 @@ class TopFragment : Fragment() {
     private fun observes() {
         viewModel.message.observe(viewLifecycleOwner) {
             val message = it.getContentIfNotHandled() ?: return@observe
-            Snackbar.create(requireView(), message).show()
+            handleMessage(message)
         }
         sharedViewModel.targets.observe(viewLifecycleOwner) {
             filter.targetChanged(it)
@@ -123,5 +187,9 @@ class TopFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun handleMessage(message: Message) {
+        Snackbar.create(binding.root, message).show()
     }
 }

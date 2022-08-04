@@ -2,11 +2,18 @@ package me.nya_n.notificationnotifier.utils
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.databinding.BindingAdapter
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import me.nya_n.notificationnotifier.domain.entities.Message
+import java.lang.RuntimeException
 
 object Snackbar {
     fun create(view: View, message: Message): Snackbar {
@@ -31,6 +38,22 @@ object Snackbar {
                 }
             }
     }
+}
+
+fun Fragment.addMenuProvider(provider: MenuProvider) {
+    requireActivity().addMenuProvider(provider)
+}
+
+fun Fragment.addEmptyMenuProvider() {
+    addMenuProvider(object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menu.clear()
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            return false
+        }
+    })
 }
 
 @BindingAdapter("visible")

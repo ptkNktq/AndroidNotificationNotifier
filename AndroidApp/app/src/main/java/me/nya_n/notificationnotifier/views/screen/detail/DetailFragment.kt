@@ -1,9 +1,9 @@
 package me.nya_n.notificationnotifier.views.screen.detail
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -12,6 +12,7 @@ import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentDetailBinding
 import me.nya_n.notificationnotifier.domain.entities.Fab
 import me.nya_n.notificationnotifier.utils.Snackbar
+import me.nya_n.notificationnotifier.utils.addEmptyMenuProvider
 import me.nya_n.notificationnotifier.utils.autoCleared
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import me.nya_n.notificationnotifier.views.screen.SharedViewModel
@@ -48,6 +49,7 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addEmptyMenuProvider()
         initViews()
         observes()
     }

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentLicenseBinding
 import me.nya_n.notificationnotifier.domain.entities.Fab
+import me.nya_n.notificationnotifier.utils.addEmptyMenuProvider
 import me.nya_n.notificationnotifier.utils.autoCleared
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -14,11 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class LicenseFragment : Fragment() {
     private var binding: FragmentLicenseBinding by autoCleared()
     private val activityModel: MainViewModel by sharedViewModel()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,12 +32,8 @@ class LicenseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addEmptyMenuProvider()
         binding.web.loadUrl("file:///android_asset/licenses.html")
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
     }
 
     override fun onResume() {
