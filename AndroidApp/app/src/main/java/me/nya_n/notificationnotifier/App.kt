@@ -45,9 +45,9 @@ class App : Application() {
         single { AppRepository(get(), get()) }
 
         // ViewModel
-        viewModel { MainViewModel(get(), get()) }
+        viewModel { MainViewModel() }
         viewModel { SharedViewModel(get(), get(), get()) }
-        viewModel { TopViewModel(get(), get(), get()) }
+        viewModel { TopViewModel(get(), get(), get(), get(), get()) }
         viewModel { SelectionViewModel(get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
 
