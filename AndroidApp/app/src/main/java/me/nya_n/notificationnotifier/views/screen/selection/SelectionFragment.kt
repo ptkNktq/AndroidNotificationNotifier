@@ -13,6 +13,7 @@ import me.nya_n.notificationnotifier.databinding.FragmentSelectionBinding
 import me.nya_n.notificationnotifier.domain.entities.Fab
 import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 import me.nya_n.notificationnotifier.utils.Snackbar
+import me.nya_n.notificationnotifier.utils.addEmptyMenuProvider
 import me.nya_n.notificationnotifier.utils.autoCleared
 import me.nya_n.notificationnotifier.views.adapters.AppAdapter
 import me.nya_n.notificationnotifier.views.dialogs.PackageVisibilityDialog
@@ -64,6 +65,7 @@ class SelectionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        addEmptyMenuProvider()
         initViews()
         observes()
     }

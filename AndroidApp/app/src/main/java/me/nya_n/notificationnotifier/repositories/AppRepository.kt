@@ -15,9 +15,11 @@ class AppRepository(
     /**
      * データの削除
      */
-    fun clearAll() {
-        filterConditionDao.clear()
-        targetAppDao.clear()
+    suspend fun clearAll() {
+        withContext(Dispatchers.IO) {
+            filterConditionDao.clear()
+            targetAppDao.clear()
+        }
     }
 
     /*
