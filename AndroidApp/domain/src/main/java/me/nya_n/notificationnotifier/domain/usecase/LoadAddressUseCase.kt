@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.domain
+package me.nya_n.notificationnotifier.domain.usecase
 
 import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore

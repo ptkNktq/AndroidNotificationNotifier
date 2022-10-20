@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import me.nya_n.notificationnotifier.domain.LoadAppUseCase
-import me.nya_n.notificationnotifier.domain.PackageVisibilityGrantedUseCase
+import me.nya_n.notificationnotifier.domain.usecase.LoadAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.util.Event
 

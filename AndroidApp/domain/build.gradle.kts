@@ -40,6 +40,13 @@ dependencies {
     // androidx
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.security.crypto)
+
+    // test
+    implementation(libs.junit)
+    implementation(libs.com.google.truth)
+    implementation(libs.androidx.test.ext.junit)
+    implementation(libs.androidx.test.espresso.core)
 
     // その他
     implementation(libs.com.google.code.gson)

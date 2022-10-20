@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.domain
+package me.nya_n.notificationnotifier.domain.usecase
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

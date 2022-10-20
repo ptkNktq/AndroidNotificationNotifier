@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import me.nya_n.notificationnotifier.domain.*
+import me.nya_n.notificationnotifier.domain.usecase.*
 import me.nya_n.notificationnotifier.model.AppException
 import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R

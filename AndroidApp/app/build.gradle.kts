@@ -50,18 +50,9 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
     implementation(project(":ui"))
+    // diのために必要
     implementation(project(":domain"))
     implementation(project(":data:repository"))
-
-    // androidx
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.security.crypto)
-
-    // test
-    implementation(libs.junit)
-    implementation(libs.com.google.truth)
-    implementation(libs.androidx.test.ext.junit)
-    implementation(libs.androidx.test.espresso.core)
 
     // その他
     implementation(libs.io.insert.koin.android)

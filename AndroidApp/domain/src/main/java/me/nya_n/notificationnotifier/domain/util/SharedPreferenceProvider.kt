@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.utils
+package me.nya_n.notificationnotifier.domain.util
 
 import android.content.Context
 import android.content.SharedPreferences
