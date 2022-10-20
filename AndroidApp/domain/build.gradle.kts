@@ -34,7 +34,7 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
-    api(project(":data:repository"))
+    implementation(project(":data:repository"))
     api(project(":model"))
 
     // androidx
