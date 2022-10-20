@@ -1,7 +1,6 @@
-package me.nya_n.notificationnotifier.domain.entities
+package me.nya_n.notificationnotifier.model
 
 import androidx.annotation.StringRes
-import me.nya_n.notificationnotifier.R
 
 sealed class AppException : Exception() {
     /**

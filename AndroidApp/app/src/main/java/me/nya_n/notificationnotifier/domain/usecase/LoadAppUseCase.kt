@@ -2,8 +2,8 @@ package me.nya_n.notificationnotifier.domain.usecase
 
 import android.content.pm.PackageManager
 import androidx.annotation.VisibleForTesting
-import me.nya_n.notificationnotifier.domain.entities.AppException
-import me.nya_n.notificationnotifier.domain.entities.InstalledApp
+import me.nya_n.notificationnotifier.model.AppException
+import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.repositories.AppRepository
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
 

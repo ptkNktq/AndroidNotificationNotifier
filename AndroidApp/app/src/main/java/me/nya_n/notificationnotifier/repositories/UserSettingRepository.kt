@@ -1,6 +1,6 @@
 package me.nya_n.notificationnotifier.repositories
 
-import me.nya_n.notificationnotifier.domain.entities.UserSetting
+import me.nya_n.notificationnotifier.model.UserSetting
 import me.nya_n.notificationnotifier.repositories.sources.UserSettingDataStore
 
 class UserSettingRepository(

@@ -3,7 +3,7 @@ package me.nya_n.notificationnotifier.views.screen
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import me.nya_n.notificationnotifier.domain.entities.Fab
+import me.nya_n.notificationnotifier.model.Fab
 import me.nya_n.notificationnotifier.utils.Event
 
 class MainViewModel : ViewModel() {

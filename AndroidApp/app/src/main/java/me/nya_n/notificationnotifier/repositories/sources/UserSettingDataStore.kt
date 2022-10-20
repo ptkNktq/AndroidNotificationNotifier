@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.repositories.sources
 
 import android.content.SharedPreferences
-import me.nya_n.notificationnotifier.domain.entities.UserSetting
+import me.nya_n.notificationnotifier.model.UserSetting
 
 class UserSettingDataStore(
     pref: SharedPreferences

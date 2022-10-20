@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.domain.usecase
 
-import me.nya_n.notificationnotifier.domain.entities.FilterCondition
-import me.nya_n.notificationnotifier.domain.entities.InstalledApp
+import me.nya_n.notificationnotifier.model.FilterCondition
+import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.repositories.AppRepository
 
 /**

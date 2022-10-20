@@ -7,13 +7,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
-import me.nya_n.notificationnotifier.domain.entities.Message
-import java.lang.RuntimeException
+import me.nya_n.notificationnotifier.model.Message
 
 object Snackbar {
     fun create(view: View, message: Message): Snackbar {

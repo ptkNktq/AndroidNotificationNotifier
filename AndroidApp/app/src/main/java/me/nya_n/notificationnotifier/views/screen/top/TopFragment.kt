@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentTopBinding
-import me.nya_n.notificationnotifier.domain.entities.Backup
-import me.nya_n.notificationnotifier.domain.entities.Fab
-import me.nya_n.notificationnotifier.domain.entities.InstalledApp
-import me.nya_n.notificationnotifier.domain.entities.Message
+import me.nya_n.notificationnotifier.model.Backup
+import me.nya_n.notificationnotifier.model.Fab
+import me.nya_n.notificationnotifier.model.InstalledApp
+import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.utils.Snackbar
 import me.nya_n.notificationnotifier.utils.addMenuProvider
 import me.nya_n.notificationnotifier.utils.autoCleared

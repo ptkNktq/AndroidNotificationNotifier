@@ -50,6 +50,7 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation(project(":model"))
 
     // androidx
     implementation(libs.androidx.core.ktx)
@@ -74,8 +75,8 @@ dependencies {
     implementation(libs.androidx.test.espresso.core)
 
     // その他
+    implementation(libs.com.google.code.gson)
     implementation(libs.com.google.android.material)
     implementation(libs.io.insert.koin.android)
-    implementation(libs.com.google.code.gson)
     implementation(libs.com.squareup.leakcanary.android)
 }

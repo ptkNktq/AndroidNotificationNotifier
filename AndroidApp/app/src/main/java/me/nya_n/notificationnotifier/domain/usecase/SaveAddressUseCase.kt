@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.domain.usecase
 
 import androidx.core.text.isDigitsOnly
-import me.nya_n.notificationnotifier.domain.entities.AppException
+import me.nya_n.notificationnotifier.model.AppException
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
 
 /**

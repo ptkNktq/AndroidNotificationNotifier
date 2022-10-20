@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.R
-import me.nya_n.notificationnotifier.domain.entities.InstalledApp
-import me.nya_n.notificationnotifier.domain.entities.Message
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
+import me.nya_n.notificationnotifier.model.InstalledApp
+import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.utils.AppIcon
 import me.nya_n.notificationnotifier.utils.Event
 

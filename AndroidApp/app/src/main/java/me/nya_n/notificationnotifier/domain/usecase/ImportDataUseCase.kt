@@ -5,7 +5,7 @@ import android.net.Uri
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import me.nya_n.notificationnotifier.domain.entities.Backup
+import me.nya_n.notificationnotifier.model.Backup
 import me.nya_n.notificationnotifier.repositories.AppRepository
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
 import me.nya_n.notificationnotifier.repositories.sources.DB

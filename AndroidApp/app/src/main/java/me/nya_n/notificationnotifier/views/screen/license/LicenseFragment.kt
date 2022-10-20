@@ -1,12 +1,14 @@
 package me.nya_n.notificationnotifier.views.screen.license
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import me.nya_n.notificationnotifier.R
 import me.nya_n.notificationnotifier.databinding.FragmentLicenseBinding
-import me.nya_n.notificationnotifier.domain.entities.Fab
+import me.nya_n.notificationnotifier.model.Fab
 import me.nya_n.notificationnotifier.utils.addEmptyMenuProvider
 import me.nya_n.notificationnotifier.utils.autoCleared
 import me.nya_n.notificationnotifier.views.screen.MainViewModel

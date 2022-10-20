@@ -8,8 +8,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
-import me.nya_n.notificationnotifier.domain.entities.AppException
-import me.nya_n.notificationnotifier.domain.entities.InstalledApp
 import me.nya_n.notificationnotifier.domain.usecase.*
 import me.nya_n.notificationnotifier.repositories.AppRepository
 import me.nya_n.notificationnotifier.repositories.UserSettingRepository
@@ -64,7 +62,7 @@ class UseCaseTest {
     @Test
     fun `通知対象アプリの追加、取得、削除`() {
         runBlocking {
-            val app = InstalledApp("sample", "com.sample.www")
+            val app = me.nya_n.notificationnotifier.model.InstalledApp("sample", "com.sample.www")
             AddTargetAppUseCase(appRepository)(app)
 
             val loader = LoadAppUseCase(userSettingRepository, appRepository)
@@ -93,7 +91,7 @@ class UseCaseTest {
         val ret = LoadAppUseCase(userSettingRepository, appRepository).loadInstalledAppList(pm)
         assertThat(ret.exceptionOrNull()).apply {
             isNotNull()
-            isInstanceOf(AppException.PermissionDeniedException::class.java)
+            isInstanceOf(me.nya_n.notificationnotifier.model.AppException.PermissionDeniedException::class.java)
         }
     }
 
@@ -102,7 +100,7 @@ class UseCaseTest {
         runBlocking {
             val cond = "test"
             val updatedCond = "updated"
-            val app = InstalledApp("sample", "com.sample.www")
+            val app = me.nya_n.notificationnotifier.model.InstalledApp("sample", "com.sample.www")
             val saver = SaveFilterConditionUseCase(appRepository)
             saver(SaveFilterConditionUseCase.Args(app, cond))
 
@@ -198,7 +196,7 @@ class UseCaseTest {
 
             // 初期値の保存
             // ターゲット
-            val app = InstalledApp("export", "test.export")
+            val app = me.nya_n.notificationnotifier.model.InstalledApp("export", "test.export")
             targetSaver(app)
             // 条件
             val cond = ".*"
@@ -212,7 +210,7 @@ class UseCaseTest {
 
             // バックアップ時とは異なるように適当に変更
             // ターゲット
-            targetSaver(InstalledApp("new", "new"))
+            targetSaver(me.nya_n.notificationnotifier.model.InstalledApp("new", "new"))
             // 条件
             condSaver(SaveFilterConditionUseCase.Args(app, "new"))
 

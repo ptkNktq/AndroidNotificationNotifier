@@ -38,7 +38,7 @@
         tools:layout="@layout/fragment_selection">
         <argument
             android:name="app"
-            app:argType="me.nya_n.notificationnotifier.domain.entities.InstalledApp"
+            app:argType="me.nya_n.notificationnotifier.model.InstalledApp"
             app:nullable="false" />
     </fragment>
 

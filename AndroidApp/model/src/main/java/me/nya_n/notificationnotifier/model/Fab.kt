@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.domain.entities
+package me.nya_n.notificationnotifier.model
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 

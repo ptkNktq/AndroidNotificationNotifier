@@ -3,8 +3,8 @@ package me.nya_n.notificationnotifier.repositories
 import android.content.pm.PackageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import me.nya_n.notificationnotifier.domain.entities.FilterCondition
-import me.nya_n.notificationnotifier.domain.entities.InstalledApp
+import me.nya_n.notificationnotifier.model.FilterCondition
+import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.repositories.sources.FilterConditionDao
 import me.nya_n.notificationnotifier.repositories.sources.TargetAppDao
 

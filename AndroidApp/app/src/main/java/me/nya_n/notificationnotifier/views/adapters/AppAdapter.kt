@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import me.nya_n.notificationnotifier.R
-import me.nya_n.notificationnotifier.domain.entities.InstalledApp
+import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.utils.AppIcon
 
 class AppAdapter(
