@@ -2,10 +2,10 @@ package me.nya_n.notificationnotifier
 
 import android.app.Application
 import me.nya_n.notificationnotifier.domain.usecase.*
-import me.nya_n.notificationnotifier.repositories.AppRepository
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
-import me.nya_n.notificationnotifier.repositories.sources.DB
-import me.nya_n.notificationnotifier.repositories.sources.UserSettingDataStore
+import me.nya_n.notificationnotifier.repository.AppRepository
+import me.nya_n.notificationnotifier.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.repository.source.DB
+import me.nya_n.notificationnotifier.repository.source.UserSettingDataStore
 import me.nya_n.notificationnotifier.utils.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.views.screen.MainViewModel
 import me.nya_n.notificationnotifier.views.screen.SharedViewModel

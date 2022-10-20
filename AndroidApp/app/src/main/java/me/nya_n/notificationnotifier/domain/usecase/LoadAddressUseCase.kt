@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.domain.usecase
 
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
-import me.nya_n.notificationnotifier.repositories.sources.UserSettingDataStore
+import me.nya_n.notificationnotifier.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.repository.source.UserSettingDataStore
 
 /**
  * ユーザー設定からIPアドレスを取得する

@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.repositories.sources
+package me.nya_n.notificationnotifier.repository.source
 
 import android.content.Context
 import androidx.room.Database

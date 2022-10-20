@@ -8,5 +8,8 @@ pluginManagement {
 enableFeaturePreview("VERSION_CATALOGS")
 
 rootProject.name = "NotificationNotifier"
-include(":app")
-include(":model")
+include(
+    ":app",
+    ":model",
+    ":data:repository"
+)

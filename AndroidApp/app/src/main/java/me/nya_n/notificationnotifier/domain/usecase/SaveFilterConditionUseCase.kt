@@ -2,7 +2,7 @@ package me.nya_n.notificationnotifier.domain.usecase
 
 import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
-import me.nya_n.notificationnotifier.repositories.AppRepository
+import me.nya_n.notificationnotifier.repository.AppRepository
 
 /**
  * 通知条件を保存

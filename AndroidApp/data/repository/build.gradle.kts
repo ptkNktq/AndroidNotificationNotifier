@@ -35,14 +35,14 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    api(project(":model"))
+
+    implementation(kotlin("stdlib-jdk8"))
 
     // androidx
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
     // room
-    implementation(libs.androidx.room.runtime)
+    api(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
-
-    // その他
-    implementation(libs.com.google.code.gson)
-    implementation(libs.com.google.android.material)
 }

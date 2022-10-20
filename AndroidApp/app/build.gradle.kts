@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
@@ -51,6 +51,7 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
     implementation(project(":model"))
+    implementation(project(":data:repository"))
 
     // androidx
     implementation(libs.androidx.core.ktx)
@@ -63,10 +64,6 @@ dependencies {
     // nav
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    // room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
 
     // test
     implementation(libs.junit)

@@ -4,8 +4,8 @@ import android.content.pm.PackageManager
 import androidx.annotation.VisibleForTesting
 import me.nya_n.notificationnotifier.model.AppException
 import me.nya_n.notificationnotifier.model.InstalledApp
-import me.nya_n.notificationnotifier.repositories.AppRepository
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
+import me.nya_n.notificationnotifier.repository.AppRepository
+import me.nya_n.notificationnotifier.repository.UserSettingRepository
 
 class LoadAppUseCase(
     private val userSettingRepository: UserSettingRepository,

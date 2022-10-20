@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.repositories.sources
+package me.nya_n.notificationnotifier.repository.source
 
 import androidx.room.Dao
 import androidx.room.Delete

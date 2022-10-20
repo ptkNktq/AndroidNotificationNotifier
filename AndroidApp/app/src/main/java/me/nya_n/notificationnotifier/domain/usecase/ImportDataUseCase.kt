@@ -6,9 +6,9 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.model.Backup
-import me.nya_n.notificationnotifier.repositories.AppRepository
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
-import me.nya_n.notificationnotifier.repositories.sources.DB
+import me.nya_n.notificationnotifier.repository.AppRepository
+import me.nya_n.notificationnotifier.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.repository.source.DB
 import java.io.BufferedReader
 import java.io.InputStreamReader
 

@@ -1,6 +1,6 @@
 package me.nya_n.notificationnotifier.domain.usecase
 
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
+import me.nya_n.notificationnotifier.repository.UserSettingRepository
 
 class PackageVisibilityGrantedUseCase(
     private val userSettingRepository: UserSettingRepository

@@ -1,12 +1,12 @@
-package me.nya_n.notificationnotifier.repositories
+package me.nya_n.notificationnotifier.repository
 
 import android.content.pm.PackageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
-import me.nya_n.notificationnotifier.repositories.sources.FilterConditionDao
-import me.nya_n.notificationnotifier.repositories.sources.TargetAppDao
+import me.nya_n.notificationnotifier.repository.source.FilterConditionDao
+import me.nya_n.notificationnotifier.repository.source.TargetAppDao
 
 class AppRepository(
     private val filterConditionDao: FilterConditionDao,
