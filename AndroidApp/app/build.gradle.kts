@@ -55,6 +55,7 @@ dependencies {
 
     // androidx
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.security.crypto)
 
     // test
     implementation(libs.junit)
