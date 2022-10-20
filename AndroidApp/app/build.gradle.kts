@@ -52,32 +52,30 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
 
     // androidx
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.preference:preference-ktx:1.2.0")
-    implementation("androidx.security:security-crypto:1.1.0-alpha03")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.0")
-    val navVersion = "2.5.0"
-    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
-    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    // nav
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    // room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
     // test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("com.google.truth:truth:1.1.3")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-
-    // Room
-    val roomVersion = "2.4.2"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation(libs.junit)
+    implementation(libs.com.google.truth)
+    implementation(libs.androidx.test.ext.junit)
+    implementation(libs.androidx.test.espresso.core)
 
     // その他
-    implementation("com.google.android.material:material:1.7.0-alpha03")
-    implementation("io.insert-koin:koin-android:3.1.0")
-    implementation("com.google.code.gson:gson:2.9.0")
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
+    implementation(libs.com.google.android.material)
+    implementation(libs.io.insert.koin.android)
+    implementation(libs.com.google.code.gson)
+    implementation(libs.com.squareup.leakcanary.android)
 }
