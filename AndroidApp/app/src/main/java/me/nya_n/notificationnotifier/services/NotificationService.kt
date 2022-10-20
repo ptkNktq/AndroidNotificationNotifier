@@ -4,8 +4,8 @@ import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.text.SpannableString
 import kotlinx.coroutines.*
-import me.nya_n.notificationnotifier.repositories.AppRepository
-import me.nya_n.notificationnotifier.repositories.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.AppRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
 import org.koin.android.ext.android.inject
 import java.net.DatagramPacket
 import java.net.DatagramSocket
