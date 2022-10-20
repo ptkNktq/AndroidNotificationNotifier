@@ -1,8 +1,8 @@
 package me.nya_n.notificationnotifier.domain
 
 import androidx.core.text.isDigitsOnly
+import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
 import me.nya_n.notificationnotifier.model.AppException
-import me.nya_n.notificationnotifier.repository.UserSettingRepository
 
 /**
  * IPアドレスを保存する

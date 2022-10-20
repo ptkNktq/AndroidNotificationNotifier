@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.repository.source
+package me.nya_n.notificationnotifier.data.repository.source
 
 import android.content.SharedPreferences
 import androidx.core.content.edit

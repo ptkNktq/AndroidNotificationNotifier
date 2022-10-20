@@ -1,11 +1,11 @@
 package me.nya_n.notificationnotifier
 
 import android.app.Application
+import me.nya_n.notificationnotifier.data.repository.AppRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.source.DB
+import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore
 import me.nya_n.notificationnotifier.domain.*
-import me.nya_n.notificationnotifier.repository.AppRepository
-import me.nya_n.notificationnotifier.repository.UserSettingRepository
-import me.nya_n.notificationnotifier.repository.source.DB
-import me.nya_n.notificationnotifier.repository.source.UserSettingDataStore
 import me.nya_n.notificationnotifier.ui.screen.MainViewModel
 import me.nya_n.notificationnotifier.ui.screen.SharedViewModel
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel

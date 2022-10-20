@@ -2,7 +2,7 @@ package me.nya_n.notificationnotifier.domain
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import me.nya_n.notificationnotifier.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress

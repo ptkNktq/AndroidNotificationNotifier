@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.domain
 
+import me.nya_n.notificationnotifier.data.repository.AppRepository
 import me.nya_n.notificationnotifier.model.InstalledApp
-import me.nya_n.notificationnotifier.repository.AppRepository
 
 /**
  * 通知対象から外す

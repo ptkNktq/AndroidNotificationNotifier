@@ -7,11 +7,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
+import me.nya_n.notificationnotifier.data.repository.AppRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.source.DB
+import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore
 import me.nya_n.notificationnotifier.domain.*
-import me.nya_n.notificationnotifier.repository.AppRepository
-import me.nya_n.notificationnotifier.repository.UserSettingRepository
-import me.nya_n.notificationnotifier.repository.source.DB
-import me.nya_n.notificationnotifier.repository.source.UserSettingDataStore
 import me.nya_n.notificationnotifier.utils.SharedPreferenceProvider
 import org.junit.Before
 import org.junit.Test
