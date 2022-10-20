@@ -3,6 +3,7 @@ package me.nya_n.notificationnotifier
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
+import androidx.core.content.edit
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat

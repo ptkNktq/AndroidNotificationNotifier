@@ -54,7 +54,7 @@ dependencies {
     implementation(project(":data:repository"))
 
     // androidx
-    implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.core.ktx)
 
     // test
     implementation(libs.junit)
