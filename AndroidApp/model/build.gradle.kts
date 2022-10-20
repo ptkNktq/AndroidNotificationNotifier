@@ -38,8 +38,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     // room
     implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
 
     // その他
     implementation(libs.com.google.code.gson)
