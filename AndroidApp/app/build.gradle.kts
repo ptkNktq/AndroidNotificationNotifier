@@ -2,7 +2,6 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("androidx.navigation.safeargs.kotlin")
     id("com.cookpad.android.plugin.license-tools")
 }
 
@@ -50,21 +49,12 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation(project(":ui"))
     implementation(project(":domain"))
     implementation(project(":data:repository"))
-    implementation(project(":model"))
 
     // androidx
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.swiperefreshlayout)
-    implementation(libs.androidx.preference.ktx)
     implementation(libs.androidx.security.crypto)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    // nav
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
 
     // test
     implementation(libs.junit)
@@ -73,8 +63,6 @@ dependencies {
     implementation(libs.androidx.test.espresso.core)
 
     // その他
-    implementation(libs.com.google.code.gson)
-    implementation(libs.com.google.android.material)
     implementation(libs.io.insert.koin.android)
     implementation(libs.com.squareup.leakcanary.android)
 }
