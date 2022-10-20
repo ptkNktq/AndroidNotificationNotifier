@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.domain.usecase
+package me.nya_n.notificationnotifier.domain
 
 import androidx.core.text.isDigitsOnly
 import me.nya_n.notificationnotifier.model.AppException

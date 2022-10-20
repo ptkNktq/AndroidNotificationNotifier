@@ -50,8 +50,9 @@ android {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
-    implementation(project(":model"))
+    implementation(project(":domain"))
     implementation(project(":data:repository"))
+    implementation(project(":model"))
 
     // androidx
     implementation(libs.androidx.core.ktx)

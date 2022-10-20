@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.domain.usecase
+package me.nya_n.notificationnotifier.domain
 
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.repository.AppRepository

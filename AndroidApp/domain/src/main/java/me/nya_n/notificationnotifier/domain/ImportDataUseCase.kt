@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.domain.usecase
+package me.nya_n.notificationnotifier.domain
 
 import android.content.Context
 import android.net.Uri

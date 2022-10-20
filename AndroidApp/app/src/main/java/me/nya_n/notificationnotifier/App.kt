@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier
 
 import android.app.Application
-import me.nya_n.notificationnotifier.domain.usecase.*
+import me.nya_n.notificationnotifier.domain.*
 import me.nya_n.notificationnotifier.repository.AppRepository
 import me.nya_n.notificationnotifier.repository.UserSettingRepository
 import me.nya_n.notificationnotifier.repository.source.DB
