@@ -1,6 +1,6 @@
 [versions]
 androidx-core = "1.8.0"
-androidx-appcompat = "1.4.2"
+androidx-appcompat = "1.5.1"
 androidx-constraintlayout = "2.1.4"
 androidx-swiperefreshlayout = "1.1.0"
 androidx-preference = "1.2.0"
