@@ -11,7 +11,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:7.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.extra["kotlin_version"]}")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0")
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3")
         classpath("gradle.plugin.com.cookpad.android.plugin:plugin:1.2.8")
 
         // NOTE: Do not place your application dependencies here; they belong
