@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
+    id("kotlin-kapt") // for data-binding
     id("androidx.navigation.safeargs.kotlin")
     id("com.cookpad.android.plugin.license-tools")
 }
@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation(libs.org.jetbrains.kotlin.stdlib)
     implementation(project(":domain"))
 
     // androidx

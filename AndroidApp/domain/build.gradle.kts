@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation(libs.org.jetbrains.kotlin.stdlib)
     implementation(project(":data:repository"))
     api(project(":model"))
 
