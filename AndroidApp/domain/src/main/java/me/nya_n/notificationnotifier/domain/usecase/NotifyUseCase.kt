@@ -7,14 +7,14 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 
-class NotifyTestUseCase(
+class NotifyUseCase(
     private val userSettingRepository: UserSettingRepository
 ) {
-    suspend operator fun invoke(): Result<Unit> {
+    suspend operator fun invoke(message: String): Result<Unit> {
         return runCatching {
             withContext(Dispatchers.IO) {
                 val setting = userSettingRepository.getUserSetting()
-                val buff = "通知テスト".toByteArray()
+                val buff = message.toByteArray()
                 val addr = InetAddress.getByName(setting.host)
                 val packet = DatagramPacket(buff, buff.size, addr, setting.port)
                 DatagramSocket().apply {
