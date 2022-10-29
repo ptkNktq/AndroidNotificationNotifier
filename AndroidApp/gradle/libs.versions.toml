@@ -1,7 +1,7 @@
 # used by https://takahirom.github.io/gradle-version-catalog-converter/
 [versions]
 com-android-tools-build = "7.3.1"
-org-jetbrains-kotlin = "1.7.10"
+org-jetbrains-kotlin = "1.7.20"
 gradle-plugin-com-cookpad-android-plugin = "1.2.8"
 androidx-core = "1.8.0"
 androidx-appcompat = "1.5.1"
