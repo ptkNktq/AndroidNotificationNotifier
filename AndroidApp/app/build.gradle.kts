@@ -48,7 +48,7 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation(libs.org.jetbrains.kotlin.stdlib)
     implementation(project(":ui"))
     // diのために必要
     implementation(project(":domain"))
