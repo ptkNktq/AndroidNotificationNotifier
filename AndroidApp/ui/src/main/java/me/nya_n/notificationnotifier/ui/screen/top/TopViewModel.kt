@@ -16,7 +16,7 @@ import me.nya_n.notificationnotifier.ui.util.Event
 class TopViewModel(
     loadAddressUseCase: LoadAddressUseCase,
     private val saveAddressUseCase: SaveAddressUseCase,
-    private val notifyTestUseCase: NotifyTestUseCase,
+    private val notifyUseCase: NotifyUseCase,
     private val importDataUseCase: ImportDataUseCase,
     private val exportDataUseCase: ExportDataUseCase,
 ) : ViewModel() {
@@ -48,7 +48,7 @@ class TopViewModel(
      */
     fun notifyTest() {
         viewModelScope.launch {
-            notifyTestUseCase()
+            notifyUseCase("通知テスト")
                 .onSuccess {
                     _message.postValue(Event(Message.Notice(R.string.notify_test_succeeded)))
                 }

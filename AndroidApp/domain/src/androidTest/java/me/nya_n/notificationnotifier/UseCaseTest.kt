@@ -14,11 +14,13 @@ import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore
 import me.nya_n.notificationnotifier.domain.usecase.*
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
+import me.nya_n.notificationnotifier.model.InstalledApp
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 
+@Suppress("NonAsciiCharacters", "RemoveRedundantBackticks")
 @RunWith(AndroidJUnit4::class)
 class UseCaseTest {
     private lateinit var appContext: Context
@@ -62,7 +64,7 @@ class UseCaseTest {
     @Test
     fun `通知対象アプリの追加、取得、削除`() {
         runBlocking {
-            val app = me.nya_n.notificationnotifier.model.InstalledApp("sample", "com.sample.www")
+            val app = InstalledApp("sample", "com.sample.www")
             AddTargetAppUseCase(appRepository)(app)
 
             val loader = LoadAppUseCase(userSettingRepository, appRepository)
@@ -100,7 +102,7 @@ class UseCaseTest {
         runBlocking {
             val cond = "test"
             val updatedCond = "updated"
-            val app = me.nya_n.notificationnotifier.model.InstalledApp("sample", "com.sample.www")
+            val app = InstalledApp("sample", "com.sample.www")
             val saver = SaveFilterConditionUseCase(appRepository)
             saver(SaveFilterConditionUseCase.Args(app, cond))
 
@@ -171,7 +173,9 @@ class UseCaseTest {
     @Test
     fun `通知送信_失敗`() {
         runBlocking {
-            assertThat(NotifyTestUseCase(userSettingRepository)().exceptionOrNull()).isNotNull()
+            assertThat(
+                NotifyUseCase(userSettingRepository)("通知テスト").exceptionOrNull()
+            ).isNotNull()
         }
     }
 
@@ -182,7 +186,9 @@ class UseCaseTest {
             val port = 5555
             val addr = "$host:$port"
             SaveAddressUseCase(userSettingRepository)(addr)
-            assertThat(NotifyTestUseCase(userSettingRepository)().getOrNull()).isNotNull()
+            assertThat(
+                NotifyUseCase(userSettingRepository)("通知テスト").getOrNull()
+            ).isNotNull()
         }
     }
 
@@ -196,7 +202,7 @@ class UseCaseTest {
 
             // 初期値の保存
             // ターゲット
-            val app = me.nya_n.notificationnotifier.model.InstalledApp("export", "test.export")
+            val app = InstalledApp("export", "test.export")
             targetSaver(app)
             // 条件
             val cond = ".*"
@@ -210,7 +216,7 @@ class UseCaseTest {
 
             // バックアップ時とは異なるように適当に変更
             // ターゲット
-            targetSaver(me.nya_n.notificationnotifier.model.InstalledApp("new", "new"))
+            targetSaver(InstalledApp("new", "new"))
             // 条件
             condSaver(SaveFilterConditionUseCase.Args(app, "new"))
 

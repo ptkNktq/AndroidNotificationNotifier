@@ -5,16 +5,13 @@ import android.service.notification.StatusBarNotification
 import android.text.SpannableString
 import kotlinx.coroutines.*
 import me.nya_n.notificationnotifier.data.repository.AppRepository
-import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import org.koin.android.ext.android.inject
-import java.net.DatagramPacket
-import java.net.DatagramSocket
-import java.net.InetAddress
 
 class NotificationService : NotificationListenerService() {
 
     private val appRepository: AppRepository by inject()
-    private val userSettingRepository: UserSettingRepository by inject()
+    private val useCase: NotifyUseCase by inject()
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
@@ -47,16 +44,9 @@ class NotificationService : NotificationListenerService() {
                 }
             }
 
-            val setting = userSettingRepository.getUserSetting()
             withContext(Dispatchers.IO) {
                 val message = "${title}\n${text}"
-                val buff = message.toByteArray()
-                val addr = InetAddress.getByName(setting.host)
-                val packet = DatagramPacket(buff, buff.size, addr, setting.port)
-                DatagramSocket().apply {
-                    send(packet)
-                    close()
-                }
+                useCase(message)
             }
         }
     }

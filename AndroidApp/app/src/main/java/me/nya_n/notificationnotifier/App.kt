@@ -59,7 +59,7 @@ class App : Application() {
         factory { LoadAddressUseCase(get()) }
         factory { LoadAppUseCase(get(), get()) }
         factory { LoadFilterConditionUseCase(get()) }
-        factory { NotifyTestUseCase(get()) }
+        factory { NotifyUseCase(get()) }
         factory { PackageVisibilityGrantedUseCase(get()) }
         factory { SaveAddressUseCase(get()) }
         factory { SaveFilterConditionUseCase(get()) }
