@@ -3,6 +3,8 @@ package me.nya_n.notificationnotifier
 import android.app.Application
 import me.nya_n.notificationnotifier.data.repository.AppRepository
 import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
+import me.nya_n.notificationnotifier.data.repository.impl.UserSettingRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore
 import me.nya_n.notificationnotifier.domain.usecase.*
@@ -41,8 +43,8 @@ class App : Application() {
         single { DB.get(get()).targetAppDao() }
 
         // Repository
-        single { UserSettingRepository(get()) }
-        single { AppRepository(get(), get()) }
+        single<UserSettingRepository> { UserSettingRepositoryImpl(get()) }
+        single<AppRepository> { AppRepositoryImpl(get(), get()) }
 
         // ViewModel
         viewModel { MainViewModel() }
