@@ -1,78 +1,32 @@
 package me.nya_n.notificationnotifier.data.repository
 
 import android.content.pm.PackageManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import me.nya_n.notificationnotifier.data.repository.source.FilterConditionDao
-import me.nya_n.notificationnotifier.data.repository.source.TargetAppDao
 import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
 
-class AppRepository(
-    private val filterConditionDao: FilterConditionDao,
-    private val targetAppDao: TargetAppDao,
-) {
+interface AppRepository {
     /**
      * データの削除
      */
-    suspend fun clearAll() {
-        withContext(Dispatchers.IO) {
-            filterConditionDao.clear()
-            targetAppDao.clear()
-        }
-    }
+    suspend fun clearAll()
 
     /*
      * フィルタリング条件関連
      */
-    suspend fun getFilterCondition(targetPackageName: String): FilterCondition? {
-        return withContext(Dispatchers.IO) {
-            filterConditionDao.get(targetPackageName)
-        }
-    }
+    suspend fun getFilterCondition(targetPackageName: String): FilterCondition?
 
-    suspend fun getFilterConditionList(): List<FilterCondition> {
-        return withContext(Dispatchers.IO) {
-            filterConditionDao.getAll()
-        }
-    }
+    suspend fun getFilterConditionList(): List<FilterCondition>
 
-    suspend fun saveFilterCondition(condition: FilterCondition) {
-        withContext(Dispatchers.IO) {
-            filterConditionDao.insert(condition)
-        }
-    }
-
+    suspend fun saveFilterCondition(condition: FilterCondition)
 
     /*
      * ターゲットアプリ関連
      */
-    suspend fun getTargetAppList(): List<InstalledApp> {
-        return withContext(Dispatchers.IO) {
-            targetAppDao.getAll()
-        }
-    }
+    suspend fun getTargetAppList(): List<InstalledApp>
 
-    suspend fun addTargetApp(target: InstalledApp) {
-        withContext(Dispatchers.IO) {
-            targetAppDao.insert(target)
-        }
-    }
+    suspend fun addTargetApp(target: InstalledApp)
 
-    suspend fun deleteTargetApp(target: InstalledApp) {
-        withContext(Dispatchers.IO) {
-            targetAppDao.delete(target)
-        }
-    }
+    suspend fun deleteTargetApp(target: InstalledApp)
 
-    fun loadInstalledAppList(pm: PackageManager): List<InstalledApp> {
-        return pm.getInstalledApplications(PackageManager.GET_META_DATA)
-            .map {
-                val label = pm.getApplicationLabel(it).toString()
-                InstalledApp(
-                    label,
-                    it.packageName
-                )
-            }
-    }
+    fun loadInstalledAppList(pm: PackageManager): List<InstalledApp>
 }

@@ -43,6 +43,6 @@ dependencies {
     kapt(libs.androidx.room.compiler)
 
     // その他
-    implementation(libs.com.google.code.gson)
+    api(libs.com.google.code.gson)
     implementation(libs.com.google.android.material)
 }
