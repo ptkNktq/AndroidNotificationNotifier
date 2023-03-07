@@ -32,4 +32,9 @@
     <string name="import_succeeded">復元しました。アプリを再起動してください。</string>
     <string name="import_failed">復元失敗</string>
     <string name="license">ライセンス</string>
+
+    <!-- for compose -->
+    <string name="apps">Apps</string>
+    <string name="targets">Targets</string>
+    <string name="settings">Settings</string>
 </resources>

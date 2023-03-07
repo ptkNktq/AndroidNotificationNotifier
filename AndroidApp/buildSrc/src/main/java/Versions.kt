@@ -6,4 +6,5 @@ object Versions {
     const val MIN_SDK = 30
     val JAVA_VERSION = JavaVersion.VERSION_1_8
     const val JVM_TARGET = "1.8"
+    const val KOTLIN_COMPILER_EXTENSION_VERSION = "1.4.2"
 }
