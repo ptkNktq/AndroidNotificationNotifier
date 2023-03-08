@@ -2,16 +2,11 @@ package me.nya_n.notificationnotifier.ui.util
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.core.view.MenuProvider
 import androidx.databinding.BindingAdapter
-import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import me.nya_n.notificationnotifier.model.Message
 
@@ -37,31 +32,6 @@ object Snackbar {
                     dismiss()
                 }
             }
-    }
-}
-
-fun Fragment.addMenuProvider(provider: MenuProvider) {
-    requireActivity().addMenuProvider(provider)
-}
-
-fun Fragment.addEmptyMenuProvider() {
-    addMenuProvider(object : MenuProvider {
-        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-            menu.clear()
-        }
-
-        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-            return false
-        }
-    })
-}
-
-@BindingAdapter("visible")
-fun View.visible(isVisible: Boolean) {
-    visibility = if (isVisible) {
-        View.VISIBLE
-    } else {
-        View.GONE
     }
 }
 

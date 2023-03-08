@@ -10,7 +10,6 @@ import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore
 import me.nya_n.notificationnotifier.domain.usecase.*
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.ui.screen.MainViewModel
-import me.nya_n.notificationnotifier.ui.screen.SharedViewModel
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
 import me.nya_n.notificationnotifier.ui.screen.target.TargetViewModel
@@ -49,7 +48,6 @@ class App : Application() {
 
         // ViewModel
         viewModel { MainViewModel() }
-        viewModel { SharedViewModel(get(), get(), get()) }
         viewModel { TopViewModel(get(), get(), get(), get(), get()) }
         viewModel { SelectionViewModel(get(), get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
