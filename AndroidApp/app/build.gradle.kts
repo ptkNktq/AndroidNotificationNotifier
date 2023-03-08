@@ -55,6 +55,6 @@ dependencies {
     implementation(project(":data:repository"))
 
     // その他
-    implementation(libs.io.insert.koin.android)
+    implementation(libs.io.insert.koin)
     implementation(libs.com.squareup.leakcanary.android)
 }

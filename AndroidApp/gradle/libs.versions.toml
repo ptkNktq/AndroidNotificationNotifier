@@ -22,6 +22,7 @@ androidx-test-espresso = "3.5.1"
 androidx-room = "2.5.0"
 com-google-android-material = "1.8.0"
 io-insert-koin = "3.3.3"
+io-insert-koin-compose = "3.4.2"
 com-google-code-gson = "2.10.1"
 com-squareup-leakcanary = "2.10"
 
@@ -67,7 +68,8 @@ androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core",
 # その他
 org-jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "org-jetbrains-kotlin" }
 com-google-android-material = { module = "com.google.android.material:material", version.ref = "com-google-android-material" }
-io-insert-koin-android = { module = "io.insert-koin:koin-android", version.ref = "io-insert-koin" }
+io-insert-koin = { module = "io.insert-koin:koin-android", version.ref = "io-insert-koin" }
+io-insert-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "io-insert-koin-compose" }
 com-google-code-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson" }
 com-squareup-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "com-squareup-leakcanary" }
 

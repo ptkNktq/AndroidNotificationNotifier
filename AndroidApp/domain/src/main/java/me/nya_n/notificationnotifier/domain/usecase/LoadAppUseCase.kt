@@ -16,7 +16,12 @@ class LoadAppUseCase(
             return Result.failure(it)
         }
         val targets = loadTargetList()
-        return Result.success(Outputs(apps, targets))
+        return Result.success(
+            Outputs(
+                apps,
+                targets.filter { apps.contains(it) } // アンインストールされたアプリは排除
+            )
+        )
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

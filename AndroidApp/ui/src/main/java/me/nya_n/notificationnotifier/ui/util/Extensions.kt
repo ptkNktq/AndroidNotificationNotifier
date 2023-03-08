@@ -80,6 +80,6 @@ fun isInPreview(): Boolean {
      * Previewを端末(実機/エミュ問わず)で実行するとLocalInspectionMode.currentがfalseになってしまう
      * そういった状況でも強制的にPreviewモードとして扱いたいときのためにisForcePreviewを用意
      */
-    val isForcePreview = true
+    val isForcePreview = false
     return LocalInspectionMode.current || isForcePreview
 }

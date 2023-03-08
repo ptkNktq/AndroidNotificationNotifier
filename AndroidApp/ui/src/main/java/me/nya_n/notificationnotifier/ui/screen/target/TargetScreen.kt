@@ -1,11 +1,14 @@
 package me.nya_n.notificationnotifier.ui.screen.target
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.EmptyView
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
@@ -22,9 +25,11 @@ fun TargetPreview() {
  * 通知送信ターゲットに追加したアプリリスト
  */
 @Composable
-fun TargetScreen() {
-    val items: List<InstalledApp> = listOf() // TODO: ViewModelから取得
-    TargetContent(items = items)
+fun TargetScreen(
+    viewModel: TargetViewModel = getViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    TargetContent(items = uiState.items)
 }
 
 @Composable
