@@ -65,6 +65,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.viewmodel)
     implementation(libs.androidx.compose.activity)
+    implementation(libs.androidx.compose.navigation)
     implementation(libs.androidx.compose.accompanist.pager)
     implementation(libs.androidx.compose.accompanist.uicontroller)
 

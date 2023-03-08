@@ -19,6 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppColors
 
@@ -29,12 +31,16 @@ fun SettingPreview() {
 }
 
 @Composable
-fun SettingScreen() {
-    SettingContent()
+fun SettingScreen(
+    navController: NavController
+) {
+    SettingContent(navController)
 }
 
 @Composable
-fun SettingContent() {
+fun SettingContent(
+    navController: NavController = rememberNavController()
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -44,7 +50,7 @@ fun SettingContent() {
         NotifySetting {
             // TODO: 送信テスト
         }
-        OtherSetting()
+        OtherSetting(navController)
     }
 }
 
@@ -98,10 +104,12 @@ fun NotifySetting(
  *  - バージョン表示
  */
 @Composable
-fun OtherSetting() {
+fun OtherSetting(
+    navController: NavController
+) {
     Title(titleResourceId = R.string.settings_others)
     BasicItem(icon = Icons.Outlined.ReceiptLong, textResourceId = R.string.license) {
-
+        navController.navigate("license")
     }
 }
 

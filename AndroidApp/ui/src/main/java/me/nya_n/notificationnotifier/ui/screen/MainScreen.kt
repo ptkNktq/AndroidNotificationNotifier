@@ -1,7 +1,10 @@
 package me.nya_n.notificationnotifier.ui.screen
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
@@ -14,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -21,52 +25,38 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.EmptyView
+import me.nya_n.notificationnotifier.ui.common.TopBar
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionScreen
 import me.nya_n.notificationnotifier.ui.screen.setting.SettingScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppColors
-import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @Composable
 @Preview
 @ExperimentalPagerApi
 fun MainPreview() {
-    MainScreen(2)
+    val tabItems = listOf(
+        TabItem(R.string.targets, Icons.Outlined.NotificationsActive),
+        TabItem(R.string.apps, Icons.Rounded.List),
+        TabItem(R.string.settings, Icons.Outlined.Settings),
+    )
+    MainContent(tabItems, 2)
 }
 
 /**
  * メイン画面
- * @param initPage 最初に表示するページ番号(デバッグ/テスト用)
  */
 @Composable
 @ExperimentalPagerApi
 fun MainScreen(
-    initPage: Int = 0
+    navController: NavController,
 ) {
-    val state = rememberPagerState(initPage)
     val tabItems = listOf(
         TabItem(R.string.targets, Icons.Outlined.NotificationsActive) { TargetScreen() },
         TabItem(R.string.apps, Icons.Rounded.List) { SelectionScreen() },
-        TabItem(R.string.settings, Icons.Outlined.Settings) { SettingScreen() },
+        TabItem(R.string.settings, Icons.Outlined.Settings) { SettingScreen(navController) },
     )
-    AppTheme {
-        Scaffold(
-            backgroundColor = AppColors.RoseBrown,
-            topBar = { TopBar() },
-            bottomBar = { BottomBar(tabItems = tabItems, state = state) },
-            modifier = Modifier.systemBarsPadding()
-        ) {
-            MainContent(padding = it, tabItems = tabItems, state = state)
-        }
-    }
-}
-
-@Composable
-fun TopBar() {
-    TopAppBar(
-        title = { Text(text = "NotificationNotifier", color = Color.White) },
-        backgroundColor = AppColors.Brown
-    )
+    MainContent(tabItems)
 }
 
 @Composable
@@ -94,18 +84,25 @@ fun BottomBar(
 @Composable
 @ExperimentalPagerApi
 fun MainContent(
-    padding: PaddingValues,
     tabItems: List<TabItem>,
-    state: PagerState
+    initPage: Int = 0
 ) {
-    HorizontalPager(
-        count = tabItems.size,
-        state = state,
-        userScrollEnabled = false,
-        modifier = Modifier.padding(padding),
-    ) { index ->
-        Box(modifier = Modifier.fillMaxSize()) {
-            tabItems[index].content()
+    val state = rememberPagerState(initPage)
+    Scaffold(
+        backgroundColor = AppColors.RoseBrown,
+        topBar = { TopBar() },
+        bottomBar = { BottomBar(tabItems = tabItems, state = state) },
+        modifier = Modifier.systemBarsPadding()
+    ) {
+        HorizontalPager(
+            count = tabItems.size,
+            state = state,
+            userScrollEnabled = false,
+            modifier = Modifier.padding(it),
+        ) { index ->
+            Box(modifier = Modifier.fillMaxSize()) {
+                tabItems[index].content()
+            }
         }
     }
 }
