@@ -37,6 +37,8 @@
     <string name="apps">Apps</string>
     <string name="targets">Targets</string>
     <string name="settings">Settings</string>
+    <string name="settings_general">General</string>
+    <string name="settings_others">Others</string>
     <string name="no_apps">No apps.</string>
     <string name="no_contents">No contents…</string>
     <string name="address">e.g. 192.168.11.2:5555</string>
