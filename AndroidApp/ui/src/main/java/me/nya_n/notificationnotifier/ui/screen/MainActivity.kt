@@ -3,25 +3,22 @@ package me.nya_n.notificationnotifier.ui.screen
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import me.nya_n.notificationnotifier.ui.R
-import me.nya_n.notificationnotifier.ui.databinding.ActivityMainBinding
+import com.google.accompanist.pager.ExperimentalPagerApi
 import me.nya_n.notificationnotifier.ui.dialogs.DialogListener
 import me.nya_n.notificationnotifier.ui.dialogs.NotificationAccessPermissionDialog
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), DialogListener {
-    private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModel()
 
+    @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
-        observes()
+        setContent {
+            MainScreen()
+        }
     }
 
     override fun onResume() {
@@ -35,22 +32,6 @@ class MainActivity : AppCompatActivity(), DialogListener {
 
     override fun onNegativeClick(dialog: DialogFragment) {
         finish()
-    }
-
-    private fun observes() {
-        viewModel.fab.observe(this) {
-            val fab = it.getContentIfNotHandled() ?: return@observe
-            binding.fab.apply {
-                setOnClickListener {
-                    fab.action.invoke(this)
-                }
-                if (fab.isShowing) {
-                    show()
-                } else {
-                    hide()
-                }
-            }
-        }
     }
 
     private fun permissionCheck() {
