@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionScreen
+import me.nya_n.notificationnotifier.ui.screen.setting.SettingScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppColors
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
@@ -30,7 +31,7 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 @Preview
 @ExperimentalPagerApi
 fun MainPreview() {
-    MainScreen(0)
+    MainScreen(2)
 }
 
 /**
@@ -46,7 +47,7 @@ fun MainScreen(
     val tabItems = listOf(
         TabItem(R.string.targets, Icons.Outlined.NotificationsActive) { TargetScreen() },
         TabItem(R.string.apps, Icons.Rounded.List) { SelectionScreen() },
-        TabItem(R.string.settings, Icons.Outlined.Settings),
+        TabItem(R.string.settings, Icons.Outlined.Settings) { SettingScreen() },
     )
     AppTheme {
         Scaffold(
