@@ -13,7 +13,7 @@ fun AppTheme(
 ) {
     val uiController = rememberSystemUiController()
     SideEffect {
-        uiController.setSystemBarsColor(AppColor.Brown)
+        uiController.setSystemBarsColor(AppColors.Brown)
     }
 
     MaterialTheme(content = content)

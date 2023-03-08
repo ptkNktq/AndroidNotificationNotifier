@@ -1,10 +1,7 @@
 package me.nya_n.notificationnotifier.ui.screen
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
@@ -12,7 +9,6 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.List
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -20,17 +16,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.ui.R
-import me.nya_n.notificationnotifier.ui.theme.AppColor
+import me.nya_n.notificationnotifier.ui.common.EmptyView
+import me.nya_n.notificationnotifier.ui.screen.selection.SelectionScreen
+import me.nya_n.notificationnotifier.ui.theme.AppColors
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @Composable
 @Preview
 @ExperimentalPagerApi
-fun MainScreenPreview() {
-    MainScreen()
+fun MainPreview() {
+    MainScreen(0)
 }
 
 /**
@@ -42,59 +41,83 @@ fun MainScreenPreview() {
 fun MainScreen(
     initPage: Int = 0
 ) {
-    val scope = rememberCoroutineScope()
-    val pageState = rememberPagerState(initPage)
+    val state = rememberPagerState(initPage)
     val tabItems = listOf(
         TabItem(R.string.targets, Icons.Outlined.NotificationsActive),
-        TabItem(R.string.apps, Icons.Rounded.List),
+        TabItem(R.string.apps, Icons.Rounded.List) { SelectionScreen() },
         TabItem(R.string.settings, Icons.Outlined.Settings),
     )
     AppTheme {
         Scaffold(
-            backgroundColor = AppColor.RoseBrown,
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = "NotificationNotifier", color = Color.White) },
-                    backgroundColor = AppColor.Brown
-                )
-            },
-            bottomBar = {
-                BottomNavigation(
-                    backgroundColor = AppColor.Brown
-                ) {
-                    tabItems.forEachIndexed { index, tabItem ->
-                        BottomNavigationItem(
-                            label = { Text(text = stringResource(id = tabItem.labelResourceId)) },
-                            icon = { Icon(imageVector = tabItem.icon, contentDescription = null) },
-                            selectedContentColor = Color.White,
-                            selected = index == pageState.currentPage,
-                            onClick = { scope.launch { pageState.scrollToPage(index, 0f) } }
-                        )
-                    }
-                }
-            },
+            backgroundColor = AppColors.RoseBrown,
+            topBar = { TopBar() },
+            bottomBar = { BottomBar(tabItems = tabItems, state = state) },
+            modifier = Modifier.systemBarsPadding()
         ) {
-            HorizontalPager(
-                count = tabItems.size,
-                state = pageState,
-                userScrollEnabled = false,
-                modifier = Modifier.padding(it),
-            ) { index ->
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    tabItems[index].content()
-                }
-            }
+            MainContent(padding = it, tabItems = tabItems, state = state)
         }
     }
 }
 
+@Composable
+fun TopBar() {
+    TopAppBar(
+        title = { Text(text = "NotificationNotifier", color = Color.White) },
+        backgroundColor = AppColors.Brown
+    )
+}
+
+@Composable
+@ExperimentalPagerApi
+fun BottomBar(
+    tabItems: List<TabItem>,
+    state: PagerState
+) {
+    val scope = rememberCoroutineScope()
+    BottomNavigation(
+        backgroundColor = AppColors.Brown
+    ) {
+        tabItems.forEachIndexed { index, tabItem ->
+            BottomNavigationItem(
+                label = { Text(text = stringResource(id = tabItem.labelResourceId)) },
+                icon = { Icon(imageVector = tabItem.icon, contentDescription = null) },
+                selectedContentColor = Color.White,
+                selected = index == state.currentPage,
+                onClick = { scope.launch { state.scrollToPage(index, 0f) } }
+            )
+        }
+    }
+}
+
+@Composable
+@ExperimentalPagerApi
+fun MainContent(
+    padding: PaddingValues,
+    tabItems: List<TabItem>,
+    state: PagerState
+) {
+    HorizontalPager(
+        count = tabItems.size,
+        state = state,
+        userScrollEnabled = false,
+        modifier = Modifier.padding(padding),
+    ) { index ->
+        Box(modifier = Modifier.fillMaxSize()) {
+            tabItems[index].content()
+        }
+    }
+}
+
+/**
+ * BottomNavigationで表示する各タブの情報
+ */
 data class TabItem(
     @StringRes
     val labelResourceId: Int,
     val icon: ImageVector,
-    val content: @Composable () -> Unit = { Text(text = "No Contents...") }
+    /**
+     * このページで表示するコンテンツ
+     *  - 初期値として中央に「No Contents...」と表示するViewを定義してある
+     */
+    val content: @Composable () -> Unit = { EmptyView(textResourceId = R.string.no_contents) }
 )

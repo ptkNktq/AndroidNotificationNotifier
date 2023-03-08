@@ -37,4 +37,6 @@
     <string name="apps">Apps</string>
     <string name="targets">Targets</string>
     <string name="settings">Settings</string>
+    <string name="no_apps">No apps.</string>
+    <string name="no_contents">No contents…</string>
 </resources>

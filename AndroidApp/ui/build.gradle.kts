@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.androidx.compose.material.icons)
     implementation(libs.androidx.compose.ui.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.compose.viewmodel)
+    implementation(libs.androidx.compose.activity)
     implementation(libs.androidx.compose.accompanist.pager)
     implementation(libs.androidx.compose.accompanist.uicontroller)
 
