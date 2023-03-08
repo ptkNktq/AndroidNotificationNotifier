@@ -21,6 +21,7 @@ import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.theme.AppColors
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
@@ -63,9 +64,11 @@ fun SelectionPreview() {
  *  - TODO: システムアプリ等不要な(？)アプリを非表示にする方法を調べる
  */
 @Composable
-fun SelectionScreen() {
-    val items: List<InstalledApp> = emptyList() // TODO: ViewModelから取得
-    SelectionContent(items = items)
+fun SelectionScreen(
+    viewModel: SelectionViewModel = getViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    SelectionContent(items = uiState.items)
 }
 
 @Composable
