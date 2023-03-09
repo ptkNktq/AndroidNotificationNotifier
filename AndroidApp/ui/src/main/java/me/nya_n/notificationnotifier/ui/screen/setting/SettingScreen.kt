@@ -9,7 +9,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.ReceiptLong
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,25 +24,56 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppColors
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 fun SettingPreview() {
-    SettingContent()
+    SettingContent(
+        uiState = UiState(address = "192.168.11.2:5555"),
+        onValueChange = { },
+        onNotifyTest = { }
+    )
 }
 
+/**
+ * 設定画面
+ * TODO:
+ *  - 設定バックアップ/復元機能
+ */
 @Composable
 fun SettingScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: SettingViewModel = getViewModel(),
+    scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
-    SettingContent(navController)
+    val uiState by viewModel.uiState.collectAsState()
+    SnackbarMessage(
+        scaffoldState = scaffoldState,
+        uiState = uiState
+    ) {
+        viewModel.messageShown()
+    }
+    SettingContent(
+        navController = navController,
+        uiState = uiState,
+        onValueChange = { viewModel.updateAddress(it) },
+        onNotifyTest = { viewModel.notifyTest() }
+    )
 }
 
+/**
+ * 設定画面のコンテンツ本体
+ */
 @Composable
 fun SettingContent(
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
+    uiState: UiState,
+    onValueChange: (String) -> Unit,
+    onNotifyTest: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -47,9 +81,11 @@ fun SettingContent(
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
     ) {
-        NotifySetting {
-            // TODO: 送信テスト
-        }
+        NotifySetting(
+            uiState,
+            onValueChange = onValueChange,
+            onNotifyTest = onNotifyTest
+        )
         OtherSetting(navController)
     }
 }
@@ -61,14 +97,15 @@ fun SettingContent(
  */
 @Composable
 fun NotifySetting(
-    onClickListener: () -> Unit
+    uiState: UiState,
+    onValueChange: (String) -> Unit,
+    onNotifyTest: () -> Unit
 ) {
-    var text by remember { mutableStateOf("") }
-    Title(titleResourceId = R.string.settings_general)
+    Category(titleResourceId = R.string.settings_general)
     OutlinedTextField(
-        value = text,
+        value = uiState.address,
         placeholder = { Text(text = stringResource(id = R.string.address)) },
-        onValueChange = { text = it },
+        onValueChange = onValueChange,
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.White
@@ -85,7 +122,7 @@ fun NotifySetting(
             .padding(vertical = 8.dp)
     )
     OutlinedButton(
-        onClick = onClickListener,
+        onClick = onNotifyTest,
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = AppColors.RoseBrown
         ),
@@ -107,14 +144,17 @@ fun NotifySetting(
 fun OtherSetting(
     navController: NavController
 ) {
-    Title(titleResourceId = R.string.settings_others)
-    BasicItem(icon = Icons.Outlined.ReceiptLong, textResourceId = R.string.license) {
+    Category(titleResourceId = R.string.settings_others)
+    ClickableBasicItem(icon = Icons.Outlined.ReceiptLong, textResourceId = R.string.license) {
         navController.navigate("license")
     }
 }
 
+/**
+ * 設定のカテゴリ
+ */
 @Composable
-fun Title(@StringRes titleResourceId: Int) {
+fun Category(@StringRes titleResourceId: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -142,8 +182,13 @@ fun Title(@StringRes titleResourceId: Int) {
     }
 }
 
+/**
+ * 基本的な項目
+ *  - [アイコン 項目名] で構成される
+ *  - クリックできる
+ */
 @Composable
-fun BasicItem(
+fun ClickableBasicItem(
     icon: ImageVector,
     @StringRes textResourceId: Int,
     onClickListener: () -> Unit
@@ -165,5 +210,34 @@ fun BasicItem(
             modifier = Modifier.padding(start = 8.dp)
         )
         Spacer(modifier = Modifier.fillMaxWidth())
+    }
+}
+
+/**
+ * Snackbarでメッセージを表示
+ */
+@Composable
+fun SnackbarMessage(
+    scaffoldState: ScaffoldState,
+    uiState: UiState,
+    onMessageDone: () -> Unit
+) {
+    uiState.message?.let {
+        // TODO: Snackbarの色変更に対応
+        val (message, color) = when (it) {
+            is Message.Error -> {
+                Pair(stringResource(id = it.message), AppColors.BasicBlack)
+            }
+            is Message.Notice -> {
+                Pair(stringResource(id = it.message, formatArgs = it.args), AppColors.BasicBlack)
+            }
+        }
+        LaunchedEffect(scaffoldState.snackbarHostState) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = message,
+                actionLabel = "[OK]" // FIXME: ここの文字、i18nどうする？
+            )
+            onMessageDone()
+        }
     }
 }

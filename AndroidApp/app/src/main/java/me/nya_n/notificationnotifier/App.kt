@@ -12,6 +12,7 @@ import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.ui.screen.MainViewModel
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
+import me.nya_n.notificationnotifier.ui.screen.setting.SettingViewModel
 import me.nya_n.notificationnotifier.ui.screen.target.TargetViewModel
 import me.nya_n.notificationnotifier.ui.screen.top.TopViewModel
 import org.koin.android.ext.koin.androidContext
@@ -52,6 +53,7 @@ class App : Application() {
         viewModel { SelectionViewModel(get(), get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get(), get()) }
+        viewModel { SettingViewModel(get(), get(), get()) }
 
         // UseCase
         factory { AddTargetAppUseCase(get()) }

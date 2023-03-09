@@ -10,7 +10,7 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @Composable
 @ExperimentalPagerApi
-fun App() {
+fun AppScreen() {
     val navController = rememberNavController()
     AppTheme {
         NavHost(

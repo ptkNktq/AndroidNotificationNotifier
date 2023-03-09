@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity(), DialogListener {
     @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { App() }
+        setContent { AppScreen() }
     }
 
     override fun onResume() {

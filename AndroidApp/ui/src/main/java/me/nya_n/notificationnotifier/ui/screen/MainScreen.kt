@@ -40,7 +40,7 @@ fun MainPreview() {
         TabItem(R.string.apps, Icons.Rounded.List),
         TabItem(R.string.settings, Icons.Outlined.Settings),
     )
-    MainContent(tabItems, 2)
+    MainContent(tabItems = tabItems, initPage = 2)
 }
 
 /**
@@ -50,20 +50,29 @@ fun MainPreview() {
 @ExperimentalPagerApi
 fun MainScreen(
     navController: NavController,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
     val tabItems = listOf(
         TabItem(R.string.targets, Icons.Outlined.NotificationsActive) { TargetScreen() },
         TabItem(R.string.apps, Icons.Rounded.List) { SelectionScreen() },
-        TabItem(R.string.settings, Icons.Outlined.Settings) { SettingScreen(navController) },
+        TabItem(R.string.settings, Icons.Outlined.Settings) {
+            SettingScreen(
+                navController = navController,
+                scaffoldState = scaffoldState
+            )
+        },
     )
-    MainContent(tabItems)
+    MainContent(
+        scaffoldState = scaffoldState,
+        tabItems = tabItems
+    )
 }
 
 @Composable
 @ExperimentalPagerApi
 fun BottomBar(
     tabItems: List<TabItem>,
-    state: PagerState
+    pagerState: PagerState
 ) {
     val scope = rememberCoroutineScope()
     BottomNavigation(
@@ -74,29 +83,34 @@ fun BottomBar(
                 label = { Text(text = stringResource(id = tabItem.labelResourceId)) },
                 icon = { Icon(imageVector = tabItem.icon, contentDescription = null) },
                 selectedContentColor = Color.White,
-                selected = index == state.currentPage,
-                onClick = { scope.launch { state.scrollToPage(index, 0f) } }
+                selected = index == pagerState.currentPage,
+                onClick = { scope.launch { pagerState.scrollToPage(index, 0f) } }
             )
         }
     }
 }
 
+/**
+ * メイン画面のコンテンツ本体
+ */
 @Composable
 @ExperimentalPagerApi
 fun MainContent(
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
     tabItems: List<TabItem>,
     initPage: Int = 0
 ) {
-    val state = rememberPagerState(initPage)
+    val pagerState = rememberPagerState(initPage)
     Scaffold(
         backgroundColor = AppColors.RoseBrown,
         topBar = { TopBar() },
-        bottomBar = { BottomBar(tabItems = tabItems, state = state) },
+        bottomBar = { BottomBar(tabItems = tabItems, pagerState = pagerState) },
+        scaffoldState = scaffoldState,
         modifier = Modifier.systemBarsPadding()
     ) {
         HorizontalPager(
             count = tabItems.size,
-            state = state,
+            state = pagerState,
             userScrollEnabled = false,
             modifier = Modifier.padding(it),
         ) { index ->
