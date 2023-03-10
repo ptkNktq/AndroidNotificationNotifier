@@ -55,7 +55,9 @@ fun MainScreen(
         TabItem(R.string.targets, Icons.Outlined.NotificationsActive) {
             TargetScreen(navController)
         },
-        TabItem(R.string.apps, Icons.Rounded.List) { SelectionScreen() },
+        TabItem(R.string.apps, Icons.Rounded.List) {
+            SelectionScreen(scaffoldState = scaffoldState)
+        },
         TabItem(R.string.settings, Icons.Outlined.Settings) {
             SettingScreen(
                 navController = navController,

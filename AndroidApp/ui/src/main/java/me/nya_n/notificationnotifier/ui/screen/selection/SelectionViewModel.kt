@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.ui.screen.selection
 
 import android.content.Context
-import androidx.lifecycle.LiveData
+import android.content.pm.PackageManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,35 +15,48 @@ import me.nya_n.notificationnotifier.domain.usecase.LoadAppUseCase
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
-import me.nya_n.notificationnotifier.ui.util.Event
 
 class SelectionViewModel(
     context: Context,
     private val loadAppUseCase: LoadAppUseCase,
     private val addTargetAppUseCase: AddTargetAppUseCase
 ) : ViewModel() {
+    private val pm: PackageManager = context.packageManager
+
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val _message = MutableLiveData<Event<Message>>()
-    val message: LiveData<Event<Message>> = _message
-    private val _targetAdded = MutableLiveData<Event<InstalledApp>>()
-    val targetAdded: LiveData<Event<InstalledApp>> = _targetAdded
-    val query = MutableLiveData("")
+    val query = MutableLiveData("") // TODO: 気が向いたら検索対応
 
     init {
+        loadAppList()
+    }
+
+    /**
+     * アプリ一覧の読み込み
+     */
+    fun loadAppList() {
         viewModelScope.launch {
-            loadAppUseCase(context.packageManager).onSuccess { res ->
+            loadAppUseCase(pm).onSuccess { res ->
                 _uiState.update { it.copy(items = res.installs) }
             }
         }
     }
 
+    /**
+     * 通知送信対象に追加
+     */
     fun addTarget(target: InstalledApp) {
         viewModelScope.launch {
             addTargetAppUseCase(target)
-            _message.postValue(Event(Message.Notice(R.string.added)))
-            _targetAdded.postValue(Event(target))
+            _uiState.update { it.copy(message = Message.Notice(R.string.added)) }
         }
+    }
+
+    /**
+     * メッセージを表示した
+     */
+    fun messageShown() {
+        _uiState.update { it.copy(message = null) }
     }
 }

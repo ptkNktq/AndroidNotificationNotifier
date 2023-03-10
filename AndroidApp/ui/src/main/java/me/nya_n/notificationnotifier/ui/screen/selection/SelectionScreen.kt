@@ -4,9 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.*
@@ -20,6 +18,7 @@ import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.EmptyView
+import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppColors
 import org.koin.androidx.compose.getViewModel
 
@@ -54,7 +53,10 @@ fun SelectionPreview() {
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
     )
-    SelectionContent(items = items)
+    SelectionContent(
+        items = items,
+        onAppSelected = { }
+    )
 }
 
 /**
@@ -65,15 +67,26 @@ fun SelectionPreview() {
  */
 @Composable
 fun SelectionScreen(
-    viewModel: SelectionViewModel = getViewModel()
+    viewModel: SelectionViewModel = getViewModel(),
+    scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    SelectionContent(items = uiState.items)
+    SnackbarMessage(
+        scaffoldState = scaffoldState,
+        message = uiState.message
+    ) {
+        viewModel.messageShown()
+    }
+    SelectionContent(items = uiState.items) {
+        viewModel.addTarget(it)
+        viewModel.loadAppList()
+    }
 }
 
 @Composable
 fun SelectionContent(
-    items: List<InstalledApp>
+    items: List<InstalledApp>,
+    onAppSelected: (InstalledApp) -> Unit
 ) {
     if (items.isEmpty()) {
         // アプリリストが空
@@ -100,9 +113,7 @@ fun SelectionContent(
                     .fillMaxWidth()
                     .padding(start = 20.dp, top = 20.dp, end = 20.dp)
             )
-            AppList(items = items) {
-                // TODO: アプリを選択されたときの処理 (ターゲットリストに追加)
-            }
+            AppList(items = items, onAppSelected = onAppSelected)
         }
     }
 }

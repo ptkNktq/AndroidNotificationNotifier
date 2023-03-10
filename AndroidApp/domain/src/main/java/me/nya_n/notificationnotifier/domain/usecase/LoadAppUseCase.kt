@@ -18,7 +18,7 @@ class LoadAppUseCase(
         val targets = loadTargetList()
         return Result.success(
             Outputs(
-                apps,
+                apps.filterNot { targets.contains(it) }, // ターゲットに追加されたアプリは排除
                 targets.filter { apps.contains(it) } // アンインストールされたアプリは排除
             )
         )
