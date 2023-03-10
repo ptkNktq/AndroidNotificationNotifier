@@ -59,7 +59,10 @@ fun MainScreen(
             )
         },
         TabItem(R.string.apps, Icons.Rounded.List) {
-            SelectionScreen(scaffoldState = scaffoldState)
+            SelectionScreen(
+                navController = navController,
+                scaffoldState = scaffoldState
+            )
         },
         TabItem(R.string.settings, Icons.Outlined.Settings) {
             SettingScreen(

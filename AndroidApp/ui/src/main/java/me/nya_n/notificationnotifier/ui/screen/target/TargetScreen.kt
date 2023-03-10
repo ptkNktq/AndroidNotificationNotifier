@@ -43,8 +43,14 @@ fun TargetScreen(
     navController.currentBackStackEntry?.run {
         // 画面遷移の結果
         if (savedStateHandle.contains("deletedApp")) {
-            savedStateHandle.remove<Message?>("deletedApp")
+            savedStateHandle.remove<InstalledApp>("deletedApp")
+            // 通知対象アプリの削除
             viewModel.messageReceived(Message.Notice(R.string.deleted))
+            viewModel.loadTargets()
+        }
+        if (savedStateHandle.contains("addedApp")) {
+            savedStateHandle.remove<InstalledApp>("addedApp")
+            // 通知対象アプリの追加
             viewModel.loadTargets()
         }
     }
