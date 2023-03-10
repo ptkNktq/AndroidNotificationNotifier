@@ -53,7 +53,10 @@ fun MainScreen(
 ) {
     val tabItems = listOf(
         TabItem(R.string.targets, Icons.Outlined.NotificationsActive) {
-            TargetScreen(navController)
+            TargetScreen(
+                navController = navController,
+                scaffoldState = scaffoldState
+            )
         },
         TabItem(R.string.apps, Icons.Rounded.List) {
             SelectionScreen(scaffoldState = scaffoldState)

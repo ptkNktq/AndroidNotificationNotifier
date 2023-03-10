@@ -11,8 +11,6 @@ import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.model.InstalledApp
-import me.nya_n.notificationnotifier.model.Message
-import me.nya_n.notificationnotifier.ui.R
 
 class DetailViewModel(
     private val loadFilterConditionUseCase: LoadFilterConditionUseCase,
@@ -38,7 +36,6 @@ class DetailViewModel(
     fun deleteTarget() {
         viewModelScope.launch {
             deleteTargetAppUseCase(target)
-            _uiState.update { it.copy(message = Message.Notice(R.string.deleted)) }
         }
     }
 

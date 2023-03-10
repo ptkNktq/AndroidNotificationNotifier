@@ -1,14 +1,18 @@
 package me.nya_n.notificationnotifier.ui.screen.target
 
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import me.nya_n.notificationnotifier.model.InstalledApp
+import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.EmptyView
+import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.screen.Screen
 import org.koin.androidx.compose.getViewModel
 
@@ -32,9 +36,24 @@ fun TargetPreview() {
 @Composable
 fun TargetScreen(
     navController: NavController,
-    viewModel: TargetViewModel = getViewModel()
+    viewModel: TargetViewModel = getViewModel(),
+    scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    navController.currentBackStackEntry?.run {
+        // 画面遷移の結果
+        if (savedStateHandle.contains("deletedApp")) {
+            savedStateHandle.remove<Message?>("deletedApp")
+            viewModel.messageReceived(Message.Notice(R.string.deleted))
+            viewModel.loadTargets()
+        }
+    }
+    SnackbarMessage(
+        scaffoldState = scaffoldState,
+        message = uiState.message
+    ) {
+        viewModel.messageShown()
+    }
     TargetContent(items = uiState.items) {
         navController.navigate(Screen.Detail.createRouteWithParams(listOf(it)))
     }

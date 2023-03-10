@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.*
@@ -52,9 +53,10 @@ fun LongAppNameDetailPreview() {
  */
 @Composable
 fun DetailScreen(
+    navController: NavController,
     app: InstalledApp,
     viewModel: DetailViewModel = getViewModel { parametersOf(app) },
-    scaffoldState: ScaffoldState = rememberScaffoldState()
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     SnackbarMessage(
@@ -67,7 +69,13 @@ fun DetailScreen(
         scaffoldState = scaffoldState,
         app = app,
         condition = uiState.condition,
-        onDeleteApp = { viewModel.deleteTarget() },
+        onDeleteApp = {
+            viewModel.deleteTarget()
+            navController.previousBackStackEntry?.apply {
+                savedStateHandle["deletedApp"] = app
+            }
+            navController.popBackStack()
+        },
         onConditionChanged = { viewModel.save(it) }
     )
 }

@@ -28,7 +28,10 @@ fun AppScreen() {
                     it.arguments?.getString("app"),
                     InstalledApp::class.java
                 )
-                DetailScreen(app)
+                DetailScreen(
+                    navController = navController,
+                    app = app
+                )
             }
         }
     }
