@@ -10,10 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.ReceiptLong
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -24,8 +22,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
+import me.nya_n.notificationnotifier.ui.common.AppOutlinedButton
+import me.nya_n.notificationnotifier.ui.common.Category
+import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppColors
 import org.koin.androidx.compose.getViewModel
 
@@ -53,7 +53,7 @@ fun SettingScreen(
     val uiState by viewModel.uiState.collectAsState()
     SnackbarMessage(
         scaffoldState = scaffoldState,
-        uiState = uiState
+        message = uiState.message
     ) {
         viewModel.messageShown()
     }
@@ -121,18 +121,10 @@ fun NotifySetting(
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     )
-    OutlinedButton(
-        onClick = onNotifyTest,
-        colors = ButtonDefaults.outlinedButtonColors(
-            backgroundColor = AppColors.RoseBrown
-        ),
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        Text(
-            text = stringResource(id = R.string.notify_test),
-            style = TextStyle(color = AppColors.BasicBlack)
-        )
-    }
+    AppOutlinedButton(
+        R.string.notify_test,
+        onClick = onNotifyTest
+    )
 }
 
 /**
@@ -147,38 +139,6 @@ fun OtherSetting(
     Category(titleResourceId = R.string.settings_others)
     ClickableBasicItem(icon = Icons.Outlined.ReceiptLong, textResourceId = R.string.license) {
         navController.navigate("license")
-    }
-}
-
-/**
- * 設定のカテゴリ
- */
-@Composable
-fun Category(@StringRes titleResourceId: Int) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp)
-    ) {
-        Box(
-            modifier = Modifier.size(24.dp, 24.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Divider(color = AppColors.BasicBlack)
-        }
-        Text(
-            text = stringResource(id = titleResourceId),
-            modifier = Modifier.padding(horizontal = 8.dp),
-            style = TextStyle(color = AppColors.BasicBlack)
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(24.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Divider(color = AppColors.BasicBlack)
-        }
     }
 }
 
@@ -210,34 +170,5 @@ fun ClickableBasicItem(
             modifier = Modifier.padding(start = 8.dp)
         )
         Spacer(modifier = Modifier.fillMaxWidth())
-    }
-}
-
-/**
- * Snackbarでメッセージを表示
- */
-@Composable
-fun SnackbarMessage(
-    scaffoldState: ScaffoldState,
-    uiState: UiState,
-    onMessageDone: () -> Unit
-) {
-    uiState.message?.let {
-        // TODO: Snackbarの色変更に対応
-        val (message, color) = when (it) {
-            is Message.Error -> {
-                Pair(stringResource(id = it.message), AppColors.BasicBlack)
-            }
-            is Message.Notice -> {
-                Pair(stringResource(id = it.message, formatArgs = it.args), AppColors.BasicBlack)
-            }
-        }
-        LaunchedEffect(scaffoldState.snackbarHostState) {
-            scaffoldState.snackbarHostState.showSnackbar(
-                message = message,
-                actionLabel = "[OK]" // FIXME: ここの文字、i18nどうする？
-            )
-            onMessageDone()
-        }
     }
 }

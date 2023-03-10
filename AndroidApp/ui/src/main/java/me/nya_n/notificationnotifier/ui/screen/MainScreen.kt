@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
@@ -24,8 +23,8 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.ui.R
+import me.nya_n.notificationnotifier.ui.common.AppScaffold
 import me.nya_n.notificationnotifier.ui.common.EmptyView
-import me.nya_n.notificationnotifier.ui.common.TopBar
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionScreen
 import me.nya_n.notificationnotifier.ui.screen.setting.SettingScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
@@ -53,7 +52,9 @@ fun MainScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
     val tabItems = listOf(
-        TabItem(R.string.targets, Icons.Outlined.NotificationsActive) { TargetScreen() },
+        TabItem(R.string.targets, Icons.Outlined.NotificationsActive) {
+            TargetScreen(navController)
+        },
         TabItem(R.string.apps, Icons.Rounded.List) { SelectionScreen() },
         TabItem(R.string.settings, Icons.Outlined.Settings) {
             SettingScreen(
@@ -101,12 +102,9 @@ fun MainContent(
     initPage: Int = 0
 ) {
     val pagerState = rememberPagerState(initPage)
-    Scaffold(
-        backgroundColor = AppColors.RoseBrown,
-        topBar = { TopBar() },
+    AppScaffold(
         bottomBar = { BottomBar(tabItems = tabItems, pagerState = pagerState) },
         scaffoldState = scaffoldState,
-        modifier = Modifier.systemBarsPadding()
     ) {
         HorizontalPager(
             count = tabItems.size,

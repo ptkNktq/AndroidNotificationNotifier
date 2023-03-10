@@ -51,7 +51,7 @@ class App : Application() {
         viewModel { MainViewModel() }
         viewModel { TopViewModel(get(), get(), get(), get(), get()) }
         viewModel { SelectionViewModel(get(), get(), get()) }
-        viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
+        viewModel { params -> DetailViewModel(get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get(), get()) }
         viewModel { SettingViewModel(get(), get(), get()) }
 
