@@ -4,14 +4,20 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -21,19 +27,17 @@ import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppColors
+import me.nya_n.notificationnotifier.ui.util.Sample
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 fun SelectionPreview() {
-    val items = listOf(
-        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
-        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
-        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
-    )
     SelectionContent(
-        items = items,
-        onAppSelected = { }
+        items = Sample.items,
+        onAppSelected = { },
+        initQuery = "",
+        onQueryInputted = { }
     )
 }
 
@@ -64,41 +68,65 @@ fun SelectionScreen(
             navController.currentBackStackEntry?.apply {
                 savedStateHandle["addedApp"] = it
             }
-        }
+        },
+        initQuery = uiState.query,
+        onQueryInputted = { viewModel.searchApp(it) }
     )
 }
 
 @Composable
 fun SelectionContent(
     items: List<InstalledApp>,
-    onAppSelected: (InstalledApp) -> Unit
+    onAppSelected: (InstalledApp) -> Unit,
+    initQuery: String,
+    onQueryInputted: (String) -> Unit
 ) {
-    if (items.isEmpty()) {
-        // アプリリストが空
-        EmptyView(textResourceId = R.string.no_apps)
-    } else {
-        Column {
-            var text by remember { mutableStateOf("") }
-            OutlinedTextField(
-                value = text,
-                placeholder = { Text(text = stringResource(id = R.string.search_by_app_name)) },
-                onValueChange = { text = it },
-                singleLine = true,
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White
-                ),
-                leadingIcon = {
-                    Image(
-                        imageVector = Icons.Outlined.Search,
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(AppColors.RoseBrown)
-                    )
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, top = 20.dp, end = 20.dp)
-            )
+    Column {
+        QueryTextField(initQuery = initQuery, onQueryInputted = onQueryInputted)
+        if (items.isEmpty()) {
+            // アプリリストが空
+            EmptyView(textResourceId = R.string.no_apps)
+        } else {
             AppList(items = items, onAppSelected = onAppSelected)
         }
     }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun QueryTextField(
+    initQuery: String,
+    onQueryInputted: (String) -> Unit
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    var query by remember { mutableStateOf(initQuery) }
+    OutlinedTextField(
+        value = query,
+        placeholder = { Text(text = stringResource(id = R.string.search_by_app_name)) },
+        onValueChange = { query = it },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                // IMEを閉じてフォーカスを消してから検索
+                keyboardController?.hide()
+                focusManager.clearFocus()
+                onQueryInputted(query)
+            }
+        ),
+        singleLine = true,
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.White
+        ),
+        leadingIcon = {
+            Image(
+                imageVector = Icons.Outlined.Search,
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(AppColors.RoseBrown)
+            )
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 20.dp, top = 20.dp, end = 20.dp)
+    )
 }

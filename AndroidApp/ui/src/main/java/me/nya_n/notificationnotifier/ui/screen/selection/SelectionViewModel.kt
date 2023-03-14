@@ -2,7 +2,6 @@ package me.nya_n.notificationnotifier.ui.screen.selection
 
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,8 +25,6 @@ class SelectionViewModel(
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    val query = MutableLiveData("") // TODO: 気が向いたら検索対応
-
     init {
         loadAppList()
     }
@@ -50,6 +47,26 @@ class SelectionViewModel(
         viewModelScope.launch {
             addTargetAppUseCase(target)
             _uiState.update { it.copy(message = Message.Notice(R.string.added)) }
+        }
+    }
+
+    /**
+     * 条件に従ってアプリ検索
+     * @param query 検索条件
+     */
+    fun searchApp(query: String) {
+        viewModelScope.launch {
+            loadAppUseCase(pm).onSuccess { res ->
+                // ラベルもしくはパッケージとの部分一致のみ
+                val items = res.installs
+                    .filter { app -> app.label.contains(query) || app.packageName.contains(query) }
+                _uiState.update {
+                    it.copy(
+                        items = items,
+                        query = query
+                    )
+                }
+            }
         }
     }
 

@@ -21,7 +21,6 @@ import me.nya_n.notificationnotifier.ui.theme.AppColors
 fun AppListPreview() {
     val items = listOf(
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
-        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
         InstalledApp(
             "Sample App Name So Looooooooooooooooong",
             "me.nya_n.notificationnotifier"

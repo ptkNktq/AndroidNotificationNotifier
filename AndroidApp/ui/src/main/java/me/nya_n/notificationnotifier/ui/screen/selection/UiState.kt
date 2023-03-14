@@ -8,5 +8,14 @@ data class UiState(
      * インストール済みアプリ一覧
      */
     val items: List<InstalledApp> = emptyList(),
+
+    /**
+     * アプリフィルタに使うクエリ
+     */
+    val query: String = "",
+
+    /**
+     * ユーザーに表示するメッセージ
+     */
     val message: Message? = null
 )
