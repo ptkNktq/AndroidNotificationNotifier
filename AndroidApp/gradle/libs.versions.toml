@@ -75,4 +75,11 @@ io-insert-koin-compose = { module = "io.insert-koin:koin-androidx-compose", vers
 com-google-code-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson" }
 com-squareup-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "com-squareup-leakcanary" }
 
+[bundles]
+androidx-compose = [
+    "androidx-compose-material", "androidx-compose-material-icons", "androidx-compose-ui-preview",
+    "androidx-compose-activity", "androidx-compose-viewmodel", "androidx-compose-accompanist-pager",
+    "androidx-compose-accompanist-uicontroller", "androidx-compose-navigation",
+]
+
 [plugins]
