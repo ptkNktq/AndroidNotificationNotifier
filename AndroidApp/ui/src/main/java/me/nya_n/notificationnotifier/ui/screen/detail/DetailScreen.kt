@@ -2,17 +2,21 @@ package me.nya_n.notificationnotifier.ui.screen.detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -145,16 +149,29 @@ fun AppInfo(
  * 通知設定
  *  - 条件
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NotificationSetting(
-    condition: String,
+    initCondition: String,
     onConditionChanged: (String) -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    var condition by remember(initCondition) { mutableStateOf(initCondition) }
     Category(titleResourceId = R.string.notification_settings)
     OutlinedTextField(
         value = condition,
         placeholder = { Text(text = stringResource(id = R.string.condition_hint)) },
-        onValueChange = onConditionChanged,
+        onValueChange = { condition = it },
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                // IMEを閉じてフォーカスを消してから保存
+                keyboardController?.hide()
+                focusManager.clearFocus()
+                onConditionChanged(condition)
+            }
+        ),
         singleLine = true,
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.White
