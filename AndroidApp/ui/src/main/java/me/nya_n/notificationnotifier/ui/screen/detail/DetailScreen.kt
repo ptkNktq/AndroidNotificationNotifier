@@ -173,8 +173,10 @@ fun NotificationSetting(
             }
         ),
         singleLine = true,
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color.White,
+            focusedBorderColor = AppColors.Brown,
+            cursorColor = AppColors.Brown
         ),
         leadingIcon = {
             Image(
