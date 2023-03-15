@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -102,10 +104,15 @@ fun NotifySetting(
     onNotifyTest: () -> Unit
 ) {
     Category(titleResourceId = R.string.settings_general)
+    /* FIXME: TODO:
+     *  英数記号のみに入力制限したいが適切なものがなかったのでKeyboardType.Emailで妥協
+     *  とりあえず最初に表示されるIMEが英数になる
+     */
     OutlinedTextField(
         value = uiState.address,
         placeholder = { Text(text = stringResource(id = R.string.address)) },
         onValueChange = onValueChange,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         singleLine = true,
         colors = TextFieldDefaults.outlinedTextFieldColors(
             backgroundColor = Color.White,
