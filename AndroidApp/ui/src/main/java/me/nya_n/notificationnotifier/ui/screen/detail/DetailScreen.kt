@@ -159,6 +159,11 @@ fun NotificationSetting(
     val focusManager = LocalFocusManager.current
     var condition by remember(initCondition) { mutableStateOf(initCondition) }
     Category(titleResourceId = R.string.notification_settings)
+    /*
+     * FIXME: TODO:
+     *  テキスト未確定状態で、IMEの◀,▶でカーソルを移動させたとき、カーソルの移動がおかしくなる
+     *  TextFieldValueも試したが改善されず
+     */
     OutlinedTextField(
         value = condition,
         placeholder = { Text(text = stringResource(id = R.string.condition_hint)) },
