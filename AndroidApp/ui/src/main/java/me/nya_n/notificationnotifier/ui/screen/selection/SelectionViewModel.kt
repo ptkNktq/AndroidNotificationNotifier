@@ -35,7 +35,10 @@ class SelectionViewModel(
     fun loadAppList() {
         viewModelScope.launch {
             loadAppUseCase(pm).onSuccess { res ->
-                _uiState.update { it.copy(items = res.installs) }
+                val query = uiState.value.query
+                val items = res.installs
+                    .filter { app -> app.label.contains(query) || app.packageName.contains(query) }
+                _uiState.update { it.copy(items = items) }
             }
         }
     }
@@ -55,19 +58,8 @@ class SelectionViewModel(
      * @param query 検索条件
      */
     fun searchApp(query: String) {
-        viewModelScope.launch {
-            loadAppUseCase(pm).onSuccess { res ->
-                // ラベルもしくはパッケージとの部分一致のみ
-                val items = res.installs
-                    .filter { app -> app.label.contains(query) || app.packageName.contains(query) }
-                _uiState.update {
-                    it.copy(
-                        items = items,
-                        query = query
-                    )
-                }
-            }
-        }
+        _uiState.update { it.copy(query = query) }
+        loadAppList()
     }
 
     /**
