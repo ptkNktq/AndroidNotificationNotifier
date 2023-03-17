@@ -126,7 +126,8 @@ fun AppInfo(
         Row {
             GrayScaleAppIcon(
                 app = app,
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier.size(80.dp),
+                isInListView = false
             )
             Box(
                 modifier = Modifier

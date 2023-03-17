@@ -31,6 +31,12 @@ android {
     kotlinOptions {
         jvmTarget = Versions.JVM_TARGET
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION_VERSION
+    }
 }
 
 dependencies {
@@ -41,6 +47,9 @@ dependencies {
     // room
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
+    // compose for @Stable annotation
+    implementation(platform(libs.androidx.compose.bom))
+    api(libs.androidx.compose.runtime)
 
     // その他
     api(libs.com.google.code.gson)

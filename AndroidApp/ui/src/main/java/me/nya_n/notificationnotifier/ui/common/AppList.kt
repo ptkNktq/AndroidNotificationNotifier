@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
@@ -38,9 +37,11 @@ fun AppList(
     onAppSelected: (InstalledApp) -> Unit
 ) {
     LazyColumn {
-        items(items) {
-            AppListItem(it, onAppSelected)
-        }
+        items(
+            count = items.size,
+            key = { "($it)${items[it]}" },
+            itemContent = { AppListItem(app = items[it], onAppSelected = onAppSelected) }
+        )
     }
 }
 
@@ -64,7 +65,8 @@ fun AppListItem(
         ) {
             GrayScaleAppIcon(
                 app = app,
-                modifier = Modifier.size(56.dp)
+                modifier = Modifier.size(56.dp),
+                isInListView = true
             )
             Box(
                 modifier = Modifier

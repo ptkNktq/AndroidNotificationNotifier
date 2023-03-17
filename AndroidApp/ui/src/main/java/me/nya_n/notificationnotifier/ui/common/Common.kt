@@ -115,7 +115,8 @@ fun AppOutlinedButton(
 @Composable
 fun GrayScaleAppIcon(
     app: InstalledApp,
-    modifier: Modifier
+    modifier: Modifier,
+    isInListView: Boolean
 ) {
     if (isInPreview()) {
         Image(
@@ -124,7 +125,11 @@ fun GrayScaleAppIcon(
             modifier = modifier
         )
     } else {
-        val icon = AppIcon.get(app.packageName, LocalContext.current.packageManager)
+        val icon = AppIcon.get(
+            app.packageName,
+            LocalContext.current.packageManager,
+            isInListView
+        )
         Image(
             bitmap = icon.asImageBitmap(),
             contentDescription = null,
