@@ -1,6 +1,10 @@
 package me.nya_n.notificationnotifier.ui.screen.setting
 
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,9 +13,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Devices
-import androidx.compose.material.icons.outlined.ReceiptLong
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -19,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -29,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import me.nya_n.notificationnotifier.model.Backup
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppOutlinedButton
 import me.nya_n.notificationnotifier.ui.common.Category
@@ -42,7 +48,9 @@ fun SettingPreview() {
     SettingContent(
         uiState = UiState(address = "192.168.11.2:5555"),
         onValueChange = { },
-        onNotifyTest = { }
+        onNotifyTest = { },
+        onExportData = { },
+        onImportData = { }
     )
 }
 
@@ -57,7 +65,47 @@ fun SettingScreen(
     viewModel: SettingViewModel = getViewModel(),
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+    val uiEvents by viewModel.uiEvent.collectAsState()
+    val exportLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode != AppCompatActivity.RESULT_OK) return@rememberLauncherForActivityResult
+        viewModel.exportData(context, it.data?.data)
+    }
+    val importLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode != AppCompatActivity.RESULT_OK) return@rememberLauncherForActivityResult
+        viewModel.importData(context, it.data?.data)
+    }
+    uiEvents.firstOrNull()?.let {
+        when (it) {
+            is UiEvent.ExportData -> {
+                LaunchedEffect(Unit) {
+                    exportLauncher.launch(
+                        Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            type = "application/json"
+                            putExtra(Intent.EXTRA_TITLE, Backup.FILE_NAME)
+                        }
+                    )
+                }
+            }
+            is UiEvent.ImportData -> {
+                LaunchedEffect(Unit) {
+                    importLauncher.launch(
+                        Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            type = "application/json"
+                        }
+                    )
+                }
+            }
+        }
+        viewModel.consumeEvent(it)
+    }
     SnackbarMessage(
         scaffoldState = scaffoldState,
         message = uiState.message
@@ -68,7 +116,9 @@ fun SettingScreen(
         navController = navController,
         uiState = uiState,
         onValueChange = { viewModel.updateAddress(it) },
-        onNotifyTest = { viewModel.notifyTest() }
+        onNotifyTest = { viewModel.notifyTest() },
+        onExportData = { viewModel.event(UiEvent.ExportData()) },
+        onImportData = { viewModel.event(UiEvent.ImportData()) }
     )
 }
 
@@ -81,6 +131,8 @@ fun SettingContent(
     uiState: UiState,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit,
+    onExportData: () -> Unit,
+    onImportData: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -93,7 +145,11 @@ fun SettingContent(
             onValueChange = onValueChange,
             onNotifyTest = onNotifyTest
         )
-        OtherSetting(navController)
+        OtherSetting(
+            navController = navController,
+            onExportData = onExportData,
+            onImportData = onImportData
+        )
     }
 }
 
@@ -160,9 +216,17 @@ fun NotifySetting(
  */
 @Composable
 fun OtherSetting(
-    navController: NavController
+    navController: NavController,
+    onExportData: () -> Unit,
+    onImportData: () -> Unit
 ) {
     Category(titleResourceId = R.string.settings_others)
+    ClickableBasicItem(icon = Icons.Outlined.CloudUpload, textResourceId = R.string.export_data) {
+        onExportData()
+    }
+    ClickableBasicItem(icon = Icons.Outlined.CloudDownload, textResourceId = R.string.import_data) {
+        onImportData()
+    }
     ClickableBasicItem(icon = Icons.Outlined.ReceiptLong, textResourceId = R.string.license) {
         navController.navigate("license")
     }

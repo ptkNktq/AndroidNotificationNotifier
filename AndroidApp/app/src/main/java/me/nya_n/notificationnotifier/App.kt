@@ -53,7 +53,7 @@ class App : Application() {
         viewModel { SelectionViewModel(get(), get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get(), get()) }
-        viewModel { SettingViewModel(get(), get(), get()) }
+        viewModel { SettingViewModel(get(), get(), get(), get(), get()) }
 
         // UseCase
         factory { AddTargetAppUseCase(get()) }
