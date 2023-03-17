@@ -1,5 +1,7 @@
 package me.nya_n.notificationnotifier.ui.screen
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,11 +11,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.List
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -39,7 +41,10 @@ fun MainPreview() {
         TabItem(R.string.apps, Icons.Rounded.List),
         TabItem(R.string.settings, Icons.Outlined.Settings),
     )
-    MainContent(tabItems = tabItems, initPage = 2)
+    MainContent(
+        tabItems = tabItems,
+        pagerState = PagerState(0)
+    )
 }
 
 /**
@@ -51,6 +56,9 @@ fun MainScreen(
     navController: NavController,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
+    val activity = LocalContext.current as? Activity
+    val scope = rememberCoroutineScope()
+    val pagerState = rememberPagerState()
     val tabItems = listOf(
         TabItem(R.string.targets, Icons.Outlined.NotificationsActive) {
             TargetScreen(
@@ -71,9 +79,22 @@ fun MainScreen(
             )
         },
     )
+    /* TODO:
+     *  サンプルはvarにしてるけどその必要ある？
+     *  https://developer.android.com/jetpack/compose/libraries?hl=ja#handling_the_system_back_button
+     */
+    var backHandlingEnabled by remember { mutableStateOf(true) }
+    BackHandler(backHandlingEnabled) {
+        if (pagerState.currentPage == 0) {
+            activity?.finish()
+        } else {
+            scope.launch { pagerState.scrollToPage(0, 0f) }
+        }
+    }
     MainContent(
         scaffoldState = scaffoldState,
-        tabItems = tabItems
+        tabItems = tabItems,
+        pagerState = pagerState
     )
 }
 
@@ -107,9 +128,8 @@ fun BottomBar(
 fun MainContent(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     tabItems: List<TabItem>,
-    initPage: Int = 0
+    pagerState: PagerState,
 ) {
-    val pagerState = rememberPagerState(initPage)
     AppScaffold(
         bottomBar = { BottomBar(tabItems = tabItems, pagerState = pagerState) },
         scaffoldState = scaffoldState,
