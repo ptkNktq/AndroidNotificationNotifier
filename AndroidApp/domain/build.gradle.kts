@@ -41,6 +41,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.security.crypto)
+    // compose for @Stable annotation
+    api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.compose.runtime)
 
     // test
     implementation(libs.junit)
