@@ -20,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
@@ -49,11 +48,13 @@ fun SelectionPreview() {
  */
 @Composable
 fun SelectionScreen(
-    navController: NavController,
     viewModel: SelectionViewModel = getViewModel(),
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.loadAppList()
+    }
     SnackbarMessage(
         scaffoldState = scaffoldState,
         message = uiState.message
@@ -65,9 +66,6 @@ fun SelectionScreen(
         onAppSelected = {
             viewModel.addTarget(it)
             viewModel.loadAppList()
-            navController.currentBackStackEntry?.apply {
-                savedStateHandle["addedApp"] = it
-            }
         },
         initQuery = uiState.query,
         onQueryInputted = { viewModel.searchApp(it) }

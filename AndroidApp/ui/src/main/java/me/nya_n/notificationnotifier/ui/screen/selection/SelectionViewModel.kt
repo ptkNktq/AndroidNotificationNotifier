@@ -25,10 +25,6 @@ class SelectionViewModel(
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    init {
-        loadAppList()
-    }
-
     /**
      * アプリ一覧の読み込み
      */
