@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"> <!-- TODO: 気が向いたら不足してる翻訳追加 -->
+    <string name="content_title">通知配達ドロイド君</string>
     <string name="ok">[許可]</string>
     <string name="ng">断る</string>
     <string name="notify_test_succeeded">通知を送信しました。</string>
