@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="permission_denied">権限がありません。</string>
-    <string name="validation_error_addr">入力形式エラー: hostname:port の形式で入力してください。</string>
-</resources>

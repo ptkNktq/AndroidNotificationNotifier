@@ -2,10 +2,25 @@ package me.nya_n.notificationnotifier.ui.common
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Divider
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -20,6 +35,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.model.Message
+import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppColors
 import me.nya_n.notificationnotifier.ui.util.AppIcon
 import me.nya_n.notificationnotifier.ui.util.isInPreview
@@ -43,7 +59,7 @@ fun AppScaffold(
 @Composable
 fun TopBar() {
     TopAppBar(
-        title = { Text(text = "NotificationNotifier", color = Color.White) },
+        title = { Text(text = stringResource(id = R.string.content_title), color = Color.White) },
         backgroundColor = AppColors.Brown
     )
 }
