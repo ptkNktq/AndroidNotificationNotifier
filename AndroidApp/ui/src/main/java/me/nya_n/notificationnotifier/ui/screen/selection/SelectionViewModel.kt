@@ -36,7 +36,7 @@ class SelectionViewModel(
         viewModelScope.launch {
             loadAppUseCase(pm).onSuccess { res ->
                 val query = uiState.value.query
-                val items = res.installs
+                val items = res.notTargets
                     .filter { app -> app.label.contains(query) || app.packageName.contains(query) }
                 _uiState.update { it.copy(items = items) }
             }

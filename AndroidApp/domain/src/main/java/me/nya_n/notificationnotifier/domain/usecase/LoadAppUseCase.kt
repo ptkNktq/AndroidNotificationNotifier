@@ -16,12 +16,7 @@ class LoadAppUseCase(
             return Result.failure(it)
         }
         val targets = loadTargetList()
-        return Result.success(
-            Outputs(
-                apps.filterNot { targets.contains(it) }, // ターゲットに追加されたアプリは排除
-                targets.filter { apps.contains(it) } // アンインストールされたアプリは排除
-            )
-        )
+        return Result.success(Outputs.create(apps, targets))
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -40,7 +35,24 @@ class LoadAppUseCase(
     }
 
     data class Outputs(
-        val installs: List<InstalledApp>,
+        val notTargets: List<InstalledApp>,
         val targets: List<InstalledApp>,
-    )
+    ) {
+        companion object {
+            fun create(apps: List<InstalledApp>, targets: List<InstalledApp>): Outputs {
+                /*
+                 * アプリのラベルは度々変更されるがパッケージ名はそう簡単には変更されないので、
+                 * パッケージ名だけで判定する
+                 */
+                val appPackageNames = apps.map { it.packageName }
+                val targetPackageNames = targets.map { it.packageName }
+                return Outputs(
+                    // ターゲットに追加されたアプリは排除
+                    apps.filterNot { targetPackageNames.contains(it.packageName) },
+                    // アンインストールされたアプリは排除
+                    targets.filter { appPackageNames.contains(it.packageName) }
+                )
+            }
+        }
+    }
 }

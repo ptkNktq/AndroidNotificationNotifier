@@ -19,10 +19,6 @@ class TargetViewModel(
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    init {
-        loadTargets()
-    }
-
     /**
      * 通知対象一覧の取得
      */

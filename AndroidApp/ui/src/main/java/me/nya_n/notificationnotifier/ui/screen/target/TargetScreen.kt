@@ -3,12 +3,12 @@ package me.nya_n.notificationnotifier.ui.screen.target
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import me.nya_n.notificationnotifier.model.InstalledApp
-import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.EmptyView
@@ -40,19 +40,8 @@ fun TargetScreen(
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    navController.currentBackStackEntry?.run {
-        // 画面遷移の結果
-        if (savedStateHandle.contains("deletedApp")) {
-            savedStateHandle.remove<InstalledApp>("deletedApp")
-            // 通知対象アプリの削除
-            viewModel.messageReceived(Message.Notice(R.string.deleted))
-            viewModel.loadTargets()
-        }
-        if (savedStateHandle.contains("addedApp")) {
-            savedStateHandle.remove<InstalledApp>("addedApp")
-            // 通知対象アプリの追加
-            viewModel.loadTargets()
-        }
+    LaunchedEffect(Unit) {
+        viewModel.loadTargets()
     }
     SnackbarMessage(
         scaffoldState = scaffoldState,
