@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="main_fragment_label">メイン</string>
-    <string name="selection_fragment_label">アプリ選択</string>
-    <string name="detail_fragment_label">詳細</string>
-    <string name="license_fragment_label">ライセンス</string>
-
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation"> <!-- TODO: 気が向いたら不足してる翻訳追加 -->
+    <string name="content_title">通知配達ドロイド君</string>
     <string name="ok">[許可]</string>
     <string name="ng">断る</string>
-    <string name="unexpected_error">予期しないエラーが発生しました。</string>
-    <string name="addr_saved">通知送信先を保存しました。</string>
     <string name="notify_test_succeeded">通知を送信しました。</string>
     <string name="notify_test_failed">通知テスト失敗</string>
-    <string name="add">追加</string>
     <string name="added">追加しました。</string>
     <string name="delete">削除</string>
-    <string name="deleted">削除しました。</string>
-    <string name="save">保存</string>
     <string name="notify_test">通知テスト</string>
-    <string name="loading">読み込み中</string>
     <string name="search_by_app_name">アプリ名で検索</string>
     <string name="next">[次へ]</string>
     <string name="require_permission">スマホに送られてきた通知をPCに送信するために、通知へアクセスする必要があります。\n\n次の画面で「通知へのアクセス」を許可してください。</string>
     <string name="require_package_visibility">どのアプリからの通知をPCに転送するか選択するために、インストール済みのアプリ一覧を取得します。\n\n取得したアプリ一覧が外部に送信されることはありません。</string>
     <string name="condition_hint">PCに通知を送信する条件</string>
-    <string name="condition_added">条件を更新しました。</string>
     <string name="condition_notice">\"${タイトル} ${メッセージ}\"に対して正規表現でマッチ判定をします。\nマッチした場合: 通知送信\nマッチしなかった場合: 通知送信なし\n※ 条件なしの場合は全ての通知を送信します。</string>
     <string name="export_data">バックアップ</string>
     <string name="export_succeeded">バックアップ成功</string>
@@ -32,16 +21,14 @@
     <string name="import_succeeded">復元しました。アプリを再起動してください。</string>
     <string name="import_failed">復元失敗</string>
     <string name="license">ライセンス</string>
-
-    <!-- for compose -->
-    <string name="apps">Apps</string>
-    <string name="targets">Targets</string>
-    <string name="settings">Settings</string>
-    <string name="settings_general">General</string>
-    <string name="settings_others">Others</string>
-    <string name="no_apps">No apps.</string>
+    <string name="apps">アプリ</string>
+    <string name="targets">通知対象</string>
+    <string name="settings">設定</string>
+    <string name="settings_general">一般</string>
+    <string name="settings_others">その他</string>
+    <string name="no_apps">アプリがありません。</string>
     <string name="no_contents">No contents…</string>
-    <string name="address">e.g. 192.168.11.2:5555</string>
-    <string name="app_info">App Info</string>
-    <string name="notification_settings">Notification Settings</string>
+    <string name="address">例) 192.168.11.2:5555</string>
+    <string name="app_info">アプリの情報</string>
+    <string name="notification_settings">通知設定</string>
 </resources>
