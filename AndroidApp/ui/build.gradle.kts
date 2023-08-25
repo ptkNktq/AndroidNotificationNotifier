@@ -35,6 +35,10 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION_VERSION
     }
 }
 
@@ -51,8 +55,15 @@ dependencies {
     // nav
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    // compose
+    val composeBom = platform(libs.androidx.compose.bom)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.bundles.androidx.compose)
 
     // その他
     implementation(libs.com.google.android.material)
-    implementation(libs.io.insert.koin.android)
+    implementation(libs.io.insert.koin)
+    implementation(libs.io.insert.koin.compose)
 }

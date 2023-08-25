@@ -9,11 +9,10 @@ import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore
 import me.nya_n.notificationnotifier.domain.usecase.*
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
-import me.nya_n.notificationnotifier.ui.screen.MainViewModel
-import me.nya_n.notificationnotifier.ui.screen.SharedViewModel
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
-import me.nya_n.notificationnotifier.ui.screen.top.TopViewModel
+import me.nya_n.notificationnotifier.ui.screen.setting.SettingViewModel
+import me.nya_n.notificationnotifier.ui.screen.target.TargetViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -47,11 +46,10 @@ class App : Application() {
         single<AppRepository> { AppRepositoryImpl(get(), get()) }
 
         // ViewModel
-        viewModel { MainViewModel() }
-        viewModel { SharedViewModel(get(), get(), get()) }
-        viewModel { TopViewModel(get(), get(), get(), get(), get()) }
-        viewModel { SelectionViewModel(get()) }
-        viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
+        viewModel { SelectionViewModel(get(), get(), get()) }
+        viewModel { params -> DetailViewModel(get(), get(), get(), params.get()) }
+        viewModel { TargetViewModel(get(), get()) }
+        viewModel { SettingViewModel(get(), get(), get(), get(), get()) }
 
         // UseCase
         factory { AddTargetAppUseCase(get()) }
