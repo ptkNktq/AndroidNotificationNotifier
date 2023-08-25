@@ -1,7 +1,7 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -44,7 +44,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     // room
     implementation(libs.androidx.room.runtime)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
     // compose for @Stable annotation
     implementation(platform(libs.androidx.compose.bom))
     api(libs.androidx.compose.runtime)

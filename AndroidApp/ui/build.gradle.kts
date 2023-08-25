@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("com.cookpad.android.plugin.license-tools")
 }
