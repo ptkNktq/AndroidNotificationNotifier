@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    namespace = "me.nya_n.notificationnotifier.domain"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {

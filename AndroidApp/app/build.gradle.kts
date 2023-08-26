@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+    namespace = "me.nya_n.notificationnotifier"
     compileSdk = Versions.COMPILE_SDK
     buildToolsVersion = "30.0.3"
 
