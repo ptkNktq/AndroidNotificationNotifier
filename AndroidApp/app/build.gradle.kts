@@ -42,7 +42,7 @@ android {
         dataBinding = true
     }
 
-    packagingOptions {
+    packaging {
         resources.excludes.add("META-INF/DEPENDENCIES")
     }
 }
