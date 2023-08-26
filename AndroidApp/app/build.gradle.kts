@@ -38,10 +38,6 @@ android {
         jvmTarget = Versions.JVM_TARGET
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
-
     packaging {
         resources.excludes.add("META-INF/DEPENDENCIES")
     }

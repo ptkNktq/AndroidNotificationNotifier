@@ -32,7 +32,6 @@ android {
         jvmTarget = Versions.JVM_TARGET
     }
     buildFeatures {
-        dataBinding = true
         compose = true
     }
     composeOptions {
