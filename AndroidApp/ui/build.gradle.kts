@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("androidx.navigation.safeargs.kotlin")
     id("com.cookpad.android.plugin.license-tools")
 }
 
@@ -49,9 +48,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-    // nav
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
     // compose
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)

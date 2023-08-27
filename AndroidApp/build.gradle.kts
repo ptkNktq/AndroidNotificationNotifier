@@ -8,7 +8,6 @@ buildscript {
     dependencies {
         classpath(libs.com.android.tools.build.gradle)
         classpath(libs.org.jetbrains.kotlin.gradle.plugin)
-        classpath(libs.androidx.navigation.safe.args.gradle.plugin)
         classpath(libs.gradle.plugin.com.cookpad.android.plugin)
 
         // NOTE: Do not place your application dependencies here; they belong
