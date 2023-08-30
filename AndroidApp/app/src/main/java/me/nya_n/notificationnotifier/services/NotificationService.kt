@@ -1,5 +1,6 @@
 package me.nya_n.notificationnotifier.services
 
+import android.os.Bundle
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.text.SpannableString
@@ -27,9 +28,9 @@ class NotificationService : NotificationListenerService() {
 
     private fun notify(sbn: StatusBarNotification) {
         scope.launch {
-            val extra = sbn.notification.extras
-            val title = getTitle(extra.get("android.title")) ?: return@launch
-            val text = extra.getCharSequence("android.text").toString()
+            val extras = sbn.notification.extras
+            val title = getTitle(extras) ?: return@launch
+            val text = extras.getCharSequence("android.text").toString()
 
             val targets = appRepository.getTargetAppList()
             if (!targets.any { t -> t.packageName == sbn.packageName }) {
@@ -51,8 +52,11 @@ class NotificationService : NotificationListenerService() {
         }
     }
 
-    private fun getTitle(title: Any?): String? {
-        return when (title) {
+    @Suppress("DEPRECATION")
+    private fun getTitle(extras: Bundle): String? {
+        // titleはStringとSpannableStringの可能性があったのでBundle#getを使っている
+        // 何かいい方法があったらdeprecateを解消したい
+        return when (val title = extras.get("android.title")) {
             is String -> title
             is SpannableString -> title.toString()
             else -> null
