@@ -1,18 +1,15 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
-    id("androidx.navigation.safeargs.kotlin")
     id("com.cookpad.android.plugin.license-tools")
 }
 
 android {
+    namespace = "me.nya_n.notificationnotifier.ui"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
         minSdk = Versions.MIN_SDK
-        targetSdk = Versions.TARGET_SDK
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -34,7 +31,6 @@ android {
         jvmTarget = Versions.JVM_TARGET
     }
     buildFeatures {
-        dataBinding = true
         compose = true
     }
     composeOptions {
@@ -49,12 +45,7 @@ dependencies {
     // androidx
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-    // nav
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
     // compose
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)

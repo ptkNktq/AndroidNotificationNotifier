@@ -5,7 +5,6 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-enableFeaturePreview("VERSION_CATALOGS")
 
 rootProject.name = "NotificationNotifier"
 include(

@@ -1,16 +1,15 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
+    namespace = "me.nya_n.notificationnotifier.data.repository"
     compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
         minSdk = Versions.MIN_SDK
-        targetSdk = Versions.TARGET_SDK
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -44,5 +43,5 @@ dependencies {
     implementation(libs.androidx.appcompat)
     // room
     api(libs.androidx.room.runtime)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 }

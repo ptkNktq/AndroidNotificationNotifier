@@ -1,11 +1,11 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
     id("com.cookpad.android.plugin.license-tools")
 }
 
 android {
+    namespace = "me.nya_n.notificationnotifier"
     compileSdk = Versions.COMPILE_SDK
     buildToolsVersion = "30.0.3"
 
@@ -38,11 +38,7 @@ android {
         jvmTarget = Versions.JVM_TARGET
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
-
-    packagingOptions {
+    packaging {
         resources.excludes.add("META-INF/DEPENDENCIES")
     }
 }
