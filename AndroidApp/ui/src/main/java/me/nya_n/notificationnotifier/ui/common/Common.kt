@@ -167,10 +167,11 @@ fun SnackbarMessage(
     message ?: return
 
     // TODO: Snackbarの色変更に対応
-    val (text, color) = when (message) {
+    val (text, _) = when (message) {
         is Message.Error -> {
             Pair(stringResource(id = message.message), AppColors.BasicBlack)
         }
+
         is Message.Notice -> {
             Pair(
                 stringResource(id = message.message, formatArgs = message.args),

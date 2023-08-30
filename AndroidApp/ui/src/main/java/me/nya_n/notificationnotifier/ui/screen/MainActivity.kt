@@ -7,13 +7,11 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.DialogFragment
-import com.google.accompanist.pager.ExperimentalPagerApi
 import me.nya_n.notificationnotifier.ui.dialogs.DialogListener
 import me.nya_n.notificationnotifier.ui.dialogs.NotificationAccessPermissionDialog
 
 class MainActivity : AppCompatActivity(), DialogListener {
 
-    @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent { AppScreen() }
