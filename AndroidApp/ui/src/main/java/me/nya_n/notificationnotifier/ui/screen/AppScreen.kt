@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.gson.Gson
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailScreen
@@ -13,7 +12,6 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import java.net.URLEncoder
 
 @Composable
-@ExperimentalPagerApi
 fun AppScreen() {
     val navController = rememberNavController()
     AppTheme {

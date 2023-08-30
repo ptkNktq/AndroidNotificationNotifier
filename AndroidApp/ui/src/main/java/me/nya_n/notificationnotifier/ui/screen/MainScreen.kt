@@ -3,9 +3,13 @@ package me.nya_n.notificationnotifier.ui.screen
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -29,10 +33,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppScaffold
@@ -42,33 +42,33 @@ import me.nya_n.notificationnotifier.ui.screen.setting.SettingScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppColors
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Preview
-@ExperimentalPagerApi
 fun MainPreview() {
     val tabItems = listOf(
         TabItem(R.string.targets, Icons.Outlined.NotificationsActive),
         TabItem(R.string.apps, Icons.Rounded.List),
         TabItem(R.string.settings, Icons.Outlined.Settings),
     )
+    val pagerState = rememberPagerState(pageCount = { tabItems.size })
     MainContent(
         tabItems = tabItems,
-        pagerState = PagerState(0)
+        pagerState = pagerState
     )
 }
 
 /**
  * メイン画面
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-@ExperimentalPagerApi
 fun MainScreen(
     navController: NavController,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
 ) {
     val activity = LocalContext.current as? Activity
     val scope = rememberCoroutineScope()
-    val pagerState = rememberPagerState()
     val tabItems = listOf(
         TabItem(R.string.targets, Icons.Outlined.NotificationsActive) {
             TargetScreen(
@@ -88,6 +88,7 @@ fun MainScreen(
             )
         },
     )
+    val pagerState = rememberPagerState(pageCount = { tabItems.size })
     /* TODO:
      *  サンプルはvarにしてるけどその必要ある？
      *  https://developer.android.com/jetpack/compose/libraries?hl=ja#handling_the_system_back_button
@@ -107,8 +108,8 @@ fun MainScreen(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-@ExperimentalPagerApi
 fun BottomBar(
     tabItems: List<TabItem>,
     pagerState: PagerState
@@ -132,8 +133,8 @@ fun BottomBar(
 /**
  * メイン画面のコンテンツ本体
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-@ExperimentalPagerApi
 fun MainContent(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     tabItems: List<TabItem>,
@@ -144,10 +145,9 @@ fun MainContent(
         scaffoldState = scaffoldState,
     ) {
         HorizontalPager(
-            count = tabItems.size,
             state = pagerState,
-            userScrollEnabled = false,
             modifier = Modifier.padding(it),
+            userScrollEnabled = false
         ) { index ->
             Box(modifier = Modifier.fillMaxSize()) {
                 tabItems[index].content()
