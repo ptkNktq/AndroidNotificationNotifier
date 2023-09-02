@@ -2,6 +2,8 @@ package me.nya_n.notificationnotifier.domain.usecase
 
 import android.content.pm.PackageManager
 import androidx.annotation.VisibleForTesting
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.AppRepository
 import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
 import me.nya_n.notificationnotifier.model.AppException
@@ -11,12 +13,12 @@ class LoadAppUseCase(
     private val userSettingRepository: UserSettingRepository,
     private val appRepository: AppRepository
 ) {
-    suspend operator fun invoke(pm: PackageManager): Result<Outputs> {
+    suspend operator fun invoke(pm: PackageManager): Result<Outputs> = withContext(Dispatchers.IO) {
         val apps = loadInstalledAppList(pm).getOrElse {
-            return Result.failure(it)
+            return@withContext Result.failure(it)
         }
         val targets = loadTargetList()
-        return Result.success(Outputs.create(apps, targets))
+        return@withContext Result.success(Outputs.create(apps, targets))
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
