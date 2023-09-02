@@ -19,6 +19,18 @@ import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.DeleteTargetAppUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.ExportDataUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.ImportDataUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.LoadAddressUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.LoadAppUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.LoadFilterConditionUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.NotifyTargetAppNotificationUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.NotifyUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrantedUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
@@ -63,17 +75,19 @@ class App : Application() {
         viewModel { SettingViewModel(get(), get(), get(), get(), get()) }
 
         // UseCase
-        factory { AddTargetAppUseCase(get()) }
-        factory { DeleteTargetAppUseCase(get()) }
-        factory { ExportDataUseCase(get(), get()) }
-        factory { ImportDataUseCase(get(), get()) }
-        factory { LoadAddressUseCase(get()) }
-        factory { LoadAppUseCase(get(), get()) }
-        factory { LoadFilterConditionUseCase(get()) }
-        factory { NotifyTargetAppNotificationUseCase(get(), get()) }
-        factory { NotifyUseCase(get()) }
-        factory { PackageVisibilityGrantedUseCase(get()) }
-        factory { SaveAddressUseCase(get()) }
-        factory { SaveFilterConditionUseCase(get()) }
+        factory<AddTargetAppUseCase> { AddTargetAppUseCaseImpl(get()) }
+        factory<DeleteTargetAppUseCase> { DeleteTargetAppUseCaseImpl(get()) }
+        factory<ExportDataUseCase> { ExportDataUseCaseImpl(get(), get()) }
+        factory<ImportDataUseCase> { ImportDataUseCaseImpl(get(), get()) }
+        factory<LoadAddressUseCase> { LoadAddressUseCaseImpl(get()) }
+        factory<LoadAppUseCase> { LoadAppUseCaseImpl(get(), get()) }
+        factory<LoadFilterConditionUseCase> { LoadFilterConditionUseCaseImpl(get()) }
+        factory<NotifyTargetAppNotificationUseCase> {
+            NotifyTargetAppNotificationUseCaseImpl(get(), get())
+        }
+        factory<NotifyUseCase> { NotifyUseCaseImpl(get()) }
+        factory<PackageVisibilityGrantedUseCase> { PackageVisibilityGrantedUseCaseImpl(get()) }
+        factory<SaveAddressUseCase> { SaveAddressUseCaseImpl(get()) }
+        factory<SaveFilterConditionUseCase> { SaveFilterConditionUseCaseImpl(get()) }
     }
 }
