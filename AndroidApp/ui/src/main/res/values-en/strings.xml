@@ -4,10 +4,12 @@
     <string name="targets">Targets</string>
     <string name="settings">Settings</string>
     <string name="settings_general">General</string>
+    <string name="settings_advanced">Advanced</string>
     <string name="settings_others">Others</string>
     <string name="no_apps">No apps.</string>
     <string name="no_contents">No contents…</string>
     <string name="address">e.g. 192.168.11.2:5555</string>
+    <string name="wifi_ssid">SSID of Wi-Fi</string>
     <string name="app_info">App Info</string>
     <string name="notification_settings">Notification Settings</string>
 </resources>

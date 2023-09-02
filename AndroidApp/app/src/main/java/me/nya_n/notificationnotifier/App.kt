@@ -7,7 +7,18 @@ import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.impl.UserSettingRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore
-import me.nya_n.notificationnotifier.domain.usecase.*
+import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
+import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
+import me.nya_n.notificationnotifier.domain.usecase.LoadAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
+import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveSSIDUseCase
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
@@ -49,7 +60,7 @@ class App : Application() {
         viewModel { SelectionViewModel(get(), get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get(), get()) }
-        viewModel { SettingViewModel(get(), get(), get(), get(), get()) }
+        viewModel { SettingViewModel(get(), get(), get(), get(), get(), get()) }
 
         // UseCase
         factory { AddTargetAppUseCase(get()) }
@@ -63,5 +74,6 @@ class App : Application() {
         factory { PackageVisibilityGrantedUseCase(get()) }
         factory { SaveAddressUseCase(get()) }
         factory { SaveFilterConditionUseCase(get()) }
+        factory { SaveSSIDUseCase(get()) }
     }
 }

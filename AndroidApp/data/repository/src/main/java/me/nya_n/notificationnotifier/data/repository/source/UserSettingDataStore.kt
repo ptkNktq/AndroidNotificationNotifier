@@ -11,6 +11,7 @@ class UserSettingDataStore(
         return UserSetting(
             get(KEY_HOST, DEFAULT_HOST),
             get(KEY_PORT, DEFAULT_PORT),
+            get(KEY_SSID, DEFAULT_SSID),
             get(KEY_IS_PACKAGE_VISIBILITY_GRANTED, DEFAULT_IS_PACKAGE_VISIBILITY_GRANTED)
         )
     }
@@ -18,6 +19,7 @@ class UserSettingDataStore(
     fun save(setting: UserSetting) {
         put(KEY_HOST, setting.host)
         put(KEY_PORT, setting.port)
+        put(KEY_SSID, setting.ssid)
         put(KEY_IS_PACKAGE_VISIBILITY_GRANTED, setting.isPackageVisibilityGranted)
     }
 
@@ -27,6 +29,8 @@ class UserSettingDataStore(
         const val DEFAULT_HOST = ""
         const val KEY_PORT = "port"
         const val DEFAULT_PORT = -1
+        const val KEY_SSID = "ssid"
+        const val DEFAULT_SSID = ""
         const val KEY_IS_PACKAGE_VISIBILITY_GRANTED = "isPackageVisibilityGranted"
         const val DEFAULT_IS_PACKAGE_VISIBILITY_GRANTED = false
     }

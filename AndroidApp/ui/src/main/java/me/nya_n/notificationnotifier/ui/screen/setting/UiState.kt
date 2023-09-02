@@ -4,5 +4,6 @@ import me.nya_n.notificationnotifier.model.Message
 
 data class UiState(
     val address: String = "",
+    val ssid: String = "",
     val message: Message? = null
 )

@@ -25,10 +25,13 @@
     <string name="targets">通知対象</string>
     <string name="settings">設定</string>
     <string name="settings_general">一般</string>
+    <string name="settings_advanced">高度な設定</string>
     <string name="settings_others">その他</string>
     <string name="no_apps">アプリがありません。</string>
     <string name="no_contents">No contents…</string>
     <string name="address">例) 192.168.11.2:5555</string>
+    <string name="wifi_ssid">Wi-FiのSSID</string>
+    <string name="wifi_ssid_notice">特定のWi-Fiに接続中のみ通知を送信したい場合は入力してください。</string>
     <string name="app_info">アプリの情報</string>
     <string name="notification_settings">通知設定</string>
 </resources>

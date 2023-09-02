@@ -47,7 +47,8 @@ import org.koin.androidx.compose.getViewModel
 fun SettingPreview() {
     SettingContent(
         uiState = UiState(address = "192.168.11.2:5555"),
-        onValueChange = { },
+        onAddressChange = { },
+        onSSIDChanged = { },
         onNotifyTest = { },
         onExportData = { },
         onImportData = { }
@@ -115,7 +116,12 @@ fun SettingScreen(
     SettingContent(
         navController = navController,
         uiState = uiState,
-        onValueChange = { viewModel.updateAddress(it) },
+        onAddressChange = { viewModel.updateAddress(it) },
+        onSSIDChanged = {
+            // TODO: このタイミングで位置情報権限要求、wi-fi ssid取得のためバックグラウンドでも必要
+
+            viewModel.updateSSID(it)
+        },
         onNotifyTest = { viewModel.notifyTest() },
         onExportData = { viewModel.event(UiEvent.ExportData()) },
         onImportData = { viewModel.event(UiEvent.ImportData()) }
@@ -129,7 +135,8 @@ fun SettingScreen(
 fun SettingContent(
     navController: NavController = rememberNavController(),
     uiState: UiState,
-    onValueChange: (String) -> Unit,
+    onAddressChange: (String) -> Unit,
+    onSSIDChanged: (String) -> Unit,
     onNotifyTest: () -> Unit,
     onExportData: () -> Unit,
     onImportData: () -> Unit
@@ -140,12 +147,16 @@ fun SettingContent(
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
     ) {
-        NotifySetting(
+        NotifySettings(
             uiState,
-            onValueChange = onValueChange,
+            onValueChange = onAddressChange,
             onNotifyTest = onNotifyTest
         )
-        OtherSetting(
+        AdvancedSettings(
+            uiState,
+            onValueChange = onSSIDChanged
+        )
+        OtherSettings(
             navController = navController,
             onExportData = onExportData,
             onImportData = onImportData
@@ -160,7 +171,7 @@ fun SettingContent(
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun NotifySetting(
+fun NotifySettings(
     uiState: UiState,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit
@@ -168,16 +179,16 @@ fun NotifySetting(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Category(titleResourceId = R.string.settings_general)
-    /* FIXME: TODO:
-     *  英数記号のみに入力制限したいが適切なものがなかったのでKeyboardType.Emailで妥協
-     *  とりあえず最初に表示されるIMEが英数になる
-     */
     OutlinedTextField(
         value = uiState.address,
         placeholder = { Text(text = stringResource(id = R.string.address)) },
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
+            /* FIXME: TODO:
+             *  英数記号のみに入力制限したいが適切なものがなかったのでKeyboardType.Emailで妥協
+             *  とりあえず最初に表示されるIMEが英数になる
+             */
             keyboardType = KeyboardType.Email
         ),
         keyboardActions = KeyboardActions(
@@ -210,12 +221,62 @@ fun NotifySetting(
 }
 
 /**
+ * 高度な設定
+ */
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun AdvancedSettings(
+    uiState: UiState,
+    onValueChange: (String) -> Unit
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
+    Category(titleResourceId = R.string.settings_advanced)
+    OutlinedTextField(
+        value = uiState.ssid,
+        placeholder = { Text(text = stringResource(id = R.string.wifi_ssid)) },
+        onValueChange = onValueChange,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+            /* FIXME: TODO:
+             *  英数記号のみに入力制限したいが適切なものがなかったのでKeyboardType.Emailで妥協
+             *  とりあえず最初に表示されるIMEが英数になる
+             */
+            keyboardType = KeyboardType.Email
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                keyboardController?.hide()
+                focusManager.clearFocus()
+            }
+        ),
+        singleLine = true,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            backgroundColor = Color.White,
+            focusedBorderColor = AppColors.Brown,
+            cursorColor = AppColors.Brown
+        ),
+        leadingIcon = {
+            Image(
+                imageVector = Icons.Outlined.Wifi,
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(AppColors.RoseBrown)
+            )
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    )
+    Text(stringResource(id = R.string.wifi_ssid_notice))
+}
+
+/**
  * その他の項目
  *  - ライセンス表示
  *  - バージョン表示
  */
 @Composable
-fun OtherSetting(
+fun OtherSettings(
     navController: NavController,
     onExportData: () -> Unit,
     onImportData: () -> Unit
