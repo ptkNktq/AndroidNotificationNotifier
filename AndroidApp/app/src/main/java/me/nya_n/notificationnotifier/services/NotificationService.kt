@@ -6,13 +6,13 @@ import android.service.notification.StatusBarNotification
 import android.text.SpannableString
 import kotlinx.coroutines.*
 import me.nya_n.notificationnotifier.data.repository.AppRepository
-import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
+import me.nya_n.notificationnotifier.domain.usecase.NotificationUseCase
 import org.koin.android.ext.android.inject
 
 class NotificationService : NotificationListenerService() {
 
     private val appRepository: AppRepository by inject()
-    private val useCase: NotifyUseCase by inject()
+    private val useCase: NotificationUseCase by inject()
     private val job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 

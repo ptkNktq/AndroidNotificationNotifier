@@ -7,7 +7,17 @@ import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.impl.UserSettingRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore
-import me.nya_n.notificationnotifier.domain.usecase.*
+import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
+import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
+import me.nya_n.notificationnotifier.domain.usecase.LoadAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.NotificationUseCase
+import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
@@ -59,7 +69,7 @@ class App : Application() {
         factory { LoadAddressUseCase(get()) }
         factory { LoadAppUseCase(get(), get()) }
         factory { LoadFilterConditionUseCase(get()) }
-        factory { NotifyUseCase(get()) }
+        factory { NotificationUseCase(get()) }
         factory { PackageVisibilityGrantedUseCase(get()) }
         factory { SaveAddressUseCase(get()) }
         factory { SaveFilterConditionUseCase(get()) }
