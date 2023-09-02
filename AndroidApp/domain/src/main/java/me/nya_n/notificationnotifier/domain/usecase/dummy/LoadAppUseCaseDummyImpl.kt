@@ -17,7 +17,11 @@ class LoadAppUseCaseDummyImpl : LoadAppUseCase {
                     InstalledApp("サンプル アプリ６", "me.nya_n.notificationnotifier"),
                     InstalledApp("サンプル アプリ７", "me.nya_n.notificationnotifier"),
                 ),
-                emptyList()
+                listOf(
+                    InstalledApp("サンプル アプリ１", "me.nya_n.notificationnotifier"),
+                    InstalledApp("サンプル アプリ２", "me.nya_n.notificationnotifier"),
+                    InstalledApp("サンプル アプリ７", "me.nya_n.notificationnotifier"),
+                )
             )
         )
     }
