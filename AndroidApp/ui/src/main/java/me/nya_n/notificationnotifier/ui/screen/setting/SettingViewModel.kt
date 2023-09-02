@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
-import me.nya_n.notificationnotifier.domain.usecase.NotificationUseCase
+import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
@@ -20,7 +20,7 @@ import me.nya_n.notificationnotifier.ui.screen.AppViewModel
 class SettingViewModel(
     loadAddressUseCase: LoadAddressUseCase,
     private val saveAddressUseCase: SaveAddressUseCase,
-    private val notificationUseCase: NotificationUseCase,
+    private val notifyUseCase: NotifyUseCase,
     private val exportDataUseCase: ExportDataUseCase,
     private val importDataUseCase: ImportDataUseCase
 ) : AppViewModel<UiEvent>() {
@@ -54,7 +54,7 @@ class SettingViewModel(
      */
     fun notifyTest() {
         viewModelScope.launch {
-            val message = if (notificationUseCase("通知テスト").isSuccess) {
+            val message = if (notifyUseCase("通知テスト").isSuccess) {
                 Message.Notice(R.string.notify_test_succeeded)
             } else {
                 Message.Error(R.string.notify_test_failed)

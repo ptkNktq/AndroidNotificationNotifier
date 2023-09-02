@@ -14,7 +14,8 @@ import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
-import me.nya_n.notificationnotifier.domain.usecase.NotificationUseCase
+import me.nya_n.notificationnotifier.domain.usecase.NotifyTargetAppNotificationUseCase
+import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
@@ -69,7 +70,8 @@ class App : Application() {
         factory { LoadAddressUseCase(get()) }
         factory { LoadAppUseCase(get(), get()) }
         factory { LoadFilterConditionUseCase(get()) }
-        factory { NotificationUseCase(get()) }
+        factory { NotifyTargetAppNotificationUseCase(get(), get()) }
+        factory { NotifyUseCase(get()) }
         factory { PackageVisibilityGrantedUseCase(get()) }
         factory { SaveAddressUseCase(get()) }
         factory { SaveFilterConditionUseCase(get()) }

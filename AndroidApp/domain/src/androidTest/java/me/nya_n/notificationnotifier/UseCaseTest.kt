@@ -177,7 +177,7 @@ class UseCaseTest {
     fun `通知送信_失敗`() {
         runBlocking {
             assertThat(
-                NotificationUseCase(userSettingRepository)("通知テスト").exceptionOrNull()
+                NotifyUseCase(userSettingRepository)("通知テスト").exceptionOrNull()
             ).isNotNull()
         }
     }
@@ -191,7 +191,7 @@ class UseCaseTest {
             val addr = "$host:$port"
             SaveAddressUseCase(userSettingRepository)(addr)
             assertThat(
-                NotificationUseCase(userSettingRepository)("通知テスト").getOrNull()
+                NotifyUseCase(userSettingRepository)("通知テスト").getOrNull()
             ).isNotNull()
         }
     }
