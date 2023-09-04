@@ -6,36 +6,57 @@ import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
-import androidx.fragment.app.DialogFragment
-import me.nya_n.notificationnotifier.ui.dialogs.DialogListener
+import me.nya_n.notificationnotifier.domain.usecase.CheckPackageVisibilityUseCase
+import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.ui.dialogs.NotificationAccessPermissionDialog
+import me.nya_n.notificationnotifier.ui.dialogs.PackageVisibilityDialog
+import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity(), DialogListener {
+class MainActivity : AppCompatActivity() {
+
+    private val packageVisibilityGrantedUseCase: PackageVisibilityGrantedUseCase by inject()
+    private val isPackageVisibilityGranted: CheckPackageVisibilityUseCase by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent { AppScreen() }
+        setUpPermissionsCheckResultListener()
     }
 
     override fun onResume() {
         super.onResume()
-        permissionCheck()
+        permissionsCheck()
     }
 
-    override fun onPositiveClick(dialog: DialogFragment) {
-        startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
-    }
-
-    override fun onNegativeClick(dialog: DialogFragment) {
-        finish()
-    }
-
-    private fun permissionCheck() {
-        if (NotificationManagerCompat.getEnabledListenerPackages(this)
+    private fun permissionsCheck() {
+        if (!NotificationManagerCompat.getEnabledListenerPackages(this)
                 .contains(packageName)
         ) {
-            return
+            NotificationAccessPermissionDialog.showOnlyOnce(supportFragmentManager)
         }
-        NotificationAccessPermissionDialog.showOnlyOnce(supportFragmentManager)
+        if (!isPackageVisibilityGranted()) {
+            PackageVisibilityDialog.showOnlyOnce(supportFragmentManager)
+        }
+    }
+
+    private fun setUpPermissionsCheckResultListener() {
+        supportFragmentManager.setFragmentResultListener(
+            NotificationAccessPermissionDialog.TAG, this
+        ) { _, res ->
+            if (res.getBoolean(NotificationAccessPermissionDialog.KEY_IS_NEXT)) {
+                startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
+            } else {
+                finish()
+            }
+        }
+        supportFragmentManager.setFragmentResultListener(
+            PackageVisibilityDialog.TAG, this
+        ) { _, res ->
+            if (res.getBoolean(PackageVisibilityDialog.KEY_IS_GRANTED)) {
+                packageVisibilityGrantedUseCase()
+            } else {
+                finish()
+            }
+        }
     }
 }
