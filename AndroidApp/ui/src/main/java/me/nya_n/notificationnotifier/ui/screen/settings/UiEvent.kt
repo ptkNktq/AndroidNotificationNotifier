@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.ui.screen.setting
+package me.nya_n.notificationnotifier.ui.screen.settings
 
 import me.nya_n.notificationnotifier.ui.screen.AppUiEvent
 

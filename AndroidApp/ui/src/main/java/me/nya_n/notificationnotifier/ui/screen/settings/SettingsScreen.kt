@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.ui.screen.setting
+package me.nya_n.notificationnotifier.ui.screen.settings
 
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -44,8 +44,8 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
-fun SettingPreview() {
-    SettingContent(
+fun SettingsPreview() {
+    SettingsContent(
         uiState = UiState(address = "192.168.11.2:5555"),
         onValueChange = { },
         onNotifyTest = { },
@@ -60,9 +60,9 @@ fun SettingPreview() {
  *  - 設定バックアップ/復元機能
  */
 @Composable
-fun SettingScreen(
+fun SettingsScreen(
     navController: NavController,
-    viewModel: SettingViewModel = getViewModel(),
+    viewModel: SettingsViewModel = getViewModel(),
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     val context = LocalContext.current
@@ -112,7 +112,7 @@ fun SettingScreen(
     ) {
         viewModel.messageShown()
     }
-    SettingContent(
+    SettingsContent(
         navController = navController,
         uiState = uiState,
         onValueChange = { viewModel.updateAddress(it) },
@@ -126,7 +126,7 @@ fun SettingScreen(
  * 設定画面のコンテンツ本体
  */
 @Composable
-fun SettingContent(
+fun SettingsContent(
     navController: NavController = rememberNavController(),
     uiState: UiState,
     onValueChange: (String) -> Unit,
@@ -140,12 +140,12 @@ fun SettingContent(
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
     ) {
-        NotifySetting(
+        NotifySettings(
             uiState,
             onValueChange = onValueChange,
             onNotifyTest = onNotifyTest
         )
-        OtherSetting(
+        OtherSettings(
             navController = navController,
             onExportData = onExportData,
             onImportData = onImportData
@@ -160,7 +160,7 @@ fun SettingContent(
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun NotifySetting(
+fun NotifySettings(
     uiState: UiState,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit
@@ -215,7 +215,7 @@ fun NotifySetting(
  *  - バージョン表示
  */
 @Composable
-fun OtherSetting(
+fun OtherSettings(
     navController: NavController,
     onExportData: () -> Unit,
     onImportData: () -> Unit

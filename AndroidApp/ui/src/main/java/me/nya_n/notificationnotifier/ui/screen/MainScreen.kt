@@ -38,7 +38,7 @@ import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppScaffold
 import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionScreen
-import me.nya_n.notificationnotifier.ui.screen.setting.SettingScreen
+import me.nya_n.notificationnotifier.ui.screen.settings.SettingsScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppColors
 
@@ -82,7 +82,7 @@ fun MainScreen(
             )
         },
         TabItem(R.string.settings, Icons.Outlined.Settings) {
-            SettingScreen(
+            SettingsScreen(
                 navController = navController,
                 scaffoldState = scaffoldState
             )

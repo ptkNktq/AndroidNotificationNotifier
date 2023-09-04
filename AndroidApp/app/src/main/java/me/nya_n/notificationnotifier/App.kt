@@ -34,7 +34,7 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseC
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
-import me.nya_n.notificationnotifier.ui.screen.setting.SettingViewModel
+import me.nya_n.notificationnotifier.ui.screen.settings.SettingsViewModel
 import me.nya_n.notificationnotifier.ui.screen.target.TargetViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -72,7 +72,7 @@ class App : Application() {
         viewModel { SelectionViewModel(get(), get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get(), get()) }
-        viewModel { SettingViewModel(get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
 
         // UseCase
         factory<AddTargetAppUseCase> { AddTargetAppUseCaseImpl(get()) }

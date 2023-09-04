@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.ui.screen.setting
+package me.nya_n.notificationnotifier.ui.screen.settings
 
 import android.content.Context
 import android.net.Uri
@@ -17,7 +17,7 @@ import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.screen.AppViewModel
 
-class SettingViewModel(
+class SettingsViewModel(
     loadAddressUseCase: LoadAddressUseCase,
     private val saveAddressUseCase: SaveAddressUseCase,
     private val notifyUseCase: NotifyUseCase,
