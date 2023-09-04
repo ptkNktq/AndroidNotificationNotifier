@@ -45,7 +45,7 @@ namespace AndroidNotificationNotifier
                     var ep = new IPEndPoint(IPAddress.Any, settings.Port);
                     server = new TcpListener(ep);
                     server.Start();
-                    var buff = new byte[256];
+                    var buff = new byte[1024];
                     while (true)
                     {
                         using TcpClient client = server.AcceptTcpClient();
@@ -56,6 +56,7 @@ namespace AndroidNotificationNotifier
                             var message = Encoding.UTF8.GetString(buff);
                             Notify(message);
                         }
+                        client.Close();
                     }
                 }
                 catch (Exception e)
