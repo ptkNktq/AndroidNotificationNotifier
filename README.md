@@ -19,20 +19,23 @@ desktop.exeを実行するだけです。タスクトレイに常駐するので
 android.apkをインストールします。
 
 2. 通知へのアクセス  
-通知へのアクセスという設定項目(開発者の端末だと設定>音と通知>通知へのアクセス)を探し、「通知配達ドロイド君」にチェックを入れます。これをしないと、通知が来たことをアプリが認識できません。
+通知へのアクセスという設定項目(開発者の端末だと設定>音と通知>通知へのアクセス)を探し、「通知配達ドロイド君」にチェックを入れます。
+これをしないと通知が来たことをアプリが認識できません。
 
 3. 各種設定  
-アプリを起動して、PCのプライベートIPアドレスを入力します。  
-もしデスクトップアプリでポート番号を変更したのなら、ポート番号をそれと同じ番号に変更します。テスト通知ボタンを押してPCに通知が表示されたら準備完了です。  
-　<img src="https://raw.githubusercontent.com/ptkNktq/AndroidNotificationNotifier/images/20160203113940.png" width="320px">
+アプリを起動して、設定タブでPCのIPアドレスとポート番号(初期値: 8484)を入力します。  
+通知テストボタンを押してPCに通知が表示されたら準備完了です。  
+&nbsp;<img src="https://github.com/ptkNktq/AndroidNotificationNotifier/assets/7608826/4412d67f-1e8a-4343-a5fb-433adf326ec0" width="320px">
 
 4. 通知を送るアプリの追加  
-右下のボタンからアプリ一覧を表示できます。  
-　<img src="https://raw.githubusercontent.com/ptkNktq/AndroidNotificationNotifier/images/20160203113217.png" width="320px">  
-この中からPCに通知を送りたいアプリを選択してください(複数選択可)。  
-戻るキーを押すと選択したアプリが下に表示されます。  
-　<img src="https://raw.githubusercontent.com/ptkNktq/AndroidNotificationNotifier/images/20160203114427.png" width="320px">  
-後は通知が来るのを待つだけ。
+アプリタブでインストールされているアプリ一覧を表示できます。  
+この中からPCに通知を送りたいアプリを選択してください。  
+&nbsp;<img src="https://github.com/ptkNktq/AndroidNotificationNotifier/assets/7608826/deb01b19-eddd-47c1-870c-146278ed0ca1" width="320px">  
+
+5. 完了  
+通知対象タブに選択したアプリが表示されます。  
+後は通知が来るのを待つだけ。  
+&nbsp;<img src="https://github.com/ptkNktq/AndroidNotificationNotifier/assets/7608826/c34f58fa-43b9-4c40-9f11-64b1d9b77efd" width="320px">  
 
 ### 著作権
 このアプリのアイコンで使用しているAndroid robot(通称ドロイド君)の著作権はGoogleに帰属します。
