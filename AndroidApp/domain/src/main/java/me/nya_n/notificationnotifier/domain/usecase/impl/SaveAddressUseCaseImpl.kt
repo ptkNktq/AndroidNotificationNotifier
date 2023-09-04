@@ -1,12 +1,12 @@
 package me.nya_n.notificationnotifier.domain.usecase.impl
 
 import androidx.core.text.isDigitsOnly
-import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.model.AppException
 
 class SaveAddressUseCaseImpl(
-    private val userSettingRepository: UserSettingRepository
+    private val userSettingsRepository: UserSettingsRepository
 ) : SaveAddressUseCase {
     override operator fun invoke(address: String?): Result<Unit> {
         val addr = (address ?: "").split(":")
@@ -16,12 +16,12 @@ class SaveAddressUseCaseImpl(
         ) {
             return Result.failure(AppException.InvalidAddrException())
         }
-        val setting = userSettingRepository.getUserSetting()
+        val settings = userSettingsRepository.getUserSettings()
             .copy(
                 host = addr[0],
                 port = addr[1].toInt()
             )
-        userSettingRepository.saveUserSetting(setting)
+        userSettingsRepository.saveUserSettings(settings)
         return Result.success(Unit)
     }
 }

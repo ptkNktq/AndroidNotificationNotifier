@@ -2,7 +2,7 @@ package me.nya_n.notificationnotifier.model
 
 import com.google.gson.annotations.SerializedName
 
-data class UserSetting(
+data class UserSettings(
     val host: String,
     val port: Int,
     /**

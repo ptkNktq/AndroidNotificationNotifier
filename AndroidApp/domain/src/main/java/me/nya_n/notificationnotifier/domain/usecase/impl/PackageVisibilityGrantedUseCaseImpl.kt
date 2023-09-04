@@ -1,14 +1,14 @@
 package me.nya_n.notificationnotifier.domain.usecase.impl
 
-import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 
 class PackageVisibilityGrantedUseCaseImpl(
-    private val userSettingRepository: UserSettingRepository
+    private val userSettingsRepository: UserSettingsRepository
 ) : PackageVisibilityGrantedUseCase {
     override operator fun invoke() {
-        val setting = userSettingRepository.getUserSetting()
+        val settings = userSettingsRepository.getUserSettings()
             .copy(isPackageVisibilityGranted = true)
-        userSettingRepository.saveUserSetting(setting)
+        userSettingsRepository.saveUserSettings(settings)
     }
 }

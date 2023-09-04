@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.AppRepository
-import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.model.Backup
@@ -14,7 +14,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 
 class ImportDataUseCaseImpl(
-    private val userSettingRepository: UserSettingRepository,
+    private val userSettingsRepository: UserSettingsRepository,
     private val appRepository: AppRepository,
 ) : ImportDataUseCase {
     override suspend operator fun invoke(context: Context, uri: Uri): Result<Unit> {
@@ -32,7 +32,7 @@ class ImportDataUseCaseImpl(
             if (backup.version != DB.version()) {
                 throw RuntimeException("bad version.")
             }
-            userSettingRepository.saveUserSetting(backup.setting)
+            userSettingsRepository.saveUserSettings(backup.setting)
             appRepository.clearAll()
             backup.targets.forEach {
                 appRepository.addTargetApp(it)

@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.model
 
 data class Backup(
-    val setting: UserSetting,
+    val setting: UserSettings,
     val version: Int,
     val targets: List<InstalledApp>,
     val filterCondition: List<FilterCondition>

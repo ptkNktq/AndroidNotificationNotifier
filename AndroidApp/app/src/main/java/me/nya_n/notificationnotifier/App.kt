@@ -2,11 +2,11 @@ package me.nya_n.notificationnotifier
 
 import android.app.Application
 import me.nya_n.notificationnotifier.data.repository.AppRepository
-import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
-import me.nya_n.notificationnotifier.data.repository.impl.UserSettingRepositoryImpl
+import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.source.DB
-import me.nya_n.notificationnotifier.data.repository.source.UserSettingDataStore
+import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
 import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
@@ -54,10 +54,10 @@ class App : Application() {
     private val modules = module {
         // DataStore
         single {
-            UserSettingDataStore(
+            UserSettingsDataStore(
                 SharedPreferenceProvider.create(
                     get(),
-                    UserSettingDataStore.DATA_STORE_NAME
+                    UserSettingsDataStore.DATA_STORE_NAME
                 )
             )
         }
@@ -65,7 +65,7 @@ class App : Application() {
         single { DB.get(get()).targetAppDao() }
 
         // Repository
-        single<UserSettingRepository> { UserSettingRepositoryImpl(get()) }
+        single<UserSettingsRepository> { UserSettingsRepositoryImpl(get()) }
         single<AppRepository> { AppRepositoryImpl(get(), get()) }
 
         // ViewModel
