@@ -13,6 +13,7 @@ class PackageVisibilityDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
+            isCancelable = false
             AlertDialog.Builder(it)
                 .setMessage(R.string.require_package_visibility)
                 .setPositiveButton(R.string.ok) { _, _ ->

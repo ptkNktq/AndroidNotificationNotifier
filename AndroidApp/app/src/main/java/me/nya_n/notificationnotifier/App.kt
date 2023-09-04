@@ -8,6 +8,7 @@ import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
 import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.CheckPackageVisibilityUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
@@ -20,6 +21,7 @@ import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseC
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.CheckPackageVisibilityUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.DeleteTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ExportDataUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ImportDataUseCaseImpl
@@ -87,6 +89,7 @@ class App : Application() {
         }
         factory<NotifyUseCase> { NotifyUseCaseImpl(get()) }
         factory<PackageVisibilityGrantedUseCase> { PackageVisibilityGrantedUseCaseImpl(get()) }
+        factory<CheckPackageVisibilityUseCase> { CheckPackageVisibilityUseCaseImpl(get()) }
         factory<SaveAddressUseCase> { SaveAddressUseCaseImpl(get()) }
         factory<SaveFilterConditionUseCase> { SaveFilterConditionUseCaseImpl(get()) }
     }
