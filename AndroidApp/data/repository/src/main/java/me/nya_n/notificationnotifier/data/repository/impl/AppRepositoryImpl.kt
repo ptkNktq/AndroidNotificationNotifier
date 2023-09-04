@@ -65,5 +65,6 @@ class AppRepositoryImpl(
                     it.packageName
                 )
             }
+            .sortedBy { it.label }
     }
 }

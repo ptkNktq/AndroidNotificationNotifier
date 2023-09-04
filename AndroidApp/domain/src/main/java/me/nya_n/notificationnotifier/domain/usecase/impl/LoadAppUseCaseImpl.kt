@@ -5,14 +5,14 @@ import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.AppRepository
-import me.nya_n.notificationnotifier.data.repository.UserSettingRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.domain.usecase.LoadAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAppUseCase.Outputs
 import me.nya_n.notificationnotifier.model.AppException
 import me.nya_n.notificationnotifier.model.InstalledApp
 
 class LoadAppUseCaseImpl(
-    private val userSettingRepository: UserSettingRepository,
+    private val userSettingsRepository: UserSettingsRepository,
     private val appRepository: AppRepository
 ) : LoadAppUseCase {
 
@@ -27,8 +27,8 @@ class LoadAppUseCaseImpl(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun loadInstalledAppList(pm: PackageManager): Result<List<InstalledApp>> {
-        val setting = userSettingRepository.getUserSetting()
-        return if (!setting.isPackageVisibilityGranted) {
+        val settings = userSettingsRepository.getUserSettings()
+        return if (!settings.isPackageVisibilityGranted) {
             Result.failure(AppException.PermissionDeniedException())
         } else {
             Result.success(appRepository.loadInstalledAppList(pm))

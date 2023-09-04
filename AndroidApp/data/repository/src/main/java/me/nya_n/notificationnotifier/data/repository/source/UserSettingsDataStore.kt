@@ -1,24 +1,24 @@
 package me.nya_n.notificationnotifier.data.repository.source
 
 import android.content.SharedPreferences
-import me.nya_n.notificationnotifier.model.UserSetting
+import me.nya_n.notificationnotifier.model.UserSettings
 
-class UserSettingDataStore(
+class UserSettingsDataStore(
     pref: SharedPreferences
 ) : KeyValueDataStore(pref) {
 
-    fun get(): UserSetting {
-        return UserSetting(
+    fun get(): UserSettings {
+        return UserSettings(
             get(KEY_HOST, DEFAULT_HOST),
             get(KEY_PORT, DEFAULT_PORT),
             get(KEY_IS_PACKAGE_VISIBILITY_GRANTED, DEFAULT_IS_PACKAGE_VISIBILITY_GRANTED)
         )
     }
 
-    fun save(setting: UserSetting) {
-        put(KEY_HOST, setting.host)
-        put(KEY_PORT, setting.port)
-        put(KEY_IS_PACKAGE_VISIBILITY_GRANTED, setting.isPackageVisibilityGranted)
+    fun save(settings: UserSettings) {
+        put(KEY_HOST, settings.host)
+        put(KEY_PORT, settings.port)
+        put(KEY_IS_PACKAGE_VISIBILITY_GRANTED, settings.isPackageVisibilityGranted)
     }
 
     companion object {
