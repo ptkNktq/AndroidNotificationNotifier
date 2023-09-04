@@ -15,6 +15,17 @@ import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
 import me.nya_n.notificationnotifier.domain.usecase.*
+import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.DeleteTargetAppUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.ExportDataUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.ImportDataUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.LoadAddressUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.LoadAppUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.LoadFilterConditionUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.NotifyUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrantedUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.model.InstalledApp
 import org.junit.Before
@@ -68,14 +79,14 @@ class UseCaseTest {
     fun `通知対象アプリの追加、取得、削除`() {
         runBlocking {
             val app = InstalledApp("sample", "com.sample.www")
-            AddTargetAppUseCase(appRepository)(app)
+            AddTargetAppUseCaseImpl(appRepository)(app)
 
-            val loader = LoadAppUseCase(userSettingsRepository, appRepository)
+            val loader = LoadAppUseCaseImpl(userSettingsRepository, appRepository)
             val added = loader.loadTargetList()
             assertThat(added).hasSize(1)
             assertThat(added.first()).isEqualTo(app)
 
-            DeleteTargetAppUseCase(appRepository)(app)
+            DeleteTargetAppUseCaseImpl(appRepository)(app)
             val deleted = loader.loadTargetList()
             assertThat(deleted).isEmpty()
         }
@@ -83,8 +94,8 @@ class UseCaseTest {
 
     @Test
     fun `インストール済みアプリの取得_成功（ついでにアプリ一覧取得権限許可処理も）`() {
-        PackageVisibilityGrantedUseCase(userSettingsRepository)()
-        val ret = LoadAppUseCase(userSettingsRepository, appRepository).loadInstalledAppList(pm)
+        PackageVisibilityGrantedUseCaseImpl(userSettingsRepository)()
+        val ret = LoadAppUseCaseImpl(userSettingsRepository, appRepository).loadInstalledAppList(pm)
         assertThat(ret.getOrNull()).apply {
             isNotNull()
             isNotEmpty()
@@ -93,7 +104,7 @@ class UseCaseTest {
 
     @Test
     fun `インストール済みアプリの取得_失敗`() {
-        val ret = LoadAppUseCase(userSettingsRepository, appRepository).loadInstalledAppList(pm)
+        val ret = LoadAppUseCaseImpl(userSettingsRepository, appRepository).loadInstalledAppList(pm)
         assertThat(ret.exceptionOrNull()).apply {
             isNotNull()
             isInstanceOf(me.nya_n.notificationnotifier.model.AppException.PermissionDeniedException::class.java)
@@ -106,10 +117,10 @@ class UseCaseTest {
             val cond = "test"
             val updatedCond = "updated"
             val app = InstalledApp("sample", "com.sample.www")
-            val saver = SaveFilterConditionUseCase(appRepository)
+            val saver = SaveFilterConditionUseCaseImpl(appRepository)
             saver(SaveFilterConditionUseCase.Args(app, cond))
 
-            val loader = LoadFilterConditionUseCase(appRepository)
+            val loader = LoadFilterConditionUseCaseImpl(appRepository)
             assertThat(loader(app)).isEqualTo(cond)
 
             saver(SaveFilterConditionUseCase.Args(app, updatedCond))
@@ -119,8 +130,8 @@ class UseCaseTest {
 
     @Test
     fun `IPアドレスの追加、更新_成功、成功`() {
-        val saver = SaveAddressUseCase(userSettingsRepository)
-        val loader = LoadAddressUseCase(userSettingsRepository)
+        val saver = SaveAddressUseCaseImpl(userSettingsRepository)
+        val loader = LoadAddressUseCaseImpl(userSettingsRepository)
 
         val host = "192.168.11.4"
         val port = 5555
@@ -137,8 +148,8 @@ class UseCaseTest {
 
     @Test
     fun `IPアドレスの追加、更新_成功、失敗`() {
-        val saver = SaveAddressUseCase(userSettingsRepository)
-        val loader = LoadAddressUseCase(userSettingsRepository)
+        val saver = SaveAddressUseCaseImpl(userSettingsRepository)
+        val loader = LoadAddressUseCaseImpl(userSettingsRepository)
 
         val host = "192.168.11.4"
         val port = 5555
@@ -156,28 +167,28 @@ class UseCaseTest {
     fun `IPアドレスの追加_失敗_hostなし`() {
         val port = 5555
         val addr = ":$port"
-        assertThat(SaveAddressUseCase(userSettingsRepository)(addr).exceptionOrNull()).isNotNull()
+        assertThat(SaveAddressUseCaseImpl(userSettingsRepository)(addr).exceptionOrNull()).isNotNull()
     }
 
     @Test
     fun `IPアドレスの追加_失敗_portなし`() {
         val host = "192.168.11.4"
         val addr = "$host:"
-        assertThat(SaveAddressUseCase(userSettingsRepository)(addr).exceptionOrNull()).isNotNull()
+        assertThat(SaveAddressUseCaseImpl(userSettingsRepository)(addr).exceptionOrNull()).isNotNull()
     }
 
     @Test
     fun `IPアドレスの追加_失敗_portが数値じゃない`() {
         val host = "192.168.11.4"
         val addr = "$host:test"
-        assertThat(SaveAddressUseCase(userSettingsRepository)(addr).exceptionOrNull()).isNotNull()
+        assertThat(SaveAddressUseCaseImpl(userSettingsRepository)(addr).exceptionOrNull()).isNotNull()
     }
 
     @Test
     fun `通知送信_失敗`() {
         runBlocking {
             assertThat(
-                NotifyUseCase(userSettingsRepository)("通知テスト").exceptionOrNull()
+                NotifyUseCaseImpl(userSettingsRepository)("通知テスト").exceptionOrNull()
             ).isNotNull()
         }
     }
@@ -189,9 +200,9 @@ class UseCaseTest {
             val host = "192.168.11.4"
             val port = 5555
             val addr = "$host:$port"
-            SaveAddressUseCase(userSettingsRepository)(addr)
+            SaveAddressUseCaseImpl(userSettingsRepository)(addr)
             assertThat(
-                NotifyUseCase(userSettingsRepository)("通知テスト").getOrNull()
+                NotifyUseCaseImpl(userSettingsRepository)("通知テスト").getOrNull()
             ).isNotNull()
         }
     }
@@ -200,9 +211,9 @@ class UseCaseTest {
     fun `バックアップ、復元`() {
         val uri = Uri.fromFile(File.createTempFile(exportFileName, null, exportFile))
         runBlocking {
-            val targetSaver = AddTargetAppUseCase(appRepository)
-            val condSaver = SaveFilterConditionUseCase(appRepository)
-            val addrSaver = SaveAddressUseCase(userSettingsRepository)
+            val targetSaver = AddTargetAppUseCaseImpl(appRepository)
+            val condSaver = SaveFilterConditionUseCaseImpl(appRepository)
+            val addrSaver = SaveAddressUseCaseImpl(userSettingsRepository)
 
             // 初期値の保存
             // ターゲット
@@ -216,7 +227,7 @@ class UseCaseTest {
             addrSaver(addr)
 
             // バックアップ
-            ExportDataUseCase(userSettingsRepository, appRepository)(appContext, uri)
+            ExportDataUseCaseImpl(userSettingsRepository, appRepository)(appContext, uri)
 
             // バックアップ時とは異なるように適当に変更
             // ターゲット
@@ -225,21 +236,21 @@ class UseCaseTest {
             condSaver(SaveFilterConditionUseCase.Args(app, "new"))
 
             // 復元
-            ImportDataUseCase(userSettingsRepository, appRepository)(appContext, uri)
+            ImportDataUseCaseImpl(userSettingsRepository, appRepository)(appContext, uri)
 
             // 正常に復元できているか確認
             // ターゲット一覧
             val restoreTargets =
-                LoadAppUseCase(userSettingsRepository, appRepository).loadTargetList()
+                LoadAppUseCaseImpl(userSettingsRepository, appRepository).loadTargetList()
             assertThat(restoreTargets).apply {
                 hasSize(1)
                 contains(app)
             }
             // 条件
-            val restoreCond = LoadFilterConditionUseCase(appRepository)(app)
+            val restoreCond = LoadFilterConditionUseCaseImpl(appRepository)(app)
             assertThat(restoreCond).isEqualTo(cond)
             // アドレス
-            val restoreAddr = LoadAddressUseCase(userSettingsRepository)()
+            val restoreAddr = LoadAddressUseCaseImpl(userSettingsRepository)()
             assertThat(restoreAddr).isEqualTo(addr)
         }
     }
