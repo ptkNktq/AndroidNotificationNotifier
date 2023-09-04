@@ -13,8 +13,8 @@ android {
         applicationId = "me.nya_n.notificationnotifier"
         minSdk = Versions.MIN_SDK
         targetSdk = Versions.TARGET_SDK
-        versionCode = 3
-        versionName = "4.0"
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
