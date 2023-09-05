@@ -40,7 +40,8 @@ namespace AndroidNotificationNotifier
                     var settings = JsonSerializer.Deserialize<Settings>(json);
                     if (settings == null)
                     {
-                        throw new Exception("設定ファイルを読み込めませんでした。修正して再起動してください。");
+                        Notify("設定ファイルを読み込めませんでした。修正して再起動してください。");
+                        return;
                     }
                     var ep = new IPEndPoint(IPAddress.Any, settings.Port);
                     server = new TcpListener(ep);
@@ -49,17 +50,14 @@ namespace AndroidNotificationNotifier
                     while (true)
                     {
                         using TcpClient client = server.AcceptTcpClient();
-                        var stream = client.GetStream();
-                        int i;
-                        while ((i = stream.Read(buff, 0, buff.Length)) != 0)
-                        {
-                            var message = Encoding.UTF8.GetString(buff);
-                            Notify(message);
-                        }
+                        using StreamReader reader = new (client.GetStream(), Encoding.UTF8);
+                        var message = reader.ReadToEnd();
+                        Notify(message);
                         Array.Clear(buff, 0, buff.Length);
+                        client.Close();
                     }
                 }
-                catch (Exception e)
+                catch (SocketException e)
                 {
                     Notify($"エラー: {e.Message}");
                 }
