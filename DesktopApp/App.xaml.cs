@@ -56,7 +56,7 @@ namespace AndroidNotificationNotifier
                             var message = Encoding.UTF8.GetString(buff);
                             Notify(message);
                         }
-                        client.Close();
+                        Array.Clear(buff, 0, buff.Length);
                     }
                 }
                 catch (Exception e)
