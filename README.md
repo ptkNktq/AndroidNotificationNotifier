@@ -35,7 +35,18 @@ android.apkをインストールします。
 5. 完了  
 通知対象タブに選択したアプリが表示されます。  
 後は通知が来るのを待つだけ。  
-&nbsp;<img src="https://github.com/ptkNktq/AndroidNotificationNotifier/assets/7608826/c34f58fa-43b9-4c40-9f11-64b1d9b77efd" width="320px">  
+&nbsp;<img src="https://github.com/ptkNktq/AndroidNotificationNotifier/assets/7608826/c34f58fa-43b9-4c40-9f11-64b1d9b77efd" width="320px">
+
+### プライバシーポリシー
+- アプリ内で取得したデータを第三者に送信することはありません。
+  - ただし、バックアップの際はその一部(アプリのパッケージ名等)が利用端末のストレージに保存されます。
+###### 権限の説明
+- インターネット接続
+  - 設定のバックアップを保存/復元するためのに必要です。
+- インストール済みアプリの取得
+  - 通知対象のアプリを選択するための必要です。
+- 通知へのアクセス
+  - PCに通知内容を通知するために、通知へアクセスする必要があります。
 
 ### 著作権
 このアプリのアイコンで使用しているAndroid robot(通称ドロイド君)の著作権はGoogleに帰属します。
