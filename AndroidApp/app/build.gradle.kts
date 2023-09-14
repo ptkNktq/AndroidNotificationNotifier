@@ -1,6 +1,6 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    alias(libs.plugins.org.jetbrains.kotlin.android)
     id("com.cookpad.android.plugin.license-tools")
 }
 
