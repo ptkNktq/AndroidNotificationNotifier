@@ -2,7 +2,7 @@
 [versions]
 agp = "8.1.1"
 org-jetbrains-kotlin-android = "1.8.10"
-gradle-plugin-com-cookpad-android-plugin = "1.2.8"
+oss-licenses-plugin = "0.10.6"
 androidx-core = "1.10.1"
 androidx-appcompat = "1.6.1"
 androidx-preference = "1.2.1"
@@ -22,17 +22,15 @@ io-insert-koin = "3.4.3"
 io-insert-koin-compose = "3.4.6"
 com-google-code-gson = "2.10.1"
 com-squareup-leakcanary = "2.12"
+play-services-oss-licenses = "17.0.1"
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
 com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
+com-google-oss-licenses = { id = "com.google.android.gms.oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
 
 [libraries]
-# classpath
-# TODO: 非推奨になってるので更新する
-gradle-plugin-com-cookpad-android-plugin = { module = "gradle.plugin.com.cookpad.android.plugin:plugin", version.ref = "gradle-plugin-com-cookpad-android-plugin" }
-
 # androidx
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -66,6 +64,8 @@ io-insert-koin = { module = "io.insert-koin:koin-android", version.ref = "io-ins
 io-insert-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "io-insert-koin-compose" }
 com-google-code-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson" }
 com-squareup-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "com-squareup-leakcanary" }
+oss-licenses-plugin = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "oss-licenses-plugin" }
+play-services-oss-licenses = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "play-services-oss-licenses" }
 
 [bundles]
 androidx-compose = [
