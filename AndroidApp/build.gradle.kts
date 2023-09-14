@@ -6,7 +6,6 @@ buildscript {
         maven("https://plugins.gradle.org/m2/")
     }
     dependencies {
-        classpath(libs.com.android.tools.build.gradle)
         classpath(libs.gradle.plugin.com.cookpad.android.plugin)
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -15,6 +14,8 @@ buildscript {
 }
 
 plugins {
+    alias(libs.plugins.com.android.application) apply false
+    alias(libs.plugins.com.android.library) apply false
     alias(libs.plugins.org.jetbrains.kotlin.android) apply false
     id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
 }
