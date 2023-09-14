@@ -39,7 +39,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.org.jetbrains.kotlin.stdlib)
     implementation(project(":domain"))
 
     // androidx

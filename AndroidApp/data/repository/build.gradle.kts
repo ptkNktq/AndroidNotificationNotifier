@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.org.jetbrains.kotlin.stdlib)
     api(project(":model"))
 
     implementation(kotlin("stdlib-jdk8"))

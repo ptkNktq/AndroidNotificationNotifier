@@ -39,8 +39,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.org.jetbrains.kotlin.stdlib)
-
     // androidx
     implementation(libs.androidx.core.ktx)
     // room

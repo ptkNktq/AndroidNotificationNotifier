@@ -43,7 +43,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.org.jetbrains.kotlin.stdlib)
     implementation(project(":ui"))
     // diのために必要
     implementation(project(":domain"))
