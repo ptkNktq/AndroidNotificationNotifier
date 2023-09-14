@@ -35,8 +35,6 @@ android {
 dependencies {
     api(project(":model"))
 
-    implementation(kotlin("stdlib-jdk8"))
-
     // androidx
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
