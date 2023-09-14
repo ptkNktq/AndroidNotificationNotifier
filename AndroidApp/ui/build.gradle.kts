@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    id("com.cookpad.android.plugin.license-tools")
 }
 
 android {
@@ -55,4 +54,5 @@ dependencies {
     implementation(libs.com.google.android.material)
     implementation(libs.io.insert.koin)
     implementation(libs.io.insert.koin.compose)
+    implementation(libs.play.services.oss.licenses)
 }
