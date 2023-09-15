@@ -1,7 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("com.cookpad.android.plugin.license-tools")
+    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
 android {
@@ -39,13 +38,11 @@ android {
 }
 
 dependencies {
-    implementation(libs.org.jetbrains.kotlin.stdlib)
     implementation(project(":domain"))
 
     // androidx
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
     // compose
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -57,4 +54,5 @@ dependencies {
     implementation(libs.com.google.android.material)
     implementation(libs.io.insert.koin)
     implementation(libs.io.insert.koin.compose)
+    implementation(libs.play.services.oss.licenses)
 }

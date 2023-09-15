@@ -93,6 +93,7 @@ fun SettingsScreen(
                     )
                 }
             }
+
             is UiEvent.ImportData -> {
                 LaunchedEffect(Unit) {
                     importLauncher.launch(

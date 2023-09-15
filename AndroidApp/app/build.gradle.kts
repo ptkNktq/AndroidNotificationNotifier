@@ -1,13 +1,12 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("com.cookpad.android.plugin.license-tools")
+    alias(libs.plugins.com.android.application)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 android {
     namespace = "me.nya_n.notificationnotifier"
     compileSdk = Versions.COMPILE_SDK
-    buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "me.nya_n.notificationnotifier"
@@ -44,7 +43,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.org.jetbrains.kotlin.stdlib)
     implementation(project(":ui"))
     // diのために必要
     implementation(project(":domain"))

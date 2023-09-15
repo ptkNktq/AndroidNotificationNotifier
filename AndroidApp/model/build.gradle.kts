@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.devtools.ksp)
 }
 
 android {
@@ -39,8 +39,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.org.jetbrains.kotlin.stdlib)
-
     // androidx
     implementation(libs.androidx.core.ktx)
     // room
