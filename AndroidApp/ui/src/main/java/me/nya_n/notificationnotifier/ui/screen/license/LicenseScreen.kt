@@ -23,7 +23,7 @@ fun LicenseScreen() {
             factory = { context ->
                 WebView(context).apply {
                     webViewClient = WebViewClient()
-                    loadUrl("file:///android_asset/licenses.html")
+                    loadUrl("file:///android_asset/open_source_licenses.html")
                 }
             },
         )
