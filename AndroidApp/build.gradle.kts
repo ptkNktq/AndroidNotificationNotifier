@@ -5,9 +5,3 @@ plugins {
     alias(libs.plugins.com.google.devtools.ksp) apply false
     alias(libs.plugins.com.jaredsburrows.license) apply false
 }
-
-tasks.register("clean") {
-    doFirst {
-        delete(rootProject.buildDir)
-    }
-}

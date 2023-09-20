@@ -1,41 +1,13 @@
 plugins {
-    alias(libs.plugins.com.android.application)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
+    id("common.android")
 }
 
 android {
     namespace = "me.nya_n.notificationnotifier"
-    compileSdk = Versions.COMPILE_SDK
 
     defaultConfig {
         applicationId = "me.nya_n.notificationnotifier"
-        minSdk = Versions.MIN_SDK
-        targetSdk = Versions.TARGET_SDK
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = Versions.JAVA_VERSION
-        targetCompatibility = Versions.JAVA_VERSION
-    }
-
-    kotlinOptions {
-        jvmTarget = Versions.JVM_TARGET
-    }
-
     packaging {
         resources.excludes.add("META-INF/DEPENDENCIES")
     }
