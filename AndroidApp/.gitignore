@@ -1,8 +1,13 @@
+### 手動で追加
 # 署名関係
 *.jks
 *.keystore
 *.pepk
 
+.idea/androidTestResultsUserPreferences.xml
+app/release/output-metadata.json
+
+### 自動で追加
 # Created by https://www.toptal.com/developers/gitignore/api/android,androidstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=android,androidstudio
 
