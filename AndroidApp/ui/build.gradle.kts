@@ -1,20 +1,10 @@
 plugins {
-    id("common.library")
+    id("common.library.compose")
     alias(libs.plugins.com.jaredsburrows.license)
 }
 
 android {
     namespace = "me.nya_n.notificationnotifier.ui"
-
-    kotlinOptions {
-        jvmTarget = Versions.JVM_TARGET
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION_VERSION
-    }
 }
 
 dependencies {

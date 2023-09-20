@@ -1,16 +1,10 @@
 plugins {
-    id("common.library")
+    id("common.library.compose")
     alias(libs.plugins.com.google.devtools.ksp)
 }
 
 android {
     namespace = "me.nya_n.notificationnotifier.model"
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION_VERSION
-    }
 }
 
 dependencies {
@@ -27,3 +21,6 @@ dependencies {
     api(libs.com.google.code.gson)
     implementation(libs.com.google.android.material)
 }
+
+val Project.catalog
+    get(): VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")

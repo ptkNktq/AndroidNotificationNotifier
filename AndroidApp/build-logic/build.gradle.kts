@@ -16,5 +16,9 @@ gradlePlugin {
             id = "common.library"
             implementationClass = "CommonLibrary"
         }
+        register("common.library.compose") {
+            id = "common.library.compose"
+            implementationClass = "CommonLibraryCompose"
+        }
     }
 }
