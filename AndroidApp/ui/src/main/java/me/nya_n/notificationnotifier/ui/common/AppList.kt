@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
+import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
@@ -30,10 +31,12 @@ fun AppListPreview() {
             "me.nya_n.notificationnotifier"
         ),
     )
-    AppList(
-        items = items,
-        onAppSelected = { }
-    )
+    AppTheme {
+        AppList(
+            items = items,
+            onAppSelected = { }
+        )
+    }
 }
 
 @Composable

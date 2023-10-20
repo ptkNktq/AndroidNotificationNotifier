@@ -25,18 +25,21 @@ import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
+import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import me.nya_n.notificationnotifier.ui.util.Sample
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 fun SelectionPreview() {
-    SelectionContent(
-        items = Sample.items,
-        onAppSelected = { },
-        initQuery = "",
-        onQueryInputted = { }
-    )
+    AppTheme {
+        SelectionContent(
+            items = Sample.items,
+            onAppSelected = { },
+            initQuery = "",
+            onQueryInputted = { }
+        )
+    }
 }
 
 /**

@@ -40,6 +40,7 @@ import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionScreen
 import me.nya_n.notificationnotifier.ui.screen.settings.SettingsScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
+import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -51,10 +52,12 @@ fun MainPreview() {
         TabItem(R.string.settings, Icons.Outlined.Settings),
     )
     val pagerState = rememberPagerState(pageCount = { tabItems.size })
-    MainContent(
-        tabItems = tabItems,
-        pagerState = pagerState
-    )
+    AppTheme {
+        MainContent(
+            tabItems = tabItems,
+            pagerState = pagerState
+        )
+    }
 }
 
 /**

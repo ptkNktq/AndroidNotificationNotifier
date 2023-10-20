@@ -39,18 +39,21 @@ import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppOutlinedButton
 import me.nya_n.notificationnotifier.ui.common.Category
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
+import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 fun SettingsPreview() {
-    SettingsContent(
-        uiState = UiState(address = "192.168.11.2:5555"),
-        onValueChange = { },
-        onNotifyTest = { },
-        onExportData = { },
-        onImportData = { }
-    )
+    AppTheme {
+        SettingsContent(
+            uiState = UiState(address = "192.168.11.2:5555"),
+            onValueChange = { },
+            onNotifyTest = { },
+            onExportData = { },
+            onImportData = { }
+        )
+    }
 }
 
 /**

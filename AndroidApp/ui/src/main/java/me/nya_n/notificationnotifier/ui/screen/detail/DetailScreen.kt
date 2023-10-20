@@ -23,32 +23,37 @@ import androidx.navigation.NavController
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.*
+import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 fun DetailPreview() {
-    DetailContent(
-        app = InstalledApp("Sample App Name", "example.sample.test"),
-        condition = "^.*$",
-        onDeleteApp = { },
-        onConditionChanged = { }
-    )
+    AppTheme {
+        DetailContent(
+            app = InstalledApp("Sample App Name", "example.sample.test"),
+            condition = "^.*$",
+            onDeleteApp = { },
+            onConditionChanged = { }
+        )
+    }
 }
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 fun LongAppNameDetailPreview() {
-    DetailContent(
-        app = InstalledApp(
-            "Sample App Name So Loooooooooooooooooooong",
-            "example.sample.test"
-        ),
-        condition = "",
-        onDeleteApp = { },
-        onConditionChanged = { }
-    )
+    AppTheme {
+        DetailContent(
+            app = InstalledApp(
+                "Sample App Name So Loooooooooooooooooooong",
+                "example.sample.test"
+            ),
+            condition = "",
+            onDeleteApp = { },
+            onConditionChanged = { }
+        )
+    }
 }
 
 /**

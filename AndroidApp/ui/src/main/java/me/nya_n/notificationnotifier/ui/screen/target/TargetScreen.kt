@@ -14,6 +14,7 @@ import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.screen.Screen
+import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -24,10 +25,12 @@ fun TargetPreview() {
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
     )
-    TargetContent(
-        items = items,
-        onAppSelected = { }
-    )
+    AppTheme {
+        TargetContent(
+            items = items,
+            onAppSelected = { }
+        )
+    }
 }
 
 /**
