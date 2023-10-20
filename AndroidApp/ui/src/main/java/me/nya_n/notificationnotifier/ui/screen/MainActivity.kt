@@ -6,6 +6,12 @@ import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.domain.usecase.CheckPackageVisibilityUseCase
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.ui.dialogs.NotificationAccessPermissionDialog
@@ -16,11 +22,17 @@ class MainActivity : AppCompatActivity() {
 
     private val packageVisibilityGrantedUseCase: PackageVisibilityGrantedUseCase by inject()
     private val isPackageVisibilityGranted: CheckPackageVisibilityUseCase by inject()
+    private val isReady = MutableStateFlow(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen().setKeepOnScreenCondition { !isReady.value }
         super.onCreate(savedInstanceState)
         setContent { AppScreen() }
         setUpPermissionsCheckResultListener()
+        lifecycleScope.launch {
+            delay(500)
+            isReady.update { true }
+        }
     }
 
     override fun onResume() {
