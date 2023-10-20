@@ -14,13 +14,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -39,7 +39,6 @@ import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppOutlinedButton
 import me.nya_n.notificationnotifier.ui.common.Category
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
-import me.nya_n.notificationnotifier.ui.theme.AppColors
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -189,15 +188,15 @@ fun NotifySettings(
         ),
         singleLine = true,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color.White,
-            focusedBorderColor = AppColors.Brown,
-            cursorColor = AppColors.Brown
+            backgroundColor = MaterialTheme.colorScheme.onPrimary,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            cursorColor = MaterialTheme.colorScheme.primary
         ),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.Devices,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(AppColors.RoseBrown)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
             )
         },
         modifier = Modifier
@@ -253,11 +252,11 @@ fun ClickableBasicItem(
         Image(
             imageVector = icon,
             contentDescription = null,
-            colorFilter = ColorFilter.tint(AppColors.BasicBlack)
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondary)
         )
         Text(
             text = stringResource(id = textResourceId),
-            style = TextStyle(color = AppColors.BasicBlack),
+            style = TextStyle(color = MaterialTheme.colorScheme.onSecondary),
             modifier = Modifier.padding(start = 8.dp)
         )
         Spacer(modifier = Modifier.fillMaxWidth())

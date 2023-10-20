@@ -7,11 +7,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -23,7 +23,6 @@ import androidx.navigation.NavController
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.*
-import me.nya_n.notificationnotifier.ui.theme.AppColors
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -180,15 +179,15 @@ fun NotificationSetting(
         ),
         singleLine = true,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color.White,
-            focusedBorderColor = AppColors.Brown,
-            cursorColor = AppColors.Brown
+            backgroundColor = MaterialTheme.colorScheme.onPrimary,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            cursorColor = MaterialTheme.colorScheme.primary
         ),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.NotificationsActive,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(AppColors.RoseBrown)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
             )
         },
         modifier = Modifier

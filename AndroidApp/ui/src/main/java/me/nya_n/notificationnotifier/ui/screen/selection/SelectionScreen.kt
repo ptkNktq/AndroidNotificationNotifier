@@ -9,10 +9,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -25,7 +25,6 @@ import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
-import me.nya_n.notificationnotifier.ui.theme.AppColors
 import me.nya_n.notificationnotifier.ui.util.Sample
 import org.koin.androidx.compose.getViewModel
 
@@ -114,15 +113,15 @@ fun QueryTextField(
         ),
         singleLine = true,
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = Color.White,
-            focusedBorderColor = AppColors.Brown,
-            cursorColor = AppColors.Brown
+            backgroundColor = MaterialTheme.colorScheme.onPrimary,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            cursorColor = MaterialTheme.colorScheme.primary
         ),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.Search,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(AppColors.RoseBrown)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.secondary)
             )
         },
         modifier = Modifier
