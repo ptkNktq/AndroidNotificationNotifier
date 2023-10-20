@@ -17,22 +17,6 @@ import me.nya_n.notificationnotifier.ui.screen.Screen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 
-@Composable
-@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
-fun TargetPreview() {
-    val items = listOf(
-        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
-        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
-        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
-    )
-    AppTheme {
-        TargetContent(
-            items = items,
-            onAppSelected = { }
-        )
-    }
-}
-
 /**
  * 通知送信ターゲットに追加したアプリリスト
  */
@@ -66,5 +50,21 @@ fun TargetContent(
         EmptyView(textResourceId = R.string.no_apps)
     } else {
         AppList(items = items, onAppSelected = onAppSelected)
+    }
+}
+
+@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
+@Composable
+fun TargetPreview() {
+    val items = listOf(
+        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
+        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
+        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
+    )
+    AppTheme {
+        TargetContent(
+            items = items,
+            onAppSelected = { }
+        )
     }
 }

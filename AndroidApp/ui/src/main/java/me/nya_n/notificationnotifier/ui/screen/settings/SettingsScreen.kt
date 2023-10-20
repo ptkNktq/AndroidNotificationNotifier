@@ -42,20 +42,6 @@ import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 
-@Composable
-@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
-fun SettingsPreview() {
-    AppTheme {
-        SettingsContent(
-            uiState = UiState(address = "192.168.11.2:5555"),
-            onValueChange = { },
-            onNotifyTest = { },
-            onExportData = { },
-            onImportData = { }
-        )
-    }
-}
-
 /**
  * 設定画面
  * TODO:
@@ -263,5 +249,19 @@ fun ClickableBasicItem(
             modifier = Modifier.padding(start = 8.dp)
         )
         Spacer(modifier = Modifier.fillMaxWidth())
+    }
+}
+
+@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
+@Composable
+fun SettingsPreview() {
+    AppTheme {
+        SettingsContent(
+            uiState = UiState(address = "192.168.11.2:5555"),
+            onValueChange = { },
+            onNotifyTest = { },
+            onExportData = { },
+            onImportData = { }
+        )
     }
 }

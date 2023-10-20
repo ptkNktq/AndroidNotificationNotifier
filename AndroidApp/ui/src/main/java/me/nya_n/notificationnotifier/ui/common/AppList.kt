@@ -22,24 +22,6 @@ import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @Composable
-@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
-fun AppListPreview() {
-    val items = listOf(
-        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
-        InstalledApp(
-            "Sample App Name So Looooooooooooooooong",
-            "me.nya_n.notificationnotifier"
-        ),
-    )
-    AppTheme {
-        AppList(
-            items = items,
-            onAppSelected = { }
-        )
-    }
-}
-
-@Composable
 fun AppList(
     items: List<InstalledApp>,
     onAppSelected: (InstalledApp) -> Unit
@@ -91,5 +73,23 @@ fun AppListItem(
                 )
             }
         }
+    }
+}
+
+@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
+@Composable
+fun AppListPreview() {
+    val items = listOf(
+        InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
+        InstalledApp(
+            "Sample App Name So Looooooooooooooooong",
+            "me.nya_n.notificationnotifier"
+        ),
+    )
+    AppTheme {
+        AppList(
+            items = items,
+            onAppSelected = { }
+        )
     }
 }

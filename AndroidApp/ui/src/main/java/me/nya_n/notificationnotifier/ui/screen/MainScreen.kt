@@ -42,24 +42,6 @@ import me.nya_n.notificationnotifier.ui.screen.settings.SettingsScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-@Preview
-fun MainPreview() {
-    val tabItems = listOf(
-        TabItem(R.string.targets, Icons.Outlined.NotificationsActive),
-        TabItem(R.string.apps, Icons.Rounded.List),
-        TabItem(R.string.settings, Icons.Outlined.Settings),
-    )
-    val pagerState = rememberPagerState(pageCount = { tabItems.size })
-    AppTheme {
-        MainContent(
-            tabItems = tabItems,
-            pagerState = pagerState
-        )
-    }
-}
-
 /**
  * メイン画面
  */
@@ -110,28 +92,6 @@ fun MainScreen(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun BottomBar(
-    tabItems: List<TabItem>,
-    pagerState: PagerState
-) {
-    val scope = rememberCoroutineScope()
-    BottomNavigation(
-        backgroundColor = MaterialTheme.colorScheme.primary
-    ) {
-        tabItems.forEachIndexed { index, tabItem ->
-            BottomNavigationItem(
-                label = { Text(text = stringResource(id = tabItem.labelResourceId)) },
-                icon = { Icon(imageVector = tabItem.icon, contentDescription = null) },
-                selectedContentColor = MaterialTheme.colorScheme.onPrimary,
-                selected = index == pagerState.currentPage,
-                onClick = { scope.launch { pagerState.scrollToPage(index, 0f) } }
-            )
-        }
-    }
-}
-
 /**
  * メイン画面のコンテンツ本体
  */
@@ -158,6 +118,28 @@ fun MainContent(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun BottomBar(
+    tabItems: List<TabItem>,
+    pagerState: PagerState
+) {
+    val scope = rememberCoroutineScope()
+    BottomNavigation(
+        backgroundColor = MaterialTheme.colorScheme.primary
+    ) {
+        tabItems.forEachIndexed { index, tabItem ->
+            BottomNavigationItem(
+                label = { Text(text = stringResource(id = tabItem.labelResourceId)) },
+                icon = { Icon(imageVector = tabItem.icon, contentDescription = null) },
+                selectedContentColor = MaterialTheme.colorScheme.onPrimary,
+                selected = index == pagerState.currentPage,
+                onClick = { scope.launch { pagerState.scrollToPage(index, 0f) } }
+            )
+        }
+    }
+}
+
 /**
  * BottomNavigationで表示する各タブの情報
  */
@@ -171,3 +153,21 @@ data class TabItem(
      */
     val content: @Composable () -> Unit = { EmptyView(textResourceId = R.string.no_contents) }
 )
+
+@OptIn(ExperimentalFoundationApi::class)
+@Preview
+@Composable
+fun MainPreview() {
+    val tabItems = listOf(
+        TabItem(R.string.targets, Icons.Outlined.NotificationsActive),
+        TabItem(R.string.apps, Icons.Rounded.List),
+        TabItem(R.string.settings, Icons.Outlined.Settings),
+    )
+    val pagerState = rememberPagerState(pageCount = { tabItems.size })
+    AppTheme {
+        MainContent(
+            tabItems = tabItems,
+            pagerState = pagerState
+        )
+    }
+}

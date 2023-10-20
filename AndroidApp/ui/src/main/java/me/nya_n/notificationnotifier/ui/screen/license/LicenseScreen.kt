@@ -11,14 +11,6 @@ import me.nya_n.notificationnotifier.ui.common.AppScaffold
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @Composable
-@Preview
-fun LicensePreview() {
-    AppTheme {
-        LicenseScreen()
-    }
-}
-
-@Composable
 fun LicenseScreen() {
     AppScaffold {
         AndroidView(
@@ -30,5 +22,13 @@ fun LicenseScreen() {
                 }
             },
         )
+    }
+}
+
+@Preview
+@Composable
+fun LicensePreview() {
+    AppTheme {
+        LicenseScreen()
     }
 }

@@ -27,35 +27,6 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@Composable
-@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
-fun DetailPreview() {
-    AppTheme {
-        DetailContent(
-            app = InstalledApp("Sample App Name", "example.sample.test"),
-            condition = "^.*$",
-            onDeleteApp = { },
-            onConditionChanged = { }
-        )
-    }
-}
-
-@Composable
-@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
-fun LongAppNameDetailPreview() {
-    AppTheme {
-        DetailContent(
-            app = InstalledApp(
-                "Sample App Name So Loooooooooooooooooooong",
-                "example.sample.test"
-            ),
-            condition = "",
-            onDeleteApp = { },
-            onConditionChanged = { }
-        )
-    }
-}
-
 /**
  * 詳細画面
  */
@@ -200,4 +171,33 @@ fun NotificationSetting(
             .padding(vertical = 8.dp)
     )
     Text(text = stringResource(id = R.string.condition_notice))
+}
+
+@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
+@Composable
+fun DetailPreview() {
+    AppTheme {
+        DetailContent(
+            app = InstalledApp("Sample App Name", "example.sample.test"),
+            condition = "^.*$",
+            onDeleteApp = { },
+            onConditionChanged = { }
+        )
+    }
+}
+
+@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
+@Composable
+fun LongAppNameDetailPreview() {
+    AppTheme {
+        DetailContent(
+            app = InstalledApp(
+                "Sample App Name So Loooooooooooooooooooong",
+                "example.sample.test"
+            ),
+            condition = "",
+            onDeleteApp = { },
+            onConditionChanged = { }
+        )
+    }
 }

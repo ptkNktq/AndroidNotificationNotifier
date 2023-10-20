@@ -29,19 +29,6 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import me.nya_n.notificationnotifier.ui.util.Sample
 import org.koin.androidx.compose.getViewModel
 
-@Composable
-@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
-fun SelectionPreview() {
-    AppTheme {
-        SelectionContent(
-            items = Sample.items,
-            onAppSelected = { },
-            initQuery = "",
-            onQueryInputted = { }
-        )
-    }
-}
-
 /**
  * 通知送信ターゲットアプリの選択画面
  *  - インストール済みのアプリ一覧が表示される
@@ -131,4 +118,17 @@ fun QueryTextField(
             .fillMaxWidth()
             .padding(start = 20.dp, top = 20.dp, end = 20.dp)
     )
+}
+
+@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
+@Composable
+fun SelectionPreview() {
+    AppTheme {
+        SelectionContent(
+            items = Sample.items,
+            onAppSelected = { },
+            initQuery = "",
+            onQueryInputted = { }
+        )
+    }
 }
