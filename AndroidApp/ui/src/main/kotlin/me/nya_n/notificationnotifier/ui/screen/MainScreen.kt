@@ -10,17 +10,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.List
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -98,9 +97,17 @@ fun MainContent(
     tabItems: List<TabItem>,
     pagerState: PagerState,
 ) {
+    val scope = rememberCoroutineScope()
     AppScaffold(
-        bottomBar = { BottomBar(tabItems = tabItems, pagerState = pagerState) },
         scaffoldState = scaffoldState,
+        bottomBar = {
+            BottomBar(
+                items = tabItems,
+                currentPage = pagerState.currentPage
+            ) {
+                scope.launch { pagerState.scrollToPage(it, 0f) }
+            }
+        }
     ) {
         HorizontalPager(
             state = pagerState,
@@ -114,23 +121,19 @@ fun MainContent(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BottomBar(
-    tabItems: List<TabItem>,
-    pagerState: PagerState
+    items: List<TabItem>,
+    currentPage: Int,
+    onTabSelected: (selected: Int) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-    BottomNavigation(
-        backgroundColor = MaterialTheme.colorScheme.primary
-    ) {
-        tabItems.forEachIndexed { index, tabItem ->
-            BottomNavigationItem(
-                label = { Text(text = stringResource(id = tabItem.labelResourceId)) },
-                icon = { Icon(imageVector = tabItem.icon, contentDescription = null) },
-                selectedContentColor = MaterialTheme.colorScheme.onPrimary,
-                selected = index == pagerState.currentPage,
-                onClick = { scope.launch { pagerState.scrollToPage(index, 0f) } }
+    NavigationBar {
+        items.forEachIndexed { index, item ->
+            NavigationBarItem(
+                selected = index == currentPage,
+                onClick = { onTabSelected(index) },
+                icon = { Icon(imageVector = item.icon, contentDescription = null) },
+                label = { Text(text = stringResource(id = item.labelResourceId)) },
             )
         }
     }
@@ -162,5 +165,18 @@ fun MainPreview() {
             tabItems = tabItems,
             pagerState = pagerState
         )
+    }
+}
+
+@Preview
+@Composable
+fun BottomBarPreview() {
+    val tabItems = listOf(
+        TabItem(R.string.targets, Icons.Outlined.NotificationsActive),
+        TabItem(R.string.apps, Icons.Rounded.List),
+        TabItem(R.string.settings, Icons.Outlined.Settings),
+    )
+    AppTheme {
+        BottomBar(items = tabItems, currentPage = 0) { }
     }
 }
