@@ -16,11 +16,14 @@ import androidx.compose.material.Divider
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Snackbar
+import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -36,7 +39,6 @@ import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
-import me.nya_n.notificationnotifier.ui.theme.AppColors
 import me.nya_n.notificationnotifier.ui.util.AppIcon
 import me.nya_n.notificationnotifier.ui.util.isInPreview
 
@@ -47,10 +49,15 @@ fun AppScaffold(
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
-        backgroundColor = AppColors.RoseBrown,
+        backgroundColor = MaterialTheme.colorScheme.secondary,
         topBar = { TopBar() },
         bottomBar = bottomBar,
         scaffoldState = scaffoldState,
+        snackbarHost = {
+            SnackbarHost(it) { data ->
+                Snackbar(snackbarData = data, actionColor = Color.White)
+            }
+        },
         modifier = Modifier.systemBarsPadding(),
         content = content
     )
@@ -59,8 +66,13 @@ fun AppScaffold(
 @Composable
 fun TopBar() {
     TopAppBar(
-        title = { Text(text = stringResource(id = R.string.content_title), color = Color.White) },
-        backgroundColor = AppColors.Brown
+        title = {
+            Text(
+                text = stringResource(id = R.string.content_title),
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+        },
+        backgroundColor = MaterialTheme.colorScheme.primary
     )
 }
 
@@ -91,12 +103,12 @@ fun Category(@StringRes titleResourceId: Int) {
             modifier = Modifier.size(24.dp, 24.dp),
             contentAlignment = Alignment.Center
         ) {
-            Divider(color = AppColors.BasicBlack)
+            Divider(color = MaterialTheme.colorScheme.onSecondary)
         }
         Text(
             text = stringResource(id = titleResourceId),
             modifier = Modifier.padding(horizontal = 8.dp),
-            style = TextStyle(color = AppColors.BasicBlack)
+            style = TextStyle(color = MaterialTheme.colorScheme.onSecondary)
         )
         Box(
             modifier = Modifier
@@ -104,7 +116,7 @@ fun Category(@StringRes titleResourceId: Int) {
                 .height(24.dp),
             contentAlignment = Alignment.Center
         ) {
-            Divider(color = AppColors.BasicBlack)
+            Divider(color = MaterialTheme.colorScheme.onSecondary)
         }
     }
 }
@@ -117,13 +129,13 @@ fun AppOutlinedButton(
     OutlinedButton(
         onClick = onClick,
         colors = ButtonDefaults.outlinedButtonColors(
-            backgroundColor = AppColors.RoseBrown
+            backgroundColor = MaterialTheme.colorScheme.secondary
         ),
         modifier = Modifier.fillMaxWidth(),
     ) {
         Text(
             text = stringResource(id = textResourceId),
-            style = TextStyle(color = AppColors.BasicBlack)
+            style = TextStyle(color = MaterialTheme.colorScheme.onSecondary)
         )
     }
 }
@@ -169,13 +181,13 @@ fun SnackbarMessage(
     // TODO: Snackbarの色変更に対応
     val (text, _) = when (message) {
         is Message.Error -> {
-            Pair(stringResource(id = message.message), AppColors.BasicBlack)
+            Pair(stringResource(id = message.message), MaterialTheme.colorScheme.onSecondary)
         }
 
         is Message.Notice -> {
             Pair(
                 stringResource(id = message.message, formatArgs = message.args),
-                AppColors.BasicBlack
+                MaterialTheme.colorScheme.onSecondary
             )
         }
     }

@@ -1,5 +1,6 @@
 package me.nya_n.notificationnotifier.ui.theme
 
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.ui.graphics.Color
 
 object AppColors {
@@ -7,3 +8,10 @@ object AppColors {
     val Brown = Color(0xFF443731)
     val BasicBlack = Color(0xFF352E2B)
 }
+
+val AppColorScheme = darkColorScheme(
+    primary = AppColors.Brown,
+    onPrimary = Color.White,
+    secondary = AppColors.RoseBrown,
+    onSecondary = AppColors.BasicBlack
+)

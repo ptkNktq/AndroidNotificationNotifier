@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.List
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -40,7 +40,7 @@ import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionScreen
 import me.nya_n.notificationnotifier.ui.screen.settings.SettingsScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
-import me.nya_n.notificationnotifier.ui.theme.AppColors
+import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -52,10 +52,12 @@ fun MainPreview() {
         TabItem(R.string.settings, Icons.Outlined.Settings),
     )
     val pagerState = rememberPagerState(pageCount = { tabItems.size })
-    MainContent(
-        tabItems = tabItems,
-        pagerState = pagerState
-    )
+    AppTheme {
+        MainContent(
+            tabItems = tabItems,
+            pagerState = pagerState
+        )
+    }
 }
 
 /**
@@ -116,13 +118,13 @@ fun BottomBar(
 ) {
     val scope = rememberCoroutineScope()
     BottomNavigation(
-        backgroundColor = AppColors.Brown
+        backgroundColor = MaterialTheme.colorScheme.primary
     ) {
         tabItems.forEachIndexed { index, tabItem ->
             BottomNavigationItem(
                 label = { Text(text = stringResource(id = tabItem.labelResourceId)) },
                 icon = { Icon(imageVector = tabItem.icon, contentDescription = null) },
-                selectedContentColor = Color.White,
+                selectedContentColor = MaterialTheme.colorScheme.onPrimary,
                 selected = index == pagerState.currentPage,
                 onClick = { scope.launch { pagerState.scrollToPage(index, 0f) } }
             )

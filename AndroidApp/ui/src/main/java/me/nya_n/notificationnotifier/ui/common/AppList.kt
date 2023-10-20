@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
-import me.nya_n.notificationnotifier.ui.theme.AppColors
+import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @Composable
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
@@ -30,10 +31,12 @@ fun AppListPreview() {
             "me.nya_n.notificationnotifier"
         ),
     )
-    AppList(
-        items = items,
-        onAppSelected = { }
-    )
+    AppTheme {
+        AppList(
+            items = items,
+            onAppSelected = { }
+        )
+    }
 }
 
 @Composable
@@ -82,7 +85,7 @@ fun AppListItem(
             ) {
                 Text(
                     text = app.label,
-                    color = AppColors.BasicBlack,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
