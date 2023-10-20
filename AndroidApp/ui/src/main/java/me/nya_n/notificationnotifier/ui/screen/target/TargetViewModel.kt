@@ -19,9 +19,7 @@ class TargetViewModel(
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    /**
-     * 通知対象一覧の取得
-     */
+    /** 通知対象一覧の取得 */
     fun loadTargets() {
         viewModelScope.launch {
             useCase(pm).onSuccess { res ->
@@ -30,16 +28,12 @@ class TargetViewModel(
         }
     }
 
-    /**
-     * メッセージ受信
-     */
+    /** メッセージ受信 */
     fun messageReceived(message: Message) {
         _uiState.update { it.copy(message = message) }
     }
 
-    /**
-     * メッセージを表示した
-     */
+    /** メッセージを表示した */
     fun messageShown() {
         _uiState.update { it.copy(message = null) }
     }

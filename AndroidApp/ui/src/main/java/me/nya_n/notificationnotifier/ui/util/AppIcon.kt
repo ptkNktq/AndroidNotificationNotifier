@@ -16,19 +16,18 @@ object AppIcon {
         }
     }
 
-    /**
-     * アプリのアイコンを取得する
-     * @param packageName パッケージ名
-     * @param pm パッケージマネージャー
-     * @param isInListView ListViewの中で表示しているか
+    /** アプリのアイコンを取得する
+     *  @param packageName パッケージ名
+     *  @param pm パッケージマネージャー
+     *  @param isInListView ListViewの中で表示しているか
      *
-     * @return アプリのアイコン
+     *  @return アプリのアイコン
      *
-     * FIXME: TODO:
-     *  ListViewにて画像読み込みタイミング次第では
-     *  「IllegalArgumentException: width and height must be > 0」になってクラッシュする
-     *  画像表示対象のImageがスクロールによって画面外になりintrinsicWidthが0になっているのでは？分かりゃん…
-     *  これの対策としてListView内の場合は固定サイズで読み込むことで一時的に対処している
+     *  FIXME: TODO:
+     *   ListViewにて画像読み込みタイミング次第では
+     *   「IllegalArgumentException: width and height must be > 0」になってクラッシュする
+     *   画像表示対象のImageがスクロールによって画面外になりintrinsicWidthが0になっているのでは？分かりゃん…
+     *   これの対策としてListView内の場合は固定サイズで読み込むことで一時的に対処している
      */
     fun get(
         packageName: String,

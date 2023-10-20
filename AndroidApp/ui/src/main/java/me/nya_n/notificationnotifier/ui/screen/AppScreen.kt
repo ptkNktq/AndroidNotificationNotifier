@@ -35,9 +35,7 @@ fun AppScreen() {
     }
 }
 
-/**
- * 画面遷移情報
- */
+/** 画面遷移情報 */
 sealed class Screen(
     val name: String,
     private val args: List<String> = emptyList()

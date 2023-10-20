@@ -7,9 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.stringResource
 import me.nya_n.notificationnotifier.model.Message
 
-/**
- * Snackbarでメッセージを表示
- */
+/** Snackbarでメッセージを表示 */
 @Composable
 fun SnackbarMessage(
     scaffoldState: ScaffoldState,

@@ -25,9 +25,7 @@ class SettingsViewModel(
     private val importDataUseCase: ImportDataUseCase
 ) : AppViewModel<UiEvent>() {
 
-    /**
-     * UIの状態
-     */
+    /** UIの状態 */
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
@@ -37,9 +35,8 @@ class SettingsViewModel(
         }
     }
 
-    /**
-     * アドレスの更新
-     * @param address 変更後のアドレス
+    /** アドレスの更新
+     *  @param address 変更後のアドレス
      */
     fun updateAddress(address: String) {
         /* FIXME:
@@ -49,9 +46,7 @@ class SettingsViewModel(
         _uiState.update { it.copy(address = address) }
     }
 
-    /**
-     * 通知テスト
-     */
+    /** 通知テスト */
     fun notifyTest() {
         viewModelScope.launch {
             val message = if (notifyUseCase("通知テスト").isSuccess) {
@@ -63,9 +58,7 @@ class SettingsViewModel(
         }
     }
 
-    /**
-     * バックアップのために外部ストレージにデータを保存
-     */
+    /** バックアップのために外部ストレージにデータを保存 */
     fun exportData(context: Context, uri: Uri?) {
         if (uri == null) {
             _uiState.update { it.copy(message = Message.Error(R.string.export_failed)) }
@@ -81,9 +74,7 @@ class SettingsViewModel(
         }
     }
 
-    /**
-     * 外部ストレージのバックアップからデータを復元
-     */
+    /** 外部ストレージのバックアップからデータを復元 */
     fun importData(context: Context, uri: Uri?) {
         if (uri == null) {
             _uiState.update { it.copy(message = Message.Error(R.string.import_failed)) }
@@ -99,9 +90,7 @@ class SettingsViewModel(
         }
     }
 
-    /**
-     * メッセージを表示した
-     */
+    /** メッセージを表示した */
     fun messageShown() {
         _uiState.update { it.copy(message = null) }
     }

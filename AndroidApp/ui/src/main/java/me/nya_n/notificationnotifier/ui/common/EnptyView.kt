@@ -12,9 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
-/**
- * 表示するアイテムがなかったときに表示するView
- */
+/** 表示するアイテムがなかったときに表示するView */
 @Composable
 fun EmptyView(@StringRes textResourceId: Int) {
     Box(

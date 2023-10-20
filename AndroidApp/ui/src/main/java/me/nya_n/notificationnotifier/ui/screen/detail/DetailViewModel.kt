@@ -22,26 +22,20 @@ class DetailViewModel(
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
-        /**
-         * 通知条件を読み込む
-         */
+        /** 通知条件を読み込む */
         viewModelScope.launch {
             _uiState.update { it.copy(condition = loadFilterConditionUseCase(target)) }
         }
     }
 
-    /**
-     * 選択したアプリを通知対象から外す
-     */
+    /** 選択したアプリを通知対象から外す */
     fun deleteTarget() {
         viewModelScope.launch {
             deleteTargetAppUseCase(target)
         }
     }
 
-    /**
-     * 通知条件を保存
-     */
+    /** 通知条件を保存 */
     fun save(condition: String) {
         viewModelScope.launch {
             saveFilterConditionUseCase(
@@ -51,9 +45,7 @@ class DetailViewModel(
         }
     }
 
-    /**
-     * メッセージを表示した
-     */
+    /** メッセージを表示した */
     fun messageShown() {
         _uiState.update { it.copy(message = null) }
     }

@@ -27,9 +27,7 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-/**
- * 詳細画面
- */
+/** 詳細画面 */
 @Composable
 fun DetailScreen(
     navController: NavController,
@@ -59,9 +57,7 @@ fun DetailScreen(
     )
 }
 
-/**
- * 詳細画面のコンテンツ本体
- */
+/** 詳細画面のコンテンツ本体 */
 @Composable
 fun DetailContent(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
@@ -85,9 +81,8 @@ fun DetailContent(
     }
 }
 
-/**
- * アプリ情報
- *  - アイコンとアプリ名
+/** アプリ情報
+ *   - アイコンとアプリ名
  */
 @Composable
 fun AppInfo(
@@ -121,9 +116,8 @@ fun AppInfo(
     )
 }
 
-/**
- * 通知設定
- *  - 条件
+/** 通知設定
+ *   - 条件
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -135,8 +129,7 @@ fun NotificationSetting(
     val focusManager = LocalFocusManager.current
     var condition by remember(initCondition) { mutableStateOf(initCondition) }
     Category(titleResourceId = R.string.notification_settings)
-    /*
-     * FIXME: TODO:
+    /* FIXME: TODO:
      *  テキスト未確定状態で、IMEの◀,▶でカーソルを移動させたとき、カーソルの移動がおかしくなる
      *  TextFieldValueも試したが改善されず
      */

@@ -42,11 +42,7 @@ import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 
-/**
- * 設定画面
- * TODO:
- *  - 設定バックアップ/復元機能
- */
+/** 設定画面 */
 @Composable
 fun SettingsScreen(
     navController: NavController,
@@ -111,9 +107,7 @@ fun SettingsScreen(
     )
 }
 
-/**
- * 設定画面のコンテンツ本体
- */
+/** 設定画面のコンテンツ本体 */
 @Composable
 fun SettingsContent(
     navController: NavController = rememberNavController(),
@@ -142,10 +136,9 @@ fun SettingsContent(
     }
 }
 
-/**
- * 通知関係の設定
- *  - 送信先の入力
- *  - 送信テスト
+/** 通知関係の設定
+ *   - 送信先の入力
+ *   - 送信テスト
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -198,10 +191,9 @@ fun NotifySettings(
     )
 }
 
-/**
- * その他の項目
- *  - ライセンス表示
- *  - バージョン表示
+/** その他の項目
+ *   - ライセンス表示
+ *   - バージョン表示
  */
 @Composable
 fun OtherSettings(
@@ -221,10 +213,9 @@ fun OtherSettings(
     }
 }
 
-/**
- * 基本的な項目
- *  - [アイコン 項目名] で構成される
- *  - クリックできる
+/** 基本的な項目
+ *   - [アイコン 項目名] で構成される
+ *   - クリックできる
  */
 @Composable
 fun ClickableBasicItem(

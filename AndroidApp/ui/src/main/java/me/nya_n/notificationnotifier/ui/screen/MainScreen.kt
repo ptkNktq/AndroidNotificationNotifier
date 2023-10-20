@@ -42,9 +42,7 @@ import me.nya_n.notificationnotifier.ui.screen.settings.SettingsScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
-/**
- * メイン画面
- */
+/** メイン画面 */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(
@@ -92,9 +90,7 @@ fun MainScreen(
     )
 }
 
-/**
- * メイン画面のコンテンツ本体
- */
+/** メイン画面のコンテンツ本体 */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainContent(
@@ -140,16 +136,13 @@ fun BottomBar(
     }
 }
 
-/**
- * BottomNavigationで表示する各タブの情報
- */
+/** BottomNavigationで表示する各タブの情報 */
 data class TabItem(
     @StringRes
     val labelResourceId: Int,
     val icon: ImageVector,
-    /**
-     * このページで表示するコンテンツ
-     *  - 初期値として中央に「No Contents...」と表示するViewを定義してある
+    /** このページで表示するコンテンツ
+     *   - 初期値として中央に「No Contents...」と表示するViewを定義してある
      */
     val content: @Composable () -> Unit = { EmptyView(textResourceId = R.string.no_contents) }
 )

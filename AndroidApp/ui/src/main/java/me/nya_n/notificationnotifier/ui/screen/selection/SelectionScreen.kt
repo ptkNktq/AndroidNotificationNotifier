@@ -29,11 +29,10 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import me.nya_n.notificationnotifier.ui.util.Sample
 import org.koin.androidx.compose.getViewModel
 
-/**
- * 通知送信ターゲットアプリの選択画面
- *  - インストール済みのアプリ一覧が表示される
- *  - すでにターゲットに追加してあるものは表示されない
- *  - TODO: システムアプリ等不要な(？)アプリを非表示にする方法を調べる
+/** 通知送信ターゲットアプリの選択画面
+ *   - インストール済みのアプリ一覧が表示される
+ *   - すでにターゲットに追加してあるものは表示されない
+ *   - TODO: システムアプリ等不要な(？)アプリを非表示にする方法を調べる
  */
 @Composable
 fun SelectionScreen(

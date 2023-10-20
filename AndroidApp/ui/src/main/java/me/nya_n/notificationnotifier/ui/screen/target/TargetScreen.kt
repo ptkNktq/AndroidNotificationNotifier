@@ -17,9 +17,7 @@ import me.nya_n.notificationnotifier.ui.screen.Screen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 
-/**
- * 通知送信ターゲットに追加したアプリリスト
- */
+/** 通知送信ターゲットに追加したアプリリスト */
 @Composable
 fun TargetScreen(
     navController: NavController,

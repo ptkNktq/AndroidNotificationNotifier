@@ -20,9 +20,7 @@ import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
-/**
- * カテゴリ
- */
+/** カテゴリ */
 @Composable
 fun Category(@StringRes titleResourceId: Int) {
     Row(

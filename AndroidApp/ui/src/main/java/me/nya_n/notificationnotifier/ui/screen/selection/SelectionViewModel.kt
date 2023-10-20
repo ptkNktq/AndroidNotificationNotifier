@@ -25,9 +25,7 @@ class SelectionViewModel(
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    /**
-     * アプリ一覧の読み込み
-     */
+    /** アプリ一覧の読み込み */
     fun loadAppList() {
         viewModelScope.launch {
             loadAppUseCase(pm).onSuccess { res ->
@@ -39,9 +37,7 @@ class SelectionViewModel(
         }
     }
 
-    /**
-     * 通知送信対象に追加
-     */
+    /** 通知送信対象に追加 */
     fun addTarget(target: InstalledApp) {
         viewModelScope.launch {
             addTargetAppUseCase(target)
@@ -49,18 +45,15 @@ class SelectionViewModel(
         }
     }
 
-    /**
-     * 条件に従ってアプリ検索
-     * @param query 検索条件
+    /** 条件に従ってアプリ検索
+     *  @param query 検索条件
      */
     fun searchApp(query: String) {
         _uiState.update { it.copy(query = query) }
         loadAppList()
     }
 
-    /**
-     * メッセージを表示した
-     */
+    /** メッセージを表示した */
     fun messageShown() {
         _uiState.update { it.copy(message = null) }
     }
