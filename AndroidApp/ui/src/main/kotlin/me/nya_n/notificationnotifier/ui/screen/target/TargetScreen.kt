@@ -1,7 +1,6 @@
 package me.nya_n.notificationnotifier.ui.screen.target
 
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,15 +20,15 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun TargetScreen(
     navController: NavController,
-    viewModel: TargetViewModel = getViewModel(),
-    scaffoldState: ScaffoldState = rememberScaffoldState()
+    snackbarHostState: SnackbarHostState,
+    viewModel: TargetViewModel = getViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.loadTargets()
     }
     SnackbarMessage(
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarHostState,
         message = uiState.message
     ) {
         viewModel.messageShown()

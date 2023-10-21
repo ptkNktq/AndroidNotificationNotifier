@@ -16,7 +16,7 @@ class PackageVisibilityDialog : DialogFragment() {
             isCancelable = false
             AlertDialog.Builder(it)
                 .setMessage(R.string.require_package_visibility)
-                .setPositiveButton(R.string.ok) { _, _ ->
+                .setPositiveButton(R.string.approval) { _, _ ->
                     setFragmentResult(TAG, bundleOf(KEY_IS_GRANTED to true))
                 }
                 .setNegativeButton(R.string.ng) { _, _ ->

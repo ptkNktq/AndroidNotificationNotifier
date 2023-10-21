@@ -10,6 +10,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -35,15 +36,15 @@ import org.koin.androidx.compose.getViewModel
  */
 @Composable
 fun SelectionScreen(
-    viewModel: SelectionViewModel = getViewModel(),
-    scaffoldState: ScaffoldState = rememberScaffoldState()
+    snackbarHostState: SnackbarHostState,
+    viewModel: SelectionViewModel = getViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.loadAppList()
     }
     SnackbarMessage(
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarHostState,
         message = uiState.message
     ) {
         viewModel.messageShown()

@@ -10,6 +10,7 @@ object AppColors {
     val Brown = Color(0xFF443731)
     val LightBrown = Color(0xFF817167)
     val BasicBlack = Color(0xFF352E2B)
+    val Red = Color(0xFFB3261E)
 }
 
 val AppColorScheme = darkColorScheme(
@@ -21,5 +22,6 @@ val AppColorScheme = darkColorScheme(
     onSecondaryContainer = Color.White,
     surface = AppColors.Brown,
     onSurface = Color.White,
-    onSurfaceVariant = AppColors.Gray
+    onSurfaceVariant = AppColors.Gray,
+    error = AppColors.Red
 )
