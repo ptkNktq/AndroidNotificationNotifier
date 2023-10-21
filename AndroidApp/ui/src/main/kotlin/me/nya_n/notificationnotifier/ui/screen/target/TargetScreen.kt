@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import me.nya_n.notificationnotifier.model.InstalledApp
@@ -45,7 +46,7 @@ fun TargetContent(
     onAppSelected: (InstalledApp) -> Unit
 ) {
     if (items.isEmpty()) {
-        EmptyView(textResourceId = R.string.no_apps)
+        EmptyView(stringResource(id = R.string.no_apps))
     } else {
         AppList(items = items, onAppSelected = onAppSelected)
     }
@@ -60,9 +61,6 @@ fun TargetPreview() {
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
     )
     AppTheme {
-        TargetContent(
-            items = items,
-            onAppSelected = { }
-        )
+        TargetContent(items = items) { }
     }
 }
