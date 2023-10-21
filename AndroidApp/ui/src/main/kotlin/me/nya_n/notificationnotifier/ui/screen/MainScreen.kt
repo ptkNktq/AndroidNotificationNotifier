@@ -2,7 +2,6 @@ package me.nya_n.notificationnotifier.ui.screen
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,11 +20,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -51,18 +46,18 @@ fun MainScreen(
     val activity = LocalContext.current as? Activity
     val scope = rememberCoroutineScope()
     val tabItems = listOf(
-        TabItem(R.string.targets, Icons.Outlined.NotificationsActive) {
+        TabItem(stringResource(id = R.string.targets), Icons.Outlined.NotificationsActive) {
             TargetScreen(
                 navController = navController,
                 scaffoldState = scaffoldState
             )
         },
-        TabItem(R.string.apps, Icons.Rounded.List) {
+        TabItem(stringResource(id = R.string.apps), Icons.Rounded.List) {
             SelectionScreen(
                 scaffoldState = scaffoldState
             )
         },
-        TabItem(R.string.settings, Icons.Outlined.Settings) {
+        TabItem(stringResource(id = R.string.settings), Icons.Outlined.Settings) {
             SettingsScreen(
                 navController = navController,
                 scaffoldState = scaffoldState
@@ -70,12 +65,7 @@ fun MainScreen(
         },
     )
     val pagerState = rememberPagerState(pageCount = { tabItems.size })
-    /* TODO:
-     *  サンプルはvarにしてるけどその必要ある？
-     *  https://developer.android.com/jetpack/compose/libraries?hl=ja#handling_the_system_back_button
-     */
-    var backHandlingEnabled by remember { mutableStateOf(true) }
-    BackHandler(backHandlingEnabled) {
+    BackHandler(true) {
         if (pagerState.currentPage == 0) {
             activity?.finish()
         } else {
@@ -86,7 +76,9 @@ fun MainScreen(
         scaffoldState = scaffoldState,
         tabItems = tabItems,
         pagerState = pagerState
-    )
+    ) {
+        scope.launch { pagerState.scrollToPage(it, 0f) }
+    }
 }
 
 /** メイン画面のコンテンツ本体 */
@@ -96,17 +88,16 @@ fun MainContent(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     tabItems: List<TabItem>,
     pagerState: PagerState,
+    onTabSelected: (selected: Int) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
     AppScaffold(
         scaffoldState = scaffoldState,
         bottomBar = {
             BottomBar(
                 items = tabItems,
-                currentPage = pagerState.currentPage
-            ) {
-                scope.launch { pagerState.scrollToPage(it, 0f) }
-            }
+                currentPage = pagerState.currentPage,
+                onTabSelected = onTabSelected
+            )
         }
     ) {
         HorizontalPager(
@@ -133,7 +124,7 @@ fun BottomBar(
                 selected = index == currentPage,
                 onClick = { onTabSelected(index) },
                 icon = { Icon(imageVector = item.icon, contentDescription = null) },
-                label = { Text(text = stringResource(id = item.labelResourceId)) },
+                label = { Text(text = item.label) },
             )
         }
     }
@@ -141,13 +132,14 @@ fun BottomBar(
 
 /** BottomNavigationで表示する各タブの情報 */
 data class TabItem(
-    @StringRes
-    val labelResourceId: Int,
+    val label: String,
     val icon: ImageVector,
     /** このページで表示するコンテンツ
      *   - 初期値として中央に「No Contents...」と表示するViewを定義してある
      */
-    val content: @Composable () -> Unit = { EmptyView(textResourceId = R.string.no_contents) }
+    val content: @Composable () -> Unit = {
+        EmptyView(stringResource(id = R.string.no_contents))
+    }
 )
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -155,16 +147,13 @@ data class TabItem(
 @Composable
 fun MainPreview() {
     val tabItems = listOf(
-        TabItem(R.string.targets, Icons.Outlined.NotificationsActive),
-        TabItem(R.string.apps, Icons.Rounded.List),
-        TabItem(R.string.settings, Icons.Outlined.Settings),
+        TabItem("タブ1", Icons.Outlined.NotificationsActive),
+        TabItem("タブ2", Icons.Rounded.List),
+        TabItem("タブ3", Icons.Outlined.Settings),
     )
     val pagerState = rememberPagerState(pageCount = { tabItems.size })
     AppTheme {
-        MainContent(
-            tabItems = tabItems,
-            pagerState = pagerState
-        )
+        MainContent(tabItems = tabItems, pagerState = pagerState) { }
     }
 }
 
@@ -172,9 +161,9 @@ fun MainPreview() {
 @Composable
 fun BottomBarPreview() {
     val tabItems = listOf(
-        TabItem(R.string.targets, Icons.Outlined.NotificationsActive),
-        TabItem(R.string.apps, Icons.Rounded.List),
-        TabItem(R.string.settings, Icons.Outlined.Settings),
+        TabItem("タブ1", Icons.Outlined.NotificationsActive),
+        TabItem("タブ2", Icons.Rounded.List),
+        TabItem("タブ3", Icons.Outlined.Settings),
     )
     AppTheme {
         BottomBar(items = tabItems, currentPage = 0) { }
