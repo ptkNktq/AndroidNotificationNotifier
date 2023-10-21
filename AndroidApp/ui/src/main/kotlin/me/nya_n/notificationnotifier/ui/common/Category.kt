@@ -1,6 +1,5 @@
 package me.nya_n.notificationnotifier.ui.common
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,16 +12,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
-/** カテゴリ */
+/** カテゴリ
+ *  @param name カテゴリ名
+ */
 @Composable
-fun Category(@StringRes titleResourceId: Int) {
+fun Category(name: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -35,7 +34,7 @@ fun Category(@StringRes titleResourceId: Int) {
             Divider(color = MaterialTheme.colorScheme.onSecondary)
         }
         Text(
-            text = stringResource(id = titleResourceId),
+            text = name,
             modifier = Modifier.padding(horizontal = 8.dp),
             style = TextStyle(color = MaterialTheme.colorScheme.onSecondary)
         )
@@ -54,6 +53,6 @@ fun Category(@StringRes titleResourceId: Int) {
 @Composable
 fun CategoryPreview() {
     AppTheme {
-        Category(titleResourceId = R.string.settings_general)
+        Category("カテゴリ")
     }
 }

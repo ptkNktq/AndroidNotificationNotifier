@@ -3,7 +3,6 @@ package me.nya_n.notificationnotifier.ui.screen.settings
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -33,12 +32,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import me.nya_n.notificationnotifier.model.Backup
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppOutlinedButton
 import me.nya_n.notificationnotifier.ui.common.Category
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
+import me.nya_n.notificationnotifier.ui.screen.Screen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.getViewModel
 
@@ -98,24 +97,24 @@ fun SettingsScreen(
         viewModel.messageShown()
     }
     SettingsContent(
-        navController = navController,
         uiState = uiState,
         onValueChange = { viewModel.updateAddress(it) },
         onNotifyTest = { viewModel.notifyTest() },
         onExportData = { viewModel.event(UiEvent.ExportData()) },
-        onImportData = { viewModel.event(UiEvent.ImportData()) }
+        onImportData = { viewModel.event(UiEvent.ImportData()) },
+        onLicense = { navController.navigate(Screen.License.route) }
     )
 }
 
 /** 設定画面のコンテンツ本体 */
 @Composable
 fun SettingsContent(
-    navController: NavController = rememberNavController(),
     uiState: UiState,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit,
     onExportData: () -> Unit,
-    onImportData: () -> Unit
+    onImportData: () -> Unit,
+    onLicense: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -129,9 +128,9 @@ fun SettingsContent(
             onNotifyTest = onNotifyTest
         )
         OtherSettings(
-            navController = navController,
             onExportData = onExportData,
-            onImportData = onImportData
+            onImportData = onImportData,
+            onLicense = onLicense
         )
     }
 }
@@ -149,7 +148,7 @@ fun NotifySettings(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-    Category(titleResourceId = R.string.settings_general)
+    Category(name = stringResource(id = R.string.settings_general))
     /* FIXME: TODO:
      *  英数記号のみに入力制限したいが適切なものがなかったのでKeyboardType.Emailで妥協
      *  とりあえず最初に表示されるIMEが英数になる
@@ -186,7 +185,7 @@ fun NotifySettings(
             .padding(vertical = 8.dp)
     )
     AppOutlinedButton(
-        R.string.notify_test,
+        text = stringResource(id = R.string.notify_test),
         onClick = onNotifyTest
     )
 }
@@ -197,20 +196,26 @@ fun NotifySettings(
  */
 @Composable
 fun OtherSettings(
-    navController: NavController,
     onExportData: () -> Unit,
-    onImportData: () -> Unit
+    onImportData: () -> Unit,
+    onLicense: () -> Unit
 ) {
-    Category(titleResourceId = R.string.settings_others)
-    ClickableBasicItem(icon = Icons.Outlined.CloudUpload, textResourceId = R.string.export_data) {
-        onExportData()
-    }
-    ClickableBasicItem(icon = Icons.Outlined.CloudDownload, textResourceId = R.string.import_data) {
-        onImportData()
-    }
-    ClickableBasicItem(icon = Icons.Outlined.ReceiptLong, textResourceId = R.string.license) {
-        navController.navigate("license")
-    }
+    Category(name = stringResource(id = R.string.settings_others))
+    ClickableBasicItem(
+        icon = Icons.Outlined.CloudUpload,
+        text = stringResource(id = R.string.export_data),
+        onClickListener = onExportData
+    )
+    ClickableBasicItem(
+        icon = Icons.Outlined.CloudDownload,
+        text = stringResource(id = R.string.import_data),
+        onClickListener = onImportData
+    )
+    ClickableBasicItem(
+        icon = Icons.Outlined.ReceiptLong,
+        text = stringResource(id = R.string.license),
+        onClickListener = onLicense
+    )
 }
 
 /** 基本的な項目
@@ -220,7 +225,7 @@ fun OtherSettings(
 @Composable
 fun ClickableBasicItem(
     icon: ImageVector,
-    @StringRes textResourceId: Int,
+    text: String,
     onClickListener: () -> Unit
 ) {
     TextButton(
@@ -235,7 +240,7 @@ fun ClickableBasicItem(
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondary)
         )
         Text(
-            text = stringResource(id = textResourceId),
+            text = text,
             style = TextStyle(color = MaterialTheme.colorScheme.onSecondary),
             modifier = Modifier.padding(start = 8.dp)
         )
@@ -252,7 +257,8 @@ fun SettingsPreview() {
             onValueChange = { },
             onNotifyTest = { },
             onExportData = { },
-            onImportData = { }
+            onImportData = { },
+            onLicense = { }
         )
     }
 }
