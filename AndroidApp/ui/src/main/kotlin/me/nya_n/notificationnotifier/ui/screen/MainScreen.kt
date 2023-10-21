@@ -9,17 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.List
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -39,28 +39,24 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 /** メイン画面 */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainScreen(
-    navController: NavController,
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
-) {
+fun MainScreen(navController: NavController) {
+    val snackbarHostState = remember { SnackbarHostState() }
     val activity = LocalContext.current as? Activity
     val scope = rememberCoroutineScope()
     val tabItems = listOf(
         TabItem(stringResource(id = R.string.targets), Icons.Outlined.NotificationsActive) {
             TargetScreen(
                 navController = navController,
-                scaffoldState = scaffoldState
+                snackbarHostState = snackbarHostState
             )
         },
         TabItem(stringResource(id = R.string.apps), Icons.Rounded.List) {
-            SelectionScreen(
-                scaffoldState = scaffoldState
-            )
+            SelectionScreen(snackbarHostState = snackbarHostState)
         },
         TabItem(stringResource(id = R.string.settings), Icons.Outlined.Settings) {
             SettingsScreen(
                 navController = navController,
-                scaffoldState = scaffoldState
+                snackbarHostState = snackbarHostState
             )
         },
     )
@@ -73,7 +69,7 @@ fun MainScreen(
         }
     }
     MainContent(
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarHostState,
         tabItems = tabItems,
         pagerState = pagerState
     ) {
@@ -85,13 +81,13 @@ fun MainScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainContent(
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    snackbarHostState: SnackbarHostState,
     tabItems: List<TabItem>,
     pagerState: PagerState,
     onTabSelected: (selected: Int) -> Unit
 ) {
     AppScaffold(
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarHostState,
         bottomBar = {
             BottomBar(
                 items = tabItems,
@@ -146,6 +142,7 @@ data class TabItem(
 @Preview
 @Composable
 fun MainPreview() {
+    val snackbarHostState = remember { SnackbarHostState() }
     val tabItems = listOf(
         TabItem("タブ1", Icons.Outlined.NotificationsActive),
         TabItem("タブ2", Icons.Rounded.List),
@@ -153,7 +150,11 @@ fun MainPreview() {
     )
     val pagerState = rememberPagerState(pageCount = { tabItems.size })
     AppTheme {
-        MainContent(tabItems = tabItems, pagerState = pagerState) { }
+        MainContent(
+            snackbarHostState = snackbarHostState,
+            tabItems = tabItems,
+            pagerState = pagerState
+        ) { }
     }
 }
 

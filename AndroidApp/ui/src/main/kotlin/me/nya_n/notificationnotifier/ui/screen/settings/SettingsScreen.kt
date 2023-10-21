@@ -14,6 +14,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -45,8 +46,8 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun SettingsScreen(
     navController: NavController,
-    viewModel: SettingsViewModel = getViewModel(),
-    scaffoldState: ScaffoldState = rememberScaffoldState()
+    snackbarHostState: SnackbarHostState,
+    viewModel: SettingsViewModel = getViewModel()
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
@@ -91,7 +92,7 @@ fun SettingsScreen(
         viewModel.consumeEvent(it)
     }
     SnackbarMessage(
-        scaffoldState = scaffoldState,
+        snackbarHostState = snackbarHostState,
         message = uiState.message
     ) {
         viewModel.messageShown()
