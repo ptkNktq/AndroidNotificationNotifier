@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
-import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import me.nya_n.notificationnotifier.ui.util.Sample
@@ -51,11 +50,11 @@ fun SelectionScreen(
     }
     SelectionContent(
         items = uiState.items,
+        initQuery = uiState.query,
         onAppSelected = {
             viewModel.addTarget(it)
             viewModel.loadAppList()
         },
-        initQuery = uiState.query,
         onQueryInputted = { viewModel.searchApp(it) }
     )
 }
@@ -63,18 +62,17 @@ fun SelectionScreen(
 @Composable
 fun SelectionContent(
     items: List<InstalledApp>,
-    onAppSelected: (InstalledApp) -> Unit,
     initQuery: String,
+    onAppSelected: (InstalledApp) -> Unit,
     onQueryInputted: (String) -> Unit
 ) {
     Column {
         QueryTextField(initQuery = initQuery, onQueryInputted = onQueryInputted)
-        if (items.isEmpty()) {
-            // アプリリストが空
-            EmptyView(textResourceId = R.string.no_apps)
-        } else {
-            AppList(items = items, onAppSelected = onAppSelected)
-        }
+        AppList(
+            items = items,
+            emptyMessage = stringResource(id = R.string.no_apps),
+            onAppSelected = onAppSelected
+        )
     }
 }
 

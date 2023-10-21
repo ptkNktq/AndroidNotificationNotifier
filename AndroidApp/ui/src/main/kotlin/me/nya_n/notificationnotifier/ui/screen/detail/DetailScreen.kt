@@ -89,7 +89,7 @@ fun AppInfo(
     app: InstalledApp,
     onDeleteApp: () -> Unit
 ) {
-    Category(titleResourceId = R.string.app_info)
+    Category(name = stringResource(id = R.string.app_info))
     Box(
         modifier = Modifier.padding(vertical = 20.dp)
     ) {
@@ -111,7 +111,7 @@ fun AppInfo(
         }
     }
     AppOutlinedButton(
-        R.string.delete,
+        text = stringResource(id = R.string.delete),
         onClick = onDeleteApp
     )
 }
@@ -128,7 +128,7 @@ fun NotificationSetting(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     var condition by remember(initCondition) { mutableStateOf(initCondition) }
-    Category(titleResourceId = R.string.notification_settings)
+    Category(name = stringResource(id = R.string.notification_settings))
     /* FIXME: TODO:
      *  テキスト未確定状態で、IMEの◀,▶でカーソルを移動させたとき、カーソルの移動がおかしくなる
      *  TextFieldValueも試したが改善されず
