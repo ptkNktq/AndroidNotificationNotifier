@@ -51,11 +51,11 @@ fun SelectionScreen(
     }
     SelectionContent(
         items = uiState.items,
+        initQuery = uiState.query,
         onAppSelected = {
             viewModel.addTarget(it)
             viewModel.loadAppList()
         },
-        initQuery = uiState.query,
         onQueryInputted = { viewModel.searchApp(it) }
     )
 }
@@ -63,15 +63,15 @@ fun SelectionScreen(
 @Composable
 fun SelectionContent(
     items: List<InstalledApp>,
-    onAppSelected: (InstalledApp) -> Unit,
     initQuery: String,
+    onAppSelected: (InstalledApp) -> Unit,
     onQueryInputted: (String) -> Unit
 ) {
     Column {
         QueryTextField(initQuery = initQuery, onQueryInputted = onQueryInputted)
         if (items.isEmpty()) {
             // アプリリストが空
-            EmptyView(textResourceId = R.string.no_apps)
+            EmptyView(message = stringResource(id = R.string.no_apps))
         } else {
             AppList(items = items, onAppSelected = onAppSelected)
         }
