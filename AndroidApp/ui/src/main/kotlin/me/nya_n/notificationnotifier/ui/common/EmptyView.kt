@@ -24,6 +24,6 @@ fun EmptyView(message: String) {
 @Composable
 fun EmptyViewPreview() {
     AppTheme {
-        EmptyView("empty")
+        EmptyView(message = "empty")
     }
 }

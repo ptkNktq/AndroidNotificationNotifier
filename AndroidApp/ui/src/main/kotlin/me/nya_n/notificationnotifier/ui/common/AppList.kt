@@ -24,14 +24,19 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 @Composable
 fun AppList(
     items: List<InstalledApp>,
+    emptyMessage: String,
     onAppSelected: (InstalledApp) -> Unit
 ) {
-    LazyColumn {
-        items(
-            count = items.size,
-            key = { "($it)${items[it]}" },
-            itemContent = { AppListItem(app = items[it], onAppSelected = onAppSelected) }
-        )
+    if (items.isEmpty()) {
+        EmptyView(message = emptyMessage)
+    } else {
+        LazyColumn {
+            items(
+                count = items.size,
+                key = { "($it)${items[it]}" },
+                itemContent = { AppListItem(app = items[it], onAppSelected = onAppSelected) }
+            )
+        }
     }
 }
 
@@ -50,8 +55,7 @@ fun AppListItem(
             )
     ) {
         Row(
-            modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 16.dp)
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
         ) {
             GrayScaleAppIcon(
                 app = app,
@@ -89,6 +93,19 @@ fun AppListPreview() {
     AppTheme {
         AppList(
             items = items,
+            emptyMessage = "empty",
+            onAppSelected = { }
+        )
+    }
+}
+
+@Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
+@Composable
+fun EmptyAppListPreview() {
+    AppTheme {
+        AppList(
+            items = emptyList(),
+            emptyMessage = "empty",
             onAppSelected = { }
         )
     }

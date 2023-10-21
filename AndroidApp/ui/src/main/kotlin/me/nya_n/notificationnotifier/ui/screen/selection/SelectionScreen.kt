@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
-import me.nya_n.notificationnotifier.ui.common.EmptyView
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import me.nya_n.notificationnotifier.ui.util.Sample
@@ -69,12 +68,11 @@ fun SelectionContent(
 ) {
     Column {
         QueryTextField(initQuery = initQuery, onQueryInputted = onQueryInputted)
-        if (items.isEmpty()) {
-            // アプリリストが空
-            EmptyView(message = stringResource(id = R.string.no_apps))
-        } else {
-            AppList(items = items, onAppSelected = onAppSelected)
-        }
+        AppList(
+            items = items,
+            emptyMessage = stringResource(id = R.string.no_apps),
+            onAppSelected = onAppSelected
+        )
     }
 }
 

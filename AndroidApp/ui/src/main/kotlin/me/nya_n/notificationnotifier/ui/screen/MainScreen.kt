@@ -138,7 +138,7 @@ data class TabItem(
      *   - 初期値として中央に「No Contents...」と表示するViewを定義してある
      */
     val content: @Composable () -> Unit = {
-        EmptyView(stringResource(id = R.string.no_contents))
+        EmptyView(message = stringResource(id = R.string.no_contents))
     }
 )
 
