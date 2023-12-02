@@ -1,6 +1,6 @@
 # used by https://takahirom.github.io/gradle-version-catalog-converter/
 [versions]
-agp = "8.1.4"
+agp = "8.2.0"
 org-jetbrains-kotlin-android = "1.9.20"
 com-google-devtools-ksp = "1.9.20-1.0.14"
 com-jaredsburrows-license = "0.9.3"
