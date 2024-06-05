@@ -21,5 +21,5 @@ dependencies {
 
     // その他
     implementation(libs.io.insert.koin)
-    implementation(libs.com.squareup.leakcanary.android)
+    debugImplementation(libs.com.squareup.leakcanary.android)
 }
