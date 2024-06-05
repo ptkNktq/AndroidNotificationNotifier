@@ -58,9 +58,9 @@ sealed class Screen(
     val name: String,
     private val args: List<String> = emptyList()
 ) {
-    object Main : Screen("main")
-    object License : Screen("license")
-    object Detail : Screen("detail", listOf("app"))
+    data object Main : Screen("main")
+    data object License : Screen("license")
+    data object Detail : Screen("detail", listOf("app"))
 
     val route: String
         get() {
