@@ -11,6 +11,8 @@ object AppColors {
     val LightBrown = Color(0xFF817167)
     val BasicBlack = Color(0xFF352E2B)
     val Red = Color(0xFFB3261E)
+
+    val Primary = Brown
 }
 
 val AppColorScheme = darkColorScheme(

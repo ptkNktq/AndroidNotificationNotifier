@@ -3,8 +3,11 @@ package me.nya_n.notificationnotifier.ui.screen
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
@@ -16,10 +19,10 @@ import me.nya_n.notificationnotifier.domain.usecase.CheckPackageVisibilityUseCas
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.ui.dialogs.NotificationAccessPermissionDialog
 import me.nya_n.notificationnotifier.ui.dialogs.PackageVisibilityDialog
+import me.nya_n.notificationnotifier.ui.theme.AppColors
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
-
     private val packageVisibilityGrantedUseCase: PackageVisibilityGrantedUseCase by inject()
     private val isPackageVisibilityGranted: CheckPackageVisibilityUseCase by inject()
     private val isReady = MutableStateFlow(false)
@@ -27,7 +30,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().setKeepOnScreenCondition { !isReady.value }
         super.onCreate(savedInstanceState)
-        setContent { AppScreen() }
+        setContent {
+            enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.dark(
+                    AppColors.Primary.toArgb(),
+                ),
+                navigationBarStyle = SystemBarStyle.dark(
+                    AppColors.Primary.toArgb()
+                )
+            )
+            AppScreen()
+        }
         setUpPermissionsCheckResultListener()
         lifecycleScope.launch {
             delay(500)

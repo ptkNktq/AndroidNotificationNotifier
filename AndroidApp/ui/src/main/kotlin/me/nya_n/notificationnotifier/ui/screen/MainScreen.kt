@@ -10,9 +10,9 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.List
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.rounded.List
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -50,7 +50,7 @@ fun MainScreen(navController: NavController) {
                 snackbarHostState = snackbarHostState
             )
         },
-        TabItem(stringResource(id = R.string.apps), Icons.Rounded.List) {
+        TabItem(stringResource(id = R.string.apps), Icons.AutoMirrored.Rounded.List) {
             SelectionScreen(snackbarHostState = snackbarHostState)
         },
         TabItem(stringResource(id = R.string.settings), Icons.Outlined.Settings) {
@@ -145,7 +145,7 @@ fun MainPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
     val tabItems = listOf(
         TabItem("タブ1", Icons.Outlined.NotificationsActive),
-        TabItem("タブ2", Icons.Rounded.List),
+        TabItem("タブ2", Icons.AutoMirrored.Rounded.List),
         TabItem("タブ3", Icons.Outlined.Settings),
     )
     val pagerState = rememberPagerState(pageCount = { tabItems.size })
@@ -163,7 +163,7 @@ fun MainPreview() {
 fun BottomBarPreview() {
     val tabItems = listOf(
         TabItem("タブ1", Icons.Outlined.NotificationsActive),
-        TabItem("タブ2", Icons.Rounded.List),
+        TabItem("タブ2", Icons.AutoMirrored.Rounded.List),
         TabItem("タブ3", Icons.Outlined.Settings),
     )
     AppTheme {

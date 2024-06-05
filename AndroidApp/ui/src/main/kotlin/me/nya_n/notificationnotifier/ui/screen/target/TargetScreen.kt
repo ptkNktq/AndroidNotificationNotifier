@@ -14,14 +14,14 @@ import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.screen.Screen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 /** 通知送信ターゲットに追加したアプリリスト */
 @Composable
 fun TargetScreen(
     navController: NavController,
     snackbarHostState: SnackbarHostState,
-    viewModel: TargetViewModel = getViewModel()
+    viewModel: TargetViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
