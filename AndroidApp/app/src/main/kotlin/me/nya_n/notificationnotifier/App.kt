@@ -34,6 +34,7 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrante
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
+import me.nya_n.notificationnotifier.ui.screen.app.AppViewModel
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
 import me.nya_n.notificationnotifier.ui.screen.settings.SettingsViewModel
@@ -71,6 +72,7 @@ class App : Application() {
         single<AppRepository> { AppRepositoryImpl(get(), get()) }
 
         // ViewModel
+        viewModel { AppViewModel(get(), get()) }
         viewModel { SelectionViewModel(get(), get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get(), get()) }

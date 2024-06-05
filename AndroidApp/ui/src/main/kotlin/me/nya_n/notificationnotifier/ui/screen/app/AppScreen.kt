@@ -1,7 +1,11 @@
-package me.nya_n.notificationnotifier.ui.screen
+package me.nya_n.notificationnotifier.ui.screen.app
 
+import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -10,29 +14,48 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import me.nya_n.notificationnotifier.model.InstalledApp
+import me.nya_n.notificationnotifier.ui.common.RequirePackageVisibilityDialog
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailScreen
 import me.nya_n.notificationnotifier.ui.screen.license.LicenseScreen
+import me.nya_n.notificationnotifier.ui.screen.main.MainScreen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import org.koin.androidx.compose.koinViewModel
 import java.net.URLEncoder
 
 @Composable
-fun AppScreen() {
+fun AppScreen(
+    viewModel: AppViewModel = koinViewModel()
+) {
     val navController = rememberNavController()
+    val activity = LocalContext.current as? Activity
     val lifecycleOwner = LocalLifecycleOwner.current
-
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                // TODO:
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
+    val uiState by viewModel.uiState.collectAsState()
 
     AppTheme {
+        if (uiState.isShowRequirePackageVisibilityDialog) {
+            RequirePackageVisibilityDialog(
+                onDismissRequest = { isGranted ->
+                    if (isGranted) {
+                        viewModel.onPackageVisibilityGranted()
+                    } else {
+                        activity?.finish()
+                    }
+                }
+            )
+        }
+
+        DisposableEffect(lifecycleOwner) {
+            val observer = LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_RESUME) {
+                    viewModel.checkPermissions()
+                }
+            }
+            lifecycleOwner.lifecycle.addObserver(observer)
+            onDispose {
+                lifecycleOwner.lifecycle.removeObserver(observer)
+            }
+        }
+
         NavHost(
             navController = navController,
             startDestination = Screen.Main.name

@@ -15,17 +15,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import me.nya_n.notificationnotifier.domain.usecase.CheckPackageVisibilityUseCase
-import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.ui.dialogs.NotificationAccessPermissionDialog
-import me.nya_n.notificationnotifier.ui.dialogs.PackageVisibilityDialog
-import me.nya_n.notificationnotifier.ui.screen.AppScreen
+import me.nya_n.notificationnotifier.ui.screen.app.AppScreen
 import me.nya_n.notificationnotifier.ui.theme.AppColors
-import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
-    private val packageVisibilityGrantedUseCase: PackageVisibilityGrantedUseCase by inject()
-    private val isPackageVisibilityGranted: CheckPackageVisibilityUseCase by inject()
     private val isReady = MutableStateFlow(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,9 +54,6 @@ class MainActivity : AppCompatActivity() {
         ) {
             NotificationAccessPermissionDialog.showOnlyOnce(supportFragmentManager)
         }
-        if (!isPackageVisibilityGranted()) {
-            PackageVisibilityDialog.showOnlyOnce(supportFragmentManager)
-        }
     }
 
     private fun setUpPermissionsCheckResultListener() {
@@ -71,15 +62,6 @@ class MainActivity : AppCompatActivity() {
         ) { _, res ->
             if (res.getBoolean(NotificationAccessPermissionDialog.KEY_IS_NEXT)) {
                 startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
-            } else {
-                finish()
-            }
-        }
-        supportFragmentManager.setFragmentResultListener(
-            PackageVisibilityDialog.TAG, this
-        ) { _, res ->
-            if (res.getBoolean(PackageVisibilityDialog.KEY_IS_GRANTED)) {
-                packageVisibilityGrantedUseCase()
             } else {
                 finish()
             }

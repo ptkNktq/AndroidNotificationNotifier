@@ -12,7 +12,7 @@ import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
-import me.nya_n.notificationnotifier.ui.screen.Screen
+import me.nya_n.notificationnotifier.ui.screen.app.Screen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 

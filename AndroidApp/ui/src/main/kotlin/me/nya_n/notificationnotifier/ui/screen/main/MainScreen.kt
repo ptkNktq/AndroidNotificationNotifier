@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.ui.screen
+package me.nya_n.notificationnotifier.ui.screen.main
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler

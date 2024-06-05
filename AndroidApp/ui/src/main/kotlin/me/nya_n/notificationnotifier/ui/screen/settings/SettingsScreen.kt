@@ -49,7 +49,7 @@ import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppOutlinedButton
 import me.nya_n.notificationnotifier.ui.common.Category
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
-import me.nya_n.notificationnotifier.ui.screen.Screen
+import me.nya_n.notificationnotifier.ui.screen.app.Screen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 

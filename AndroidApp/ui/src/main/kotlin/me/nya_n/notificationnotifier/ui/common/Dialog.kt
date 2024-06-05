@@ -16,14 +16,15 @@ fun CommonDialog(
     message: String,
     positiveButtonText: String,
     negativeButtonText: String,
-    onDismissRequest: () -> Unit
+    onPositiveDismissRequest: () -> Unit,
+    onNegativeDismissRequest: () -> Unit,
 ) {
     AlertDialog(
         text = { Text(text = message) },
         onDismissRequest = { /* noop */ },
         confirmButton = {
             TextButton(
-                onClick = onDismissRequest
+                onClick = onPositiveDismissRequest
             ) {
                 Text(
                     text = positiveButtonText,
@@ -35,7 +36,7 @@ fun CommonDialog(
         },
         dismissButton = {
             TextButton(
-                onClick = onDismissRequest
+                onClick = onNegativeDismissRequest
             ) {
                 Text(
                     text = negativeButtonText,
@@ -56,19 +57,21 @@ fun RequireNotificationPermissionDialog(
         message = stringResource(id = R.string.require_permission),
         positiveButtonText = stringResource(id = R.string.next),
         negativeButtonText = stringResource(id = R.string.ng),
-        onDismissRequest = onDismissRequest
+        onPositiveDismissRequest = onDismissRequest,
+        onNegativeDismissRequest = onDismissRequest
     )
 }
 
 @Composable
 fun RequirePackageVisibilityDialog(
-    onDismissRequest: () -> Unit
+    onDismissRequest: (isGranted: Boolean) -> Unit
 ) {
     CommonDialog(
         message = stringResource(id = R.string.require_package_visibility),
         positiveButtonText = stringResource(id = R.string.approval),
         negativeButtonText = stringResource(id = R.string.ng),
-        onDismissRequest = onDismissRequest
+        onPositiveDismissRequest = { onDismissRequest(true) },
+        onNegativeDismissRequest = { onDismissRequest(false) }
     )
 }
 
@@ -80,7 +83,8 @@ fun CommonDialogPreview() {
             message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
             positiveButtonText = "YES",
             negativeButtonText = "NO",
-            onDismissRequest = { }
+            onPositiveDismissRequest = { },
+            onNegativeDismissRequest = { }
         )
     }
 }
