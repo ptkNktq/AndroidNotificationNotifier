@@ -20,10 +20,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ReceiptLong
 import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.CloudUpload
 import androidx.compose.material.icons.outlined.Devices
-import androidx.compose.material.icons.outlined.ReceiptLong
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -224,7 +224,7 @@ fun OtherSettings(
         onClickListener = onImportData
     )
     ClickableBasicItem(
-        icon = Icons.Outlined.ReceiptLong,
+        icon = Icons.AutoMirrored.Outlined.ReceiptLong,
         text = stringResource(id = R.string.license),
         onClickListener = onLicense
     )
