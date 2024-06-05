@@ -19,7 +19,6 @@ com-google-truth = "1.4.2"
 androidx-test-ext = "1.1.5"
 androidx-test-espresso = "3.5.1"
 androidx-room = "2.6.1"
-com-google-android-material = "1.12.0"
 io-insert-koin = "3.5.6"
 io-insert-koin-compose = "3.5.6"
 com-google-code-gson = "2.11.0"
@@ -64,7 +63,6 @@ androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core",
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 
 # その他
-com-google-android-material = { module = "com.google.android.material:material", version.ref = "com-google-android-material" }
 io-insert-koin = { module = "io.insert-koin:koin-android", version.ref = "io-insert-koin" }
 io-insert-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "io-insert-koin-compose" }
 com-google-code-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson" }

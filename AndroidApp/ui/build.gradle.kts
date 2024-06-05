@@ -22,7 +22,6 @@ dependencies {
     implementation(libs.bundles.androidx.compose)
 
     // その他
-    implementation(libs.com.google.android.material)
     implementation(libs.io.insert.koin)
     implementation(libs.io.insert.koin.compose)
 }
