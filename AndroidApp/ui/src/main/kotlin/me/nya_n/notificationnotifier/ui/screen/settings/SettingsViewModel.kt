@@ -15,7 +15,7 @@ import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
-import me.nya_n.notificationnotifier.ui.screen.AppViewModel
+import me.nya_n.notificationnotifier.ui.screen.BaseViewModel
 
 class SettingsViewModel(
     loadAddressUseCase: LoadAddressUseCase,
@@ -23,7 +23,7 @@ class SettingsViewModel(
     private val notifyUseCase: NotifyUseCase,
     private val exportDataUseCase: ExportDataUseCase,
     private val importDataUseCase: ImportDataUseCase
-) : AppViewModel<UiEvent>() {
+) : BaseViewModel<UiEvent>() {
 
     /** UIの状態 */
     private val _uiState = MutableStateFlow(UiState())

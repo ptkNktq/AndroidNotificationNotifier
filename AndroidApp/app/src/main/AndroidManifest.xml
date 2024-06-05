@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme.SplashScreen">
 
         <activity
-            android:name="me.nya_n.notificationnotifier.ui.screen.MainActivity"
+            android:name="me.nya_n.notificationnotifier.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

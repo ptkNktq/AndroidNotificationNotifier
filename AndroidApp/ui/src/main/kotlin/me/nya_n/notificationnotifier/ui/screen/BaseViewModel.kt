@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-abstract class AppViewModel<UiEvent : AppUiEvent> : ViewModel() {
+abstract class BaseViewModel<UiEvent : BaseUiEvent> : ViewModel() {
     /** 単発のイベント
      *   - イベント消化後はAppViewModel#consumeEventを呼ぶ
      */
