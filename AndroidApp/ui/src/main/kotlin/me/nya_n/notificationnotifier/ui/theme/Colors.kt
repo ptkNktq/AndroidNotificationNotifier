@@ -1,6 +1,9 @@
 package me.nya_n.notificationnotifier.ui.theme
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 object AppColors {
@@ -13,6 +16,15 @@ object AppColors {
     val Red = Color(0xFFB3261E)
 
     val Primary = Brown
+
+    @Composable
+    fun OutlinedTextFieldColors() = OutlinedTextFieldDefaults.colors(
+        focusedTextColor = MaterialTheme.colorScheme.primary,
+        unfocusedTextColor = MaterialTheme.colorScheme.primary,
+        focusedContainerColor = MaterialTheme.colorScheme.onPrimary,
+        unfocusedContainerColor = MaterialTheme.colorScheme.onPrimary,
+        cursorColor = MaterialTheme.colorScheme.primary
+    )
 }
 
 val AppColorScheme = darkColorScheme(
