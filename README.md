@@ -2,6 +2,8 @@
 
 Android端末の通知をPCに送信するアプリケーション
 
+<a href='https://play.google.com/store/apps/details?id=me.nya_n.notificationnotifier&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Google Play で手に入れよう' src='https://play.google.com/intl/en_us/badges/static/images/badges/ja_badge_web_generic.png' width="200"/></a>
+
 ### 使い方
 [ここ](https://github.com/ptkNktq/AndroidNotificationNotifier/releases)からダウンロードして解凍してください。  
 次の3つのファイルがあります。
@@ -42,11 +44,11 @@ android.apkをインストールします。
   - ただし、バックアップの際はその一部(アプリのパッケージ名等)が利用端末のストレージに保存されます。
 ###### 権限の説明
 - インターネット接続
-  - 設定のバックアップを保存/復元するためのに必要です。
+  - 指定したアドレスに通知データを送信するために必要です。
 - インストール済みアプリの取得
   - 通知対象のアプリを選択するための必要です。
 - 通知へのアクセス
-  - PCに通知内容を通知するために、通知へアクセスする必要があります。
+  - PCに通知する内容を知るために、通知へアクセスする必要があります。
 
 ### 著作権
 このアプリのアイコンで使用しているAndroid robot(通称ドロイド君)の著作権はGoogleに帰属します。
