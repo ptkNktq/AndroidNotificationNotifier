@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.ui.screen
+package me.nya_n.notificationnotifier.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -19,6 +19,7 @@ import me.nya_n.notificationnotifier.domain.usecase.CheckPackageVisibilityUseCas
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.ui.dialogs.NotificationAccessPermissionDialog
 import me.nya_n.notificationnotifier.ui.dialogs.PackageVisibilityDialog
+import me.nya_n.notificationnotifier.ui.screen.AppScreen
 import me.nya_n.notificationnotifier.ui.theme.AppColors
 import org.koin.android.ext.android.inject
 

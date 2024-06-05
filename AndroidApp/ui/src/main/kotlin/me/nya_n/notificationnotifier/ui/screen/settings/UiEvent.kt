@@ -1,8 +1,8 @@
 package me.nya_n.notificationnotifier.ui.screen.settings
 
-import me.nya_n.notificationnotifier.ui.screen.AppUiEvent
+import me.nya_n.notificationnotifier.ui.screen.BaseUiEvent
 
-sealed class UiEvent : AppUiEvent() {
+sealed class UiEvent : BaseUiEvent() {
     /** バックアップのために外部ストレージにデータを保存 */
     class ExportData : UiEvent()
 
