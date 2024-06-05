@@ -2,6 +2,8 @@
 
 Android端末の通知をPCに送信するアプリケーション
 
+<a href='https://play.google.com/store/apps/details?id=me.nya_n.notificationnotifier&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Google Play で手に入れよう' src='https://play.google.com/intl/en_us/badges/static/images/badges/ja_badge_web_generic.png' width="200"/></a>
+
 ### 使い方
 [ここ](https://github.com/ptkNktq/AndroidNotificationNotifier/releases)からダウンロードして解凍してください。  
 次の3つのファイルがあります。
