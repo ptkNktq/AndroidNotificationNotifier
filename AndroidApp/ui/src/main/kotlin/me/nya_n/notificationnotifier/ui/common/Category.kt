@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +31,7 @@ fun Category(name: String) {
             modifier = Modifier.size(24.dp, 24.dp),
             contentAlignment = Alignment.Center
         ) {
-            Divider(color = MaterialTheme.colorScheme.onSecondary)
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSecondary)
         }
         Text(
             text = name,
@@ -44,7 +44,7 @@ fun Category(name: String) {
                 .height(24.dp),
             contentAlignment = Alignment.Center
         ) {
-            Divider(color = MaterialTheme.colorScheme.onSecondary)
+            HorizontalDivider(color = MaterialTheme.colorScheme.onSecondary)
         }
     }
 }

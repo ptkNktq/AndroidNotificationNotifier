@@ -19,7 +19,6 @@ dependencies {
 
     // その他
     api(libs.com.google.code.gson)
-    implementation(libs.com.google.android.material)
 }
 
 val Project.catalog

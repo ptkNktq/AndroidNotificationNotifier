@@ -11,13 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
@@ -42,6 +40,7 @@ import me.nya_n.notificationnotifier.ui.common.AppScaffold
 import me.nya_n.notificationnotifier.ui.common.Category
 import me.nya_n.notificationnotifier.ui.common.GrayScaleAppIcon
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
+import me.nya_n.notificationnotifier.ui.theme.AppColors
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -136,7 +135,6 @@ fun AppInfo(
 /** 通知設定
  *   - 条件
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NotificationSetting(
     initCondition: String,
@@ -164,11 +162,7 @@ fun NotificationSetting(
             }
         ),
         singleLine = true,
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            backgroundColor = MaterialTheme.colorScheme.onPrimary,
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            cursorColor = MaterialTheme.colorScheme.primary
-        ),
+        colors = AppColors.OutlinedTextFieldColors(),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.NotificationsActive,
