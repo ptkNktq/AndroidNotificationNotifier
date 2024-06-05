@@ -6,12 +6,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -27,7 +35,7 @@ import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import me.nya_n.notificationnotifier.ui.util.Sample
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 /** 通知送信ターゲットアプリの選択画面
  *   - インストール済みのアプリ一覧が表示される
@@ -37,7 +45,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun SelectionScreen(
     snackbarHostState: SnackbarHostState,
-    viewModel: SelectionViewModel = getViewModel()
+    viewModel: SelectionViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
