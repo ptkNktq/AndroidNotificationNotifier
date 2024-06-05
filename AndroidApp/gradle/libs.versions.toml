@@ -46,7 +46,6 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 # compose
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidx-compose-bom" }
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
-androidx-compose-material = { module = "androidx.compose.material:material" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-material-icons = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-ui-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
@@ -73,7 +72,6 @@ com-squareup-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary
 
 [bundles]
 androidx-compose = [
-    "androidx-compose-material",
     "androidx-compose-material3",
     "androidx-compose-material-icons",
     "androidx-compose-ui-preview",
