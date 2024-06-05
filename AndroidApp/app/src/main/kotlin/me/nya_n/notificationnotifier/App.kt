@@ -72,7 +72,7 @@ class App : Application() {
         single<AppRepository> { AppRepositoryImpl(get(), get()) }
 
         // ViewModel
-        viewModel { AppViewModel(get(), get()) }
+        viewModel { AppViewModel(get(), packageName, get(), get()) }
         viewModel { SelectionViewModel(get(), get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get(), get()) }

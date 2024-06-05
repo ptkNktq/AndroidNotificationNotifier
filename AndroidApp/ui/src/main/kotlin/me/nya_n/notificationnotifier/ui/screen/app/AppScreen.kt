@@ -1,6 +1,8 @@
 package me.nya_n.notificationnotifier.ui.screen.app
 
 import android.app.Activity
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -14,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import me.nya_n.notificationnotifier.model.InstalledApp
+import me.nya_n.notificationnotifier.ui.common.RequireNotificationPermissionDialog
 import me.nya_n.notificationnotifier.ui.common.RequirePackageVisibilityDialog
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailScreen
 import me.nya_n.notificationnotifier.ui.screen.license.LicenseScreen
@@ -39,6 +42,20 @@ fun AppScreen(
                         viewModel.onPackageVisibilityGranted()
                     } else {
                         activity?.finish()
+                    }
+                }
+            )
+        }
+        if (uiState.isShowRequireNotificationAccessPermissionDialog) {
+            RequireNotificationPermissionDialog(
+                onDismissRequest = { isGranted ->
+                    activity ?: return@RequireNotificationPermissionDialog
+                    if (isGranted) {
+                        activity.startActivity(
+                            Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+                        )
+                    } else {
+                        activity.finish()
                     }
                 }
             )

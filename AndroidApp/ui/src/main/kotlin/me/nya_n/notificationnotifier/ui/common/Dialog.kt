@@ -51,14 +51,14 @@ fun CommonDialog(
 
 @Composable
 fun RequireNotificationPermissionDialog(
-    onDismissRequest: () -> Unit
+    onDismissRequest: (isGranted: Boolean) -> Unit
 ) {
     CommonDialog(
         message = stringResource(id = R.string.require_permission),
         positiveButtonText = stringResource(id = R.string.next),
         negativeButtonText = stringResource(id = R.string.ng),
-        onPositiveDismissRequest = onDismissRequest,
-        onNegativeDismissRequest = onDismissRequest
+        onPositiveDismissRequest = { onDismissRequest(true) },
+        onNegativeDismissRequest = { onDismissRequest(false) }
     )
 }
 
