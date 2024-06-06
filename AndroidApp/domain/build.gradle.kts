@@ -11,9 +11,7 @@ dependencies {
     api(project(":model"))
 
     // androidx
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.core.ktx) // text.isDigitsOnlyのためだけっぽい。必要？
     // compose for @Stable annotation
     api(platform(libs.androidx.compose.bom))
     api(libs.androidx.compose.runtime)

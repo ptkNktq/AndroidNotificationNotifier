@@ -14,6 +14,7 @@ import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
+import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.domain.usecase.*
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.DeleteTargetAppUseCaseImpl
@@ -26,7 +27,6 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.NotifyUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrantedUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
-import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.model.InstalledApp
 import org.junit.Before
 import org.junit.Ignore
