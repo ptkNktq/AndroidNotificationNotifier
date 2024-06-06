@@ -112,8 +112,8 @@ fun SettingsScreen(
     }
     SettingsContent(
         address = uiState.address,
-        versionCode = 1, // TODO
-        versionName = "", // TODO
+        versionCode = uiState.appConfig.versionCode,
+        versionName = uiState.appConfig.versionString,
         onValueChange = { viewModel.updateAddress(it) },
         onNotifyTest = { viewModel.notifyTest() },
         onExportData = { viewModel.event(UiEvent.ExportData()) },

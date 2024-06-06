@@ -21,6 +21,7 @@ dependencies {
     // diのために必要
     implementation(project(":domain"))
     implementation(project(":data:repository"))
+    implementation(project(":model"))
 
     // その他
     implementation(libs.io.insert.koin)
