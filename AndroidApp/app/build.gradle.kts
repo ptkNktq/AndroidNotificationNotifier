@@ -8,6 +8,9 @@ android {
     defaultConfig {
         applicationId = "me.nya_n.notificationnotifier"
     }
+    buildFeatures {
+        buildConfig = true
+    }
     packaging {
         resources.excludes.add("META-INF/DEPENDENCIES")
     }
