@@ -35,7 +35,6 @@ com-jaredsburrows-license = { id = "com.jaredsburrows.license", version.ref = "c
 # androidx
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "androidx-preference" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "androidx-security" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-splashscreen" }
 # room
