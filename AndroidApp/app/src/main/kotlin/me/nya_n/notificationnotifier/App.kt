@@ -34,6 +34,7 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrante
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
 import me.nya_n.notificationnotifier.domain.util.SharedPreferenceProvider
+import me.nya_n.notificationnotifier.model.AppConfig
 import me.nya_n.notificationnotifier.ui.screen.app.AppViewModel
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailViewModel
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
@@ -55,6 +56,15 @@ class App : Application() {
     }
 
     private val modules = module {
+        // BuildConfigのデータ共有用
+        single {
+            AppConfig(
+                isDebug = BuildConfig.DEBUG,
+                versionCode = BuildConfig.VERSION_CODE,
+                versionString = BuildConfig.VERSION_NAME,
+            )
+        }
+
         // DataStore
         single {
             UserSettingsDataStore(
@@ -76,7 +86,7 @@ class App : Application() {
         viewModel { SelectionViewModel(get(), get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get(), get()) }
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
 
         // UseCase
         factory<AddTargetAppUseCase> { AddTargetAppUseCaseImpl(get()) }

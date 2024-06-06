@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -109,7 +111,9 @@ fun SettingsScreen(
         viewModel.messageShown()
     }
     SettingsContent(
-        uiState = uiState,
+        address = uiState.address,
+        versionCode = uiState.appConfig.versionCode,
+        versionName = uiState.appConfig.versionString,
         onValueChange = { viewModel.updateAddress(it) },
         onNotifyTest = { viewModel.notifyTest() },
         onExportData = { viewModel.event(UiEvent.ExportData()) },
@@ -121,28 +125,43 @@ fun SettingsScreen(
 /** 設定画面のコンテンツ本体 */
 @Composable
 fun SettingsContent(
-    uiState: UiState,
+    address: String,
+    versionCode: Int,
+    versionName: String,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit,
     onExportData: () -> Unit,
     onImportData: () -> Unit,
     onLicense: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp)
+    Box(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        NotifySettings(
-            uiState,
-            onValueChange = onValueChange,
-            onNotifyTest = onNotifyTest
-        )
-        OtherSettings(
-            onExportData = onExportData,
-            onImportData = onImportData,
-            onLicense = onLicense
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp)
+        ) {
+            NotifySettings(
+                address = address,
+                onValueChange = onValueChange,
+                onNotifyTest = onNotifyTest
+            )
+            OtherSettings(
+                onExportData = onExportData,
+                onImportData = onImportData,
+                onLicense = onLicense
+            )
+        }
+        Text(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
+            text = "v$versionName($versionCode)",
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.primary
+            )
         )
     }
 }
@@ -153,7 +172,7 @@ fun SettingsContent(
  */
 @Composable
 fun NotifySettings(
-    uiState: UiState,
+    address: String,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit
 ) {
@@ -165,7 +184,7 @@ fun NotifySettings(
      *  とりあえず最初に表示されるIMEが英数になる
      */
     OutlinedTextField(
-        value = uiState.address,
+        value = address,
         placeholder = { Text(text = stringResource(id = R.string.address)) },
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
@@ -261,7 +280,9 @@ fun ClickableBasicItem(
 fun SettingsPreview() {
     AppTheme {
         SettingsContent(
-            uiState = UiState(address = "192.168.11.2:5555"),
+            address = "192.168.11.2:5555",
+            versionCode = 1,
+            versionName = "1.0",
             onValueChange = { },
             onNotifyTest = { },
             onExportData = { },
