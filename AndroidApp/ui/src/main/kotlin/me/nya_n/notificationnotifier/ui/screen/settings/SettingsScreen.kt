@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -110,6 +112,8 @@ fun SettingsScreen(
     }
     SettingsContent(
         uiState = uiState,
+        versionCode = 1, // TODO
+        versionName = "", // TODO
         onValueChange = { viewModel.updateAddress(it) },
         onNotifyTest = { viewModel.notifyTest() },
         onExportData = { viewModel.event(UiEvent.ExportData()) },
@@ -122,27 +126,42 @@ fun SettingsScreen(
 @Composable
 fun SettingsContent(
     uiState: UiState,
+    versionCode: Int,
+    versionName: String,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit,
     onExportData: () -> Unit,
     onImportData: () -> Unit,
     onLicense: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp)
+    Box(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        NotifySettings(
-            uiState,
-            onValueChange = onValueChange,
-            onNotifyTest = onNotifyTest
-        )
-        OtherSettings(
-            onExportData = onExportData,
-            onImportData = onImportData,
-            onLicense = onLicense
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp)
+        ) {
+            NotifySettings(
+                uiState,
+                onValueChange = onValueChange,
+                onNotifyTest = onNotifyTest
+            )
+            OtherSettings(
+                onExportData = onExportData,
+                onImportData = onImportData,
+                onLicense = onLicense
+            )
+        }
+        Text(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
+            text = "v$versionName($versionCode)",
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.primary
+            )
         )
     }
 }
@@ -262,6 +281,8 @@ fun SettingsPreview() {
     AppTheme {
         SettingsContent(
             uiState = UiState(address = "192.168.11.2:5555"),
+            versionCode = 1,
+            versionName = "1.0",
             onValueChange = { },
             onNotifyTest = { },
             onExportData = { },
