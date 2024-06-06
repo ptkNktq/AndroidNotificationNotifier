@@ -5,36 +5,38 @@ Android端末の通知をPCに送信するアプリケーション
 <a href='https://play.google.com/store/apps/details?id=me.nya_n.notificationnotifier&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Google Play で手に入れよう' src='https://play.google.com/intl/en_us/badges/static/images/badges/ja_badge_web_generic.png' width="200"/></a>
 
 ### 使い方
-[ここ](https://github.com/ptkNktq/AndroidNotificationNotifier/releases)からダウンロードして解凍してください。  
-次の3つのファイルがあります。
-* android.apk (Androidアプリ)
-* desktop.exe (デスクトップアプリ)
-* settings.json (デスクトップアプリの設定ファイル)
 
 #### デスクトップアプリ
-desktop.exeを実行するだけです。タスクトレイに常駐するので、放っておけば通知が来ます。  
-ポート番号を変える必要がある場合は、settings.jsonのportの値を変更して下さい。設定を反映させるには再起動する必要があります。多重起動対策をしていないので気をつけて下さい。  
-また、desktop.exeとsettings.jsonが同じフォルダ内にあれば、それらを何処に置いても(多分)問題なく動きます。
+1. インストール  
+[ここ](https://github.com/ptkNktq/AndroidNotificationNotifier/releases)からダウンロードして解凍してください。  
+`desktop.exe`を実行するだけです。  
+タスクトレイに常駐するので、放っておけば通知が来ます。
+
+1. 設定変更  
+ポート番号を変える必要がある場合は、`settings.json`の`port`の値を変更して下さい。  
+設定を反映させるには再起動する必要があります。  
+⚠️ 多重起動対策をしていないので気をつけて下さい。  
+また、`desktop.exe`と`settings.json`が同じフォルダ内にあれば、それらを何処に置いても(多分)問題なく動きます。
 
 #### Androidアプリ
 1. インストール  
-android.apkをインストールします。
+Google Playからインストールしてください。
 
-2. 通知へのアクセス  
-通知へのアクセスという設定項目(開発者の端末だと設定>音と通知>通知へのアクセス)を探し、「通知配達ドロイド君」にチェックを入れます。
-これをしないと通知が来たことをアプリが認識できません。
+1. 権限の許可  
+アプリを起動して、画面の表示に従って2つの権限を許可してください。  
+それらを許可しなければアプリを使うことはできません。
 
-3. 各種設定  
+1. 各種設定  
 アプリを起動して、設定タブでPCのIPアドレスとポート番号(初期値: 8484)を入力します。  
 通知テストボタンを押してPCに通知が表示されたら準備完了です。  
 &nbsp;<img src="https://github.com/ptkNktq/AndroidNotificationNotifier/assets/7608826/4412d67f-1e8a-4343-a5fb-433adf326ec0" width="320px">
 
-4. 通知を送るアプリの追加  
+1. 通知を送るアプリの追加  
 アプリタブでインストールされているアプリ一覧を表示できます。  
 この中からPCに通知を送りたいアプリを選択してください。  
 &nbsp;<img src="https://github.com/ptkNktq/AndroidNotificationNotifier/assets/7608826/deb01b19-eddd-47c1-870c-146278ed0ca1" width="320px">  
 
-5. 完了  
+1. 完了  
 通知対象タブに選択したアプリが表示されます。  
 後は通知が来るのを待つだけ。  
 &nbsp;<img src="https://github.com/ptkNktq/AndroidNotificationNotifier/assets/7608826/c34f58fa-43b9-4c40-9f11-64b1d9b77efd" width="320px">
