@@ -2,7 +2,7 @@
 [versions]
 agp = "8.2.0"
 org-jetbrains-kotlin-android = "1.9.24"
-com-google-devtools-ksp = "1.9.24-1.0.20"
+com-google-devtools-ksp = "2.0.0-1.0.22"
 com-jaredsburrows-license = "0.9.7"
 androidx-core = "1.13.1"
 androidx-appcompat = "1.7.0"
