@@ -111,7 +111,7 @@ fun SettingsScreen(
         viewModel.messageShown()
     }
     SettingsContent(
-        uiState = uiState,
+        address = uiState.address,
         versionCode = 1, // TODO
         versionName = "", // TODO
         onValueChange = { viewModel.updateAddress(it) },
@@ -125,7 +125,7 @@ fun SettingsScreen(
 /** 設定画面のコンテンツ本体 */
 @Composable
 fun SettingsContent(
-    uiState: UiState,
+    address: String,
     versionCode: Int,
     versionName: String,
     onValueChange: (String) -> Unit,
@@ -144,7 +144,7 @@ fun SettingsContent(
                 .padding(horizontal = 20.dp)
         ) {
             NotifySettings(
-                uiState,
+                address = address,
                 onValueChange = onValueChange,
                 onNotifyTest = onNotifyTest
             )
@@ -172,7 +172,7 @@ fun SettingsContent(
  */
 @Composable
 fun NotifySettings(
-    uiState: UiState,
+    address: String,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit
 ) {
@@ -184,7 +184,7 @@ fun NotifySettings(
      *  とりあえず最初に表示されるIMEが英数になる
      */
     OutlinedTextField(
-        value = uiState.address,
+        value = address,
         placeholder = { Text(text = stringResource(id = R.string.address)) },
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
@@ -280,7 +280,7 @@ fun ClickableBasicItem(
 fun SettingsPreview() {
     AppTheme {
         SettingsContent(
-            uiState = UiState(address = "192.168.11.2:5555"),
+            address = "192.168.11.2:5555",
             versionCode = 1,
             versionName = "1.0",
             onValueChange = { },
