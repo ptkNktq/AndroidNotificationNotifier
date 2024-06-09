@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ReceiptLong
 import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.CloudUpload
+import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -118,7 +119,8 @@ fun SettingsScreen(
         onNotifyTest = { viewModel.notifyTest() },
         onExportData = { viewModel.event(UiEvent.ExportData()) },
         onImportData = { viewModel.event(UiEvent.ImportData()) },
-        onLicense = { navController.navigate(Screen.License.route) }
+        onLicense = { navController.navigate(Screen.License.route) },
+        onAboutDeveloper = { navController.navigate(Screen.About.route) }
     )
 }
 
@@ -132,7 +134,8 @@ fun SettingsContent(
     onNotifyTest: () -> Unit,
     onExportData: () -> Unit,
     onImportData: () -> Unit,
-    onLicense: () -> Unit
+    onLicense: () -> Unit,
+    onAboutDeveloper: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -151,7 +154,8 @@ fun SettingsContent(
             OtherSettings(
                 onExportData = onExportData,
                 onImportData = onImportData,
-                onLicense = onLicense
+                onLicense = onLicense,
+                onAboutDeveloper = onAboutDeveloper
             )
         }
         Text(
@@ -224,7 +228,8 @@ fun NotifySettings(
 fun OtherSettings(
     onExportData: () -> Unit,
     onImportData: () -> Unit,
-    onLicense: () -> Unit
+    onLicense: () -> Unit,
+    onAboutDeveloper: () -> Unit
 ) {
     Category(name = stringResource(id = R.string.settings_others))
     ClickableBasicItem(
@@ -241,6 +246,11 @@ fun OtherSettings(
         icon = Icons.AutoMirrored.Outlined.ReceiptLong,
         text = stringResource(id = R.string.license),
         onClickListener = onLicense
+    )
+    ClickableBasicItem(
+        icon = Icons.Outlined.Code,
+        text = stringResource(id = R.string.about),
+        onClickListener = onAboutDeveloper
     )
 }
 
@@ -287,7 +297,8 @@ fun SettingsPreview() {
             onNotifyTest = { },
             onExportData = { },
             onImportData = { },
-            onLicense = { }
+            onLicense = { },
+            onAboutDeveloper = { }
         )
     }
 }

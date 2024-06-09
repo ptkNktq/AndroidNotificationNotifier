@@ -18,6 +18,7 @@ import com.google.gson.Gson
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.common.RequireNotificationPermissionDialog
 import me.nya_n.notificationnotifier.ui.common.RequirePackageVisibilityDialog
+import me.nya_n.notificationnotifier.ui.screen.about.AboutScreen
 import me.nya_n.notificationnotifier.ui.screen.detail.DetailScreen
 import me.nya_n.notificationnotifier.ui.screen.license.LicenseScreen
 import me.nya_n.notificationnotifier.ui.screen.main.MainScreen
@@ -89,6 +90,7 @@ fun AppScreen(
                     app = app
                 )
             }
+            composable(Screen.About.route) { AboutScreen() }
         }
     }
 }
@@ -101,6 +103,7 @@ sealed class Screen(
     data object Main : Screen("main")
     data object License : Screen("license")
     data object Detail : Screen("detail", listOf("app"))
+    data object About : Screen("about")
 
     val route: String
         get() {
