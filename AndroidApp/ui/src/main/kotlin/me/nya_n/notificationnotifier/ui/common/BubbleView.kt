@@ -11,7 +11,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -28,6 +28,7 @@ class BubbleView(
 
     private val r = Random(System.currentTimeMillis())
     private val coroutineScope = CoroutineScope(Job())
+    private var drawJob: Job? = null
     private val backgroundPaint = Paint().apply {
         shader = LinearGradient(
             0f,
@@ -59,9 +60,14 @@ class BubbleView(
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-        coroutineScope.launch {
+        drawJob = coroutineScope.launch {
             while (true) {
-                val canvas = holder.lockCanvas()
+                ensureActive()
+                // FIXME:
+                //   怪しいErrorレベルのログが出ている
+                //   クラッシュしないのでとりあえず見なかったことにするけどなんとかしたい
+                //   [SurfaceView[me.nya_n.notificationnotifier/me.nya_n.notificationnotifier.ui.MainActivity]#3(BLAST Consumer)3](id:3c6f00000003,api:0,p:-1,c:15471) disconnect: not connected (req=2)
+                val canvas = holder.lockCanvas() ?: break
                 canvas.drawPaint(backgroundPaint)
                 circles.forEach {
                     it.draw(canvas, circlePaint)
@@ -73,8 +79,7 @@ class BubbleView(
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-        // FIXME: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.graphics.Canvas.drawPaint(android.graphics.Paint)' on a null object reference
-        coroutineScope.cancel()
+        drawJob?.cancel()
     }
 }
 
