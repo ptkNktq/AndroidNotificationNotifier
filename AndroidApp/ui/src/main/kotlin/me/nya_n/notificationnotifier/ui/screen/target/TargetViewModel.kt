@@ -22,9 +22,14 @@ class TargetViewModel(
     /** 通知対象一覧の取得 */
     fun loadTargets() {
         viewModelScope.launch {
+            if (uiState.value.items.isEmpty()) {
+                // 未読込の場合だけプログレスバーを表示
+                _uiState.update { it.copy(isLoading = true) }
+            }
             useCase(pm).onSuccess { res ->
                 _uiState.update { it.copy(items = res.targets) }
             }
+            _uiState.update { it.copy(isLoading = false) }
         }
     }
 

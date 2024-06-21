@@ -28,12 +28,17 @@ class SelectionViewModel(
     /** アプリ一覧の読み込み */
     fun loadAppList() {
         viewModelScope.launch {
+            if (uiState.value.items.isEmpty()) {
+                // 未読込の場合だけプログレスバーを表示
+                _uiState.update { it.copy(isLoading = true) }
+            }
             loadAppUseCase(pm).onSuccess { res ->
                 val query = uiState.value.query
                 val items = res.notTargets
                     .filter { app -> app.label.contains(query) || app.packageName.contains(query) }
                 _uiState.update { it.copy(items = items) }
             }
+            _uiState.update { it.copy(isLoading = false) }
         }
     }
 
