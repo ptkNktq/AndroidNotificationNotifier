@@ -1,13 +1,16 @@
 package me.nya_n.notificationnotifier.ui.screen.selection
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
@@ -19,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalFocusManager
@@ -58,6 +62,7 @@ fun SelectionScreen(
     }
     SelectionContent(
         items = uiState.items,
+        isLoading = uiState.isLoading,
         initQuery = uiState.query,
         onAppSelected = {
             viewModel.addTarget(it)
@@ -70,17 +75,26 @@ fun SelectionScreen(
 @Composable
 fun SelectionContent(
     items: List<InstalledApp>,
+    isLoading: Boolean,
     initQuery: String,
     onAppSelected: (InstalledApp) -> Unit,
     onQueryInputted: (String) -> Unit
 ) {
     Column {
         QueryTextField(initQuery = initQuery, onQueryInputted = onQueryInputted)
-        AppList(
-            items = items,
-            emptyMessage = stringResource(id = R.string.no_apps),
-            onAppSelected = onAppSelected
-        )
+        if (isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            AppList(
+                items = items,
+                onAppSelected = onAppSelected
+            )
+        }
     }
 }
 
@@ -126,6 +140,7 @@ fun SelectionPreview() {
     AppTheme {
         SelectionContent(
             items = Sample.items,
+            isLoading = false,
             onAppSelected = { },
             initQuery = "",
             onQueryInputted = { }

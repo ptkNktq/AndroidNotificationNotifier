@@ -16,20 +16,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
+import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @Composable
 fun AppList(
     items: List<InstalledApp>,
-    emptyMessage: String,
     onAppSelected: (InstalledApp) -> Unit
 ) {
     if (items.isEmpty()) {
-        EmptyView(message = emptyMessage)
+        EmptyView(message = stringResource(id = R.string.no_apps))
     } else {
         LazyColumn {
             items(
@@ -95,7 +96,6 @@ fun AppListPreview() {
     AppTheme {
         AppList(
             items = items,
-            emptyMessage = "empty",
             onAppSelected = { }
         )
     }
@@ -107,7 +107,6 @@ fun EmptyAppListPreview() {
     AppTheme {
         AppList(
             items = emptyList(),
-            emptyMessage = "empty",
             onAppSelected = { }
         )
     }
