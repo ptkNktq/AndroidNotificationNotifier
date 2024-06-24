@@ -80,7 +80,7 @@ fun MainScreen(navController: NavController) {
 /** メイン画面のコンテンツ本体 */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainContent(
+private fun MainContent(
     snackbarHostState: SnackbarHostState,
     tabItems: List<TabItem>,
     pagerState: PagerState,
@@ -109,7 +109,7 @@ fun MainContent(
 }
 
 @Composable
-fun BottomBar(
+private fun BottomBar(
     items: List<TabItem>,
     currentPage: Int,
     onTabSelected: (selected: Int) -> Unit
@@ -127,7 +127,7 @@ fun BottomBar(
 }
 
 /** BottomNavigationで表示する各タブの情報 */
-data class TabItem(
+private data class TabItem(
     val label: String,
     val icon: ImageVector,
     /** このページで表示するコンテンツ
@@ -141,7 +141,7 @@ data class TabItem(
 @OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
-fun MainPreview() {
+private fun MainPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
     val tabItems = listOf(
         TabItem("タブ1", Icons.Outlined.NotificationsActive),
@@ -160,7 +160,7 @@ fun MainPreview() {
 
 @Preview
 @Composable
-fun BottomBarPreview() {
+private fun BottomBarPreview() {
     val tabItems = listOf(
         TabItem("タブ1", Icons.Outlined.NotificationsActive),
         TabItem("タブ2", Icons.AutoMirrored.Rounded.List),

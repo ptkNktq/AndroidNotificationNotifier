@@ -85,7 +85,7 @@ fun AppListItem(
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun AppListPreview() {
+private fun AppListPreview() {
     val items = listOf(
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
         InstalledApp(
@@ -103,7 +103,7 @@ fun AppListPreview() {
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun EmptyAppListPreview() {
+private fun EmptyAppListPreview() {
     AppTheme {
         AppList(
             items = emptyList(),

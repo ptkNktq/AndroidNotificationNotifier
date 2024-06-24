@@ -29,7 +29,7 @@ fun TopBar() {
 
 @Preview
 @Composable
-fun TopBarPreview() {
+private fun TopBarPreview() {
     AppTheme {
         TopBar()
     }
