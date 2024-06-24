@@ -52,7 +52,7 @@ fun AppScaffold(
 
 @Preview
 @Composable
-fun AppScaffoldPreview() {
+private fun AppScaffoldPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
     AppTheme {
         AppScaffold(snackbarHostState) { }

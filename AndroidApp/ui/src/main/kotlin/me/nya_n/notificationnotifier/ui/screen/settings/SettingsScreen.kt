@@ -126,7 +126,7 @@ fun SettingsScreen(
 
 /** 設定画面のコンテンツ本体 */
 @Composable
-fun SettingsContent(
+private fun SettingsContent(
     address: String,
     versionCode: Int,
     versionName: String,
@@ -175,7 +175,7 @@ fun SettingsContent(
  *   - 送信テスト
  */
 @Composable
-fun NotifySettings(
+private fun NotifySettings(
     address: String,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit
@@ -202,7 +202,7 @@ fun NotifySettings(
             }
         ),
         singleLine = true,
-        colors = AppColors.OutlinedTextFieldColors(),
+        colors = AppColors.outlinedTextFieldColors(),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.Devices,
@@ -225,7 +225,7 @@ fun NotifySettings(
  *   - バージョン表示
  */
 @Composable
-fun OtherSettings(
+private fun OtherSettings(
     onExportData: () -> Unit,
     onImportData: () -> Unit,
     onLicense: () -> Unit,
@@ -259,7 +259,7 @@ fun OtherSettings(
  *   - クリックできる
  */
 @Composable
-fun ClickableBasicItem(
+private fun ClickableBasicItem(
     icon: ImageVector,
     text: String,
     onClickListener: () -> Unit
@@ -287,7 +287,7 @@ fun ClickableBasicItem(
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun SettingsPreview() {
+private fun SettingsPreview() {
     AppTheme {
         SettingsContent(
             address = "192.168.11.2:5555",

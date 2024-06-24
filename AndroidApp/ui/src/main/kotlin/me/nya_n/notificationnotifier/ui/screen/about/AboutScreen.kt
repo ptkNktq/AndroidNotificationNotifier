@@ -37,7 +37,7 @@ fun AboutScreen() {
 }
 
 @Composable
-fun AboutContent(
+private fun AboutContent(
     screenWidth: Float,
     screenHeight: Float,
     onLinkSelected: (String) -> Unit
@@ -58,7 +58,7 @@ fun AboutContent(
 }
 
 @Composable
-fun AboutView(
+private fun AboutView(
     onLinkSelected: (String) -> Unit
 ) {
     val about = """
@@ -106,7 +106,7 @@ fun AboutView(
 
 @Preview(showBackground = true)
 @Composable
-fun AboutPreview() {
+private fun AboutPreview() {
     AppTheme {
         AboutView(
             onLinkSelected = { }

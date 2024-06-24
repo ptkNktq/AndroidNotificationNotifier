@@ -41,10 +41,8 @@ class LoadAppUseCaseImpl(
     }
 
     private fun createOutputs(apps: List<InstalledApp>, targets: List<InstalledApp>): Outputs {
-        /*
-         * アプリのラベルは度々変更されるがパッケージ名はそう簡単には変更されないので、
-         * パッケージ名だけで判定する
-         */
+        // アプリのラベルは度々変更されるがパッケージ名はそう簡単には変更されないので、
+        // パッケージ名だけで判定する
         val appPackageNames = apps.map { it.packageName }
         val targetPackageNames = targets.map { it.packageName }
         return Outputs(

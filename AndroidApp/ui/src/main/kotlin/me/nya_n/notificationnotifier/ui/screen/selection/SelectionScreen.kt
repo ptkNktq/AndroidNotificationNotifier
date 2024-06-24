@@ -73,7 +73,7 @@ fun SelectionScreen(
 }
 
 @Composable
-fun SelectionContent(
+private fun SelectionContent(
     items: List<InstalledApp>,
     isLoading: Boolean,
     initQuery: String,
@@ -99,7 +99,7 @@ fun SelectionContent(
 }
 
 @Composable
-fun QueryTextField(
+private fun QueryTextField(
     initQuery: String,
     onQueryInputted: (String) -> Unit
 ) {
@@ -120,7 +120,7 @@ fun QueryTextField(
             }
         ),
         singleLine = true,
-        colors = AppColors.OutlinedTextFieldColors(),
+        colors = AppColors.outlinedTextFieldColors(),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.Search,
@@ -136,7 +136,7 @@ fun QueryTextField(
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun SelectionPreview() {
+private fun SelectionPreview() {
     AppTheme {
         SelectionContent(
             items = Sample.items,

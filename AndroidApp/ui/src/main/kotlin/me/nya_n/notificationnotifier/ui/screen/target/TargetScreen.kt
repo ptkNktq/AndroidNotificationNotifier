@@ -45,7 +45,7 @@ fun TargetScreen(
 }
 
 @Composable
-fun TargetContent(
+private fun TargetContent(
     items: List<InstalledApp>,
     isLoading: Boolean,
     onAppSelected: (InstalledApp) -> Unit
@@ -67,7 +67,7 @@ fun TargetContent(
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun TargetPreview() {
+private fun TargetPreview() {
     val items = listOf(
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
@@ -84,7 +84,7 @@ fun TargetPreview() {
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun LoadingTargetPreview() {
+private fun LoadingTargetPreview() {
     AppTheme {
         TargetContent(
             items = listOf(),

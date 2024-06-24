@@ -30,7 +30,7 @@ fun LicenseScreen() {
 
 @Preview
 @Composable
-fun LicensePreview() {
+private fun LicensePreview() {
     AppTheme {
         LicenseScreen()
     }

@@ -77,7 +77,7 @@ fun DetailScreen(
 
 /** 詳細画面のコンテンツ本体 */
 @Composable
-fun DetailContent(
+private fun DetailContent(
     snackbarHostState: SnackbarHostState,
     app: InstalledApp,
     condition: String,
@@ -101,7 +101,7 @@ fun DetailContent(
  *   - アイコンとアプリ名
  */
 @Composable
-fun AppInfo(
+private fun AppInfo(
     app: InstalledApp,
     onDeleteApp: () -> Unit
 ) {
@@ -136,7 +136,7 @@ fun AppInfo(
  *   - 条件
  */
 @Composable
-fun NotificationSetting(
+private fun NotificationSetting(
     initCondition: String,
     onConditionChanged: (String) -> Unit
 ) {
@@ -162,7 +162,7 @@ fun NotificationSetting(
             }
         ),
         singleLine = true,
-        colors = AppColors.OutlinedTextFieldColors(),
+        colors = AppColors.outlinedTextFieldColors(),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.NotificationsActive,
@@ -179,7 +179,7 @@ fun NotificationSetting(
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun DetailPreview() {
+private fun DetailPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
     AppTheme {
         DetailContent(
@@ -194,7 +194,7 @@ fun DetailPreview() {
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun LongAppNameDetailPreview() {
+private fun LongAppNameDetailPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
     AppTheme {
         DetailContent(

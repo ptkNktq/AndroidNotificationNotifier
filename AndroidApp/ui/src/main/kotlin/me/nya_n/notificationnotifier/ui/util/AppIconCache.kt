@@ -6,7 +6,7 @@ import androidx.collection.LruCache
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 
-object AppIcon {
+object AppIconCache {
     private val ICON_SIZE_DEFAULT = 56.dp.value.toInt()
     private const val CACHE_SIZE = 4 * 1024 * 1024
 
