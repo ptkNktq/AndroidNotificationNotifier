@@ -202,7 +202,7 @@ private fun NotifySettings(
             }
         ),
         singleLine = true,
-        colors = AppColors.OutlinedTextFieldColors(),
+        colors = AppColors.outlinedTextFieldColors(),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.Devices,

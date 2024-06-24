@@ -120,7 +120,7 @@ private fun QueryTextField(
             }
         ),
         singleLine = true,
-        colors = AppColors.OutlinedTextFieldColors(),
+        colors = AppColors.outlinedTextFieldColors(),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.Search,
