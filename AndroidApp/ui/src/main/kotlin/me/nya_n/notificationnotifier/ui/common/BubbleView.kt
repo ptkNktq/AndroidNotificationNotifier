@@ -42,7 +42,7 @@ class BubbleView(
         isAntiAlias = true
     }
     private val circlePaint = Paint().apply {
-        color = Color.parseColor("#44ffffff")
+        color = Color.parseColor("#44FFFFFF")
         isAntiAlias = true
     }
     private val circles = Array(MAX_CIRCLE) { Circle(r, screenWidth, screenHeight) }
