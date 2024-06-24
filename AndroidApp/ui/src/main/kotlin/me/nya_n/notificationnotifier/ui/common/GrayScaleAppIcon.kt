@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import me.nya_n.notificationnotifier.model.InstalledApp
-import me.nya_n.notificationnotifier.ui.util.AppIcon
+import me.nya_n.notificationnotifier.ui.util.AppIconCache
 import me.nya_n.notificationnotifier.ui.util.isInPreview
 
 @Composable
@@ -26,7 +26,7 @@ fun GrayScaleAppIcon(
             modifier = modifier
         )
     } else {
-        val icon = AppIcon.get(
+        val icon = AppIconCache.get(
             app.packageName,
             LocalContext.current.packageManager,
             isInListView
