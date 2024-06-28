@@ -64,6 +64,9 @@ fun DetailScreen(
         snackbarHostState = snackbarHostState,
         app = app,
         condition = uiState.condition,
+        onBack = {
+            navController.popBackStack()
+        },
         onDeleteApp = {
             viewModel.deleteTarget()
             navController.previousBackStackEntry?.apply {
@@ -81,10 +84,15 @@ private fun DetailContent(
     snackbarHostState: SnackbarHostState,
     app: InstalledApp,
     condition: String,
+    onBack: () -> Unit,
     onDeleteApp: () -> Unit,
     onConditionChanged: (String) -> Unit
 ) {
-    AppScaffold(snackbarHostState = snackbarHostState) {
+    AppScaffold(
+        snackbarHostState = snackbarHostState,
+        hasBackContent = true,
+        onBack = onBack
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -186,6 +194,7 @@ private fun DetailPreview() {
             snackbarHostState = snackbarHostState,
             app = InstalledApp("Sample App Name", "example.sample.test"),
             condition = "^.*$",
+            onBack = { },
             onDeleteApp = { },
             onConditionChanged = { }
         )
@@ -204,6 +213,7 @@ private fun LongAppNameDetailPreview() {
                 "example.sample.test"
             ),
             condition = "",
+            onBack = { },
             onDeleteApp = { },
             onConditionChanged = { }
         )
