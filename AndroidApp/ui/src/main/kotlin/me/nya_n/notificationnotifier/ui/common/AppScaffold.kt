@@ -18,11 +18,18 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 @Composable
 fun AppScaffold(
     snackbarHostState: SnackbarHostState,
+    hasBackContent: Boolean = false,
+    onBack: () -> Unit = { },
     bottomBar: @Composable () -> Unit = { },
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
-        topBar = { TopBar() },
+        topBar = {
+            TopBar(
+                hasBackContent = hasBackContent,
+                onBack = onBack
+            )
+        },
         bottomBar = bottomBar,
         containerColor = MaterialTheme.colorScheme.secondary,
         snackbarHost = {
