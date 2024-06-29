@@ -3,6 +3,8 @@ package me.nya_n.notificationnotifier.ui.screen.app
 import android.app.Activity
 import android.content.Intent
 import android.provider.Settings
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -76,7 +78,19 @@ fun AppScreen(
 
         NavHost(
             navController = navController,
-            startDestination = Screen.Main.name
+            startDestination = Screen.Main.name,
+            enterTransition = {
+                slideInHorizontally(initialOffsetX = { it })
+            },
+            exitTransition = {
+                slideOutHorizontally(targetOffsetX = { -it })
+            },
+            popEnterTransition = {
+                slideInHorizontally(initialOffsetX = { -it })
+            },
+            popExitTransition = {
+                slideOutHorizontally(targetOffsetX = { it })
+            },
         ) {
             composable(Screen.Main.route) { MainScreen(navController) }
             composable(Screen.License.route) { LicenseScreen(navController) }
