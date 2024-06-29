@@ -79,7 +79,7 @@ fun AppScreen(
             startDestination = Screen.Main.name
         ) {
             composable(Screen.Main.route) { MainScreen(navController) }
-            composable(Screen.License.route) { LicenseScreen() }
+            composable(Screen.License.route) { LicenseScreen(navController) }
             composable(Screen.Detail.route) {
                 val app = Gson().fromJson(
                     it.arguments?.getString("app"),
