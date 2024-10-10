@@ -1,6 +1,6 @@
 [versions]
 agp = "8.7.0"
-kotlin = "2.0.20"
+kotlin = "2.0.21"
 com-google-devtools-ksp = "2.0.20-1.0.25"
 com-jaredsburrows-license = "0.9.8"
 androidx-core = "1.13.1"
