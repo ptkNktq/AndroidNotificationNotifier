@@ -2,7 +2,6 @@ package me.nya_n.notificationnotifier.ui.screen.main
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -38,7 +37,6 @@ import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 /** メイン画面 */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(navController: NavController) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -79,7 +77,6 @@ fun MainScreen(navController: NavController) {
 }
 
 /** メイン画面のコンテンツ本体 */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MainContent(
     snackbarHostState: SnackbarHostState,
@@ -141,7 +138,6 @@ private data class TabItem(
     }
 )
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 private fun MainPreview() {
