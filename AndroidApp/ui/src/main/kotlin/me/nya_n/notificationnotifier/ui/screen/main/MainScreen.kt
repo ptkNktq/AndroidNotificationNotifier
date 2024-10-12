@@ -14,6 +14,7 @@ import androidx.compose.material.icons.automirrored.rounded.List
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.SnackbarHostState
@@ -114,7 +115,9 @@ private fun BottomBar(
     currentPage: Int,
     onTabSelected: (selected: Int) -> Unit
 ) {
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = index == currentPage,
