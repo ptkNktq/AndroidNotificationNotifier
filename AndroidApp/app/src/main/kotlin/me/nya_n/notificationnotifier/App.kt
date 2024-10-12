@@ -41,8 +41,8 @@ import me.nya_n.notificationnotifier.ui.screen.selection.SelectionViewModel
 import me.nya_n.notificationnotifier.ui.screen.settings.SettingsViewModel
 import me.nya_n.notificationnotifier.ui.screen.target.TargetViewModel
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 class App : Application() {

@@ -2,7 +2,6 @@ package me.nya_n.notificationnotifier.ui.screen.main
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +13,7 @@ import androidx.compose.material.icons.automirrored.rounded.List
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.SnackbarHostState
@@ -37,7 +37,6 @@ import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 /** メイン画面 */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(navController: NavController) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -78,7 +77,6 @@ fun MainScreen(navController: NavController) {
 }
 
 /** メイン画面のコンテンツ本体 */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MainContent(
     snackbarHostState: SnackbarHostState,
@@ -114,7 +112,9 @@ private fun BottomBar(
     currentPage: Int,
     onTabSelected: (selected: Int) -> Unit
 ) {
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = index == currentPage,
@@ -138,7 +138,6 @@ private data class TabItem(
     }
 )
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 private fun MainPreview() {
