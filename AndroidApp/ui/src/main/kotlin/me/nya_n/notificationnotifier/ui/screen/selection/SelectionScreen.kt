@@ -73,7 +73,7 @@ fun SelectionScreen(
 }
 
 @Composable
-private fun SelectionContent(
+fun SelectionContent(
     items: List<InstalledApp>,
     isLoading: Boolean,
     initQuery: String,

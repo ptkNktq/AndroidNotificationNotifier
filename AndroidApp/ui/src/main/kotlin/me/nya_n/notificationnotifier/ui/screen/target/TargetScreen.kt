@@ -45,7 +45,7 @@ fun TargetScreen(
 }
 
 @Composable
-private fun TargetContent(
+fun TargetContent(
     items: List<InstalledApp>,
     isLoading: Boolean,
     onAppSelected: (InstalledApp) -> Unit
