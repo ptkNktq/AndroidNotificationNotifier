@@ -25,7 +25,7 @@ class ScreenshotTest {
 
     @Preview
     @Composable
-    fun MainContentTest() {
+    fun MainContentScreenshotTest() {
         val snackbarHostState = remember { SnackbarHostState() }
         val tabItems = listOf(
             TabItem("タブ1", Icons.Outlined.NotificationsActive),
@@ -45,7 +45,7 @@ class ScreenshotTest {
 
     @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
     @Composable
-    fun TargetContentTest() {
+    fun TargetContentScreenshotTest() {
         val items = listOf(
             InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
             InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
@@ -62,7 +62,7 @@ class ScreenshotTest {
 
     @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
     @Composable
-    fun DetailContentTest() {
+    fun DetailContentScreenshotTest() {
         val snackbarHostState = remember { SnackbarHostState() }
         AppTheme {
             DetailContent(
@@ -78,7 +78,7 @@ class ScreenshotTest {
 
     @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
     @Composable
-    fun SelectionContentTest() {
+    fun SelectionContentScreenshotTest() {
         AppTheme {
             SelectionContent(
                 items = Sample.items,
@@ -92,7 +92,7 @@ class ScreenshotTest {
 
     @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
     @Composable
-    fun SettingsContentTest() {
+    fun SettingsContentScreenshotTest() {
         AppTheme {
             SettingsContent(
                 address = "192.168.11.2:5555",
