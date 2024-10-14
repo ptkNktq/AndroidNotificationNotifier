@@ -7,6 +7,10 @@ plugins {
 android {
     namespace = "me.nya_n.notificationnotifier.ui"
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 dependencies {
