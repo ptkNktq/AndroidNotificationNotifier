@@ -1,1 +1,4 @@
-/build
+/build/*
+!/build/reports
+/build/reports/*
+!/build/reports/screenshotTest
