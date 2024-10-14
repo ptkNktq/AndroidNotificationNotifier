@@ -80,7 +80,7 @@ fun DetailScreen(
 
 /** 詳細画面のコンテンツ本体 */
 @Composable
-private fun DetailContent(
+fun DetailContent(
     snackbarHostState: SnackbarHostState,
     app: InstalledApp,
     condition: String,

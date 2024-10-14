@@ -126,7 +126,7 @@ fun SettingsScreen(
 
 /** 設定画面のコンテンツ本体 */
 @Composable
-private fun SettingsContent(
+fun SettingsContent(
     address: String,
     versionCode: Int,
     versionName: String,

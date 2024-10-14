@@ -11,6 +11,7 @@ androidx-compose-bom = "2024.09.03"
 androidx-compose-activity = "1.9.2"
 androidx-compose-viewmodel = "2.8.6"
 androidx-compose-navigation = "2.8.2"
+androidx-compose-screenshot = "0.0.1-alpha07"
 junit = "4.13.2"
 com-google-truth = "1.4.4"
 androidx-test-ext = "1.2.1"
@@ -28,6 +29,7 @@ org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.re
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools-ksp" }
 com-jaredsburrows-license = { id = "com.jaredsburrows.license", version.ref = "com-jaredsburrows-license" }
+screenshot = { id = "com.android.compose.screenshot", version.ref = "androidx-compose-screenshot" }
 
 [libraries]
 # androidx

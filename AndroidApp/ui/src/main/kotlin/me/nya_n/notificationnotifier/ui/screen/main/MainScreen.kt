@@ -78,7 +78,7 @@ fun MainScreen(navController: NavController) {
 
 /** メイン画面のコンテンツ本体 */
 @Composable
-private fun MainContent(
+fun MainContent(
     snackbarHostState: SnackbarHostState,
     tabItems: List<TabItem>,
     pagerState: PagerState,
@@ -127,7 +127,7 @@ private fun BottomBar(
 }
 
 /** BottomNavigationで表示する各タブの情報 */
-private data class TabItem(
+data class TabItem(
     val label: String,
     val icon: ImageVector,
     /** このページで表示するコンテンツ

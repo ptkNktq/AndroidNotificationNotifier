@@ -33,7 +33,6 @@ out/
 
 # Gradle files
 .gradle/
-build/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -124,7 +123,7 @@ output.json
 # Log Files
 
 # Android Studio
-/*/build/
+/*/build/*
 /*/local.properties
 /*/out
 /*/*/build
