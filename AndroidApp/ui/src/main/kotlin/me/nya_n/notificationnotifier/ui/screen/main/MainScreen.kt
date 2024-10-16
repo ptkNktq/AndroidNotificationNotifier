@@ -61,6 +61,7 @@ fun MainScreen(navController: NavController) {
     )
     val pagerState = rememberPagerState(pageCount = { tabItems.size })
     BackHandler(true) {
+        snackbarHostState.currentSnackbarData?.dismiss()
         if (pagerState.currentPage == 0) {
             activity?.finish()
         } else {
@@ -72,6 +73,7 @@ fun MainScreen(navController: NavController) {
         tabItems = tabItems,
         pagerState = pagerState
     ) {
+        snackbarHostState.currentSnackbarData?.dismiss()
         scope.launch { pagerState.scrollToPage(it, 0f) }
     }
 }
