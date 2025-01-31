@@ -8,7 +8,7 @@ internal fun Project.configureLibrary(
     extension: LibraryExtension
 ) {
     extension.apply {
-        compileSdk = 34
+        compileSdk = 35
         defaultConfig {
             minSdk = 30
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
