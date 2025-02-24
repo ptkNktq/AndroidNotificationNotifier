@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.ui.screen.main
 
-import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
@@ -40,7 +39,7 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 @Composable
 fun MainScreen(navController: NavController) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val activity = LocalContext.current as? Activity
+    val activity = LocalActivity.current
     val scope = rememberCoroutineScope()
     val tabItems = listOf(
         TabItem(stringResource(id = R.string.targets), Icons.Outlined.NotificationsActive) {

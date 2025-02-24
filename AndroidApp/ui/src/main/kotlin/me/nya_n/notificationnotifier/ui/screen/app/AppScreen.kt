@@ -1,15 +1,14 @@
 package me.nya_n.notificationnotifier.ui.screen.app
 
-import android.app.Activity
 import android.content.Intent
 import android.provider.Settings
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -33,7 +32,7 @@ fun AppScreen(
     viewModel: AppViewModel = koinViewModel()
 ) {
     val navController = rememberNavController()
-    val activity = LocalContext.current as? Activity
+    val activity = LocalActivity.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState by viewModel.uiState.collectAsState()
 
