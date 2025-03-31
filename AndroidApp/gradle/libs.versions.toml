@@ -18,7 +18,7 @@ androidx-test-ext = "1.2.1"
 androidx-test-espresso = "3.6.1"
 androidx-room = "2.6.1"
 io-insert-koin = "4.0.2"
-io-insert-koin-compose = "4.0.2"
+io-insert-koin-compose = "4.0.4"
 com-google-code-gson = "2.12.1"
 com-squareup-leakcanary = "2.14"
 
