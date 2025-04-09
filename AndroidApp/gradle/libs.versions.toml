@@ -1,13 +1,13 @@
 [versions]
-agp = "8.7.3"
-kotlin = "2.1.10"
-com-google-devtools-ksp = "2.1.10-1.0.31"
+agp = "8.9.1"
+kotlin = "2.1.20"
+com-google-devtools-ksp = "2.1.20-1.0.32" # Kotlinのバージョンに合わせる必要がある
 com-jaredsburrows-license = "0.9.8"
 androidx-core = "1.15.0"
 androidx-appcompat = "1.7.0"
 androidx-security = "1.1.0-alpha06"
 androidx-splashscreen = "1.0.1"
-androidx-compose-bom = "2025.03.00"
+androidx-compose-bom = "2025.03.01"
 androidx-compose-activity = "1.10.1"
 androidx-compose-viewmodel = "2.8.7"
 androidx-compose-navigation = "2.8.9"
@@ -17,8 +17,7 @@ com-google-truth = "1.4.4"
 androidx-test-ext = "1.2.1"
 androidx-test-espresso = "3.6.1"
 androidx-room = "2.6.1"
-io-insert-koin = "4.0.2"
-io-insert-koin-compose = "4.0.2"
+io-insert-koin = "4.0.4"
 com-google-code-gson = "2.12.1"
 com-squareup-leakcanary = "2.14"
 
@@ -62,7 +61,7 @@ android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref
 
 # その他
 io-insert-koin = { module = "io.insert-koin:koin-android", version.ref = "io-insert-koin" }
-io-insert-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "io-insert-koin-compose" }
+io-insert-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "io-insert-koin" }
 com-google-code-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson" }
 com-squareup-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "com-squareup-leakcanary" }
 
