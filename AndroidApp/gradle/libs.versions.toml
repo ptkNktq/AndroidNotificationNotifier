@@ -1,6 +1,6 @@
 [versions]
+# --- memo: unusedになっているがbuild-logic内から参照している ---
 # Android Sdk Versions
-# memo: unusedになっているがbuild-logic内から参照している
 compileSdk = "35"
 minSdk = "35"
 targetSdk = "35"
