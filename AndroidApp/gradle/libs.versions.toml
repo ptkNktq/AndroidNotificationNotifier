@@ -1,4 +1,11 @@
 [versions]
+# Android Sdk Versions
+# memo: unusedになっているがbuild-logic内から参照している
+compileSdk = "35"
+minSdk = "35"
+targetSdk = "35"
+
+# Library
 agp = "8.9.3"
 kotlin = "2.1.20"
 com-google-devtools-ksp = "2.1.20-2.0.1" # Kotlinのバージョンに合わせる必要がある
