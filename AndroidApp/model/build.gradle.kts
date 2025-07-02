@@ -23,6 +23,3 @@ dependencies {
     // その他
     api(libs.com.google.code.gson)
 }
-
-val Project.catalog
-    get(): VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")

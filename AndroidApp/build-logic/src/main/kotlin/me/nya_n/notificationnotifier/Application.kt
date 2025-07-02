@@ -8,12 +8,12 @@ internal fun Project.configureApplication(
     extension: ApplicationExtension
 ) {
     extension.apply {
-        compileSdk = 35
+        compileSdk = libs.version("compileSdk").toInt()
         defaultConfig {
-            minSdk = 30
-            targetSdk = 35
-            versionCode = 2
-            versionName = "1.1"
+            minSdk = libs.version("minSdk").toInt()
+            targetSdk = libs.version("targetSdk").toInt()
+            versionCode = libs.version("versionCode").toInt()
+            versionName = libs.version("versionName")
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
         buildTypes {
