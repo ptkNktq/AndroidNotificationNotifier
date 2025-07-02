@@ -12,8 +12,8 @@ internal fun Project.configureApplication(
         defaultConfig {
             minSdk = libs.version("minSdk").toInt()
             targetSdk = libs.version("targetSdk").toInt()
-            versionCode = 2
-            versionName = "1.1"
+            versionCode = libs.version("versionCode").toInt()
+            versionName = libs.version("versionName")
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
         buildTypes {

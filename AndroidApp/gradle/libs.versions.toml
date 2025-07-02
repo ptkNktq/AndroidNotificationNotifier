@@ -4,6 +4,10 @@
 compileSdk = "35"
 minSdk = "35"
 targetSdk = "35"
+# App Versions
+versionCode = "2"
+versionName = "1.1"
+# ---------------------------------------------------------
 
 # Library
 agp = "8.9.3"
