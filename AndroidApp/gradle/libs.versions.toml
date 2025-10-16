@@ -28,7 +28,7 @@ com-google-truth = "1.4.5"
 androidx-test-ext = "1.2.1"
 androidx-test-espresso = "3.7.0"
 androidx-room = "2.7.2"
-io-insert-koin = "4.1.0"
+io-insert-koin = "4.1.1"
 com-google-code-gson = "2.13.2"
 com-squareup-leakcanary = "2.14"
 
