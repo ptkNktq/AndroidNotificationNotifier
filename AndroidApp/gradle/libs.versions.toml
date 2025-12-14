@@ -12,7 +12,7 @@ versionName = "1.1"
 # Library
 agp = "8.9.3"
 kotlin = "2.2.21"
-com-google-devtools-ksp = "2.2.21-2.0.4" # Kotlinのバージョンに合わせる必要がある
+com-google-devtools-ksp = "2.3.3" # Kotlinのバージョンに合わせる必要がある
 com-jaredsburrows-license = "0.9.8"
 androidx-core = "1.17.0"
 androidx-appcompat = "1.7.1"
