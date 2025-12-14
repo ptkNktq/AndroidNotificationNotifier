@@ -1,7 +1,7 @@
 [versions]
 # --- memo: unusedになっているがbuild-logic内から参照している ---
 # Android Sdk Versions
-compileSdk = "35"
+compileSdk = "36"
 minSdk = "35"
 targetSdk = "35"
 # App Versions
