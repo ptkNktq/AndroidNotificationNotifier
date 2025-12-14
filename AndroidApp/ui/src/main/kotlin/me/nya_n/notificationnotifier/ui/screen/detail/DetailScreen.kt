@@ -1,7 +1,5 @@
 package me.nya_n.notificationnotifier.ui.screen.detail
 
-import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +41,9 @@ import me.nya_n.notificationnotifier.ui.common.Category
 import me.nya_n.notificationnotifier.ui.common.GrayScaleAppIcon
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppColors
-import me.nya_n.notificationnotifier.ui.util.AppPreview
+import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
+import me.nya_n.notificationnotifier.ui.util.LocalSharedTransitionScope
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -51,8 +51,6 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun DetailScreen(
     navController: NavController,
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     app: InstalledApp,
     viewModel: DetailViewModel = koinViewModel { parametersOf(app) },
 ) {
@@ -66,8 +64,6 @@ fun DetailScreen(
     }
     DetailContent(
         snackbarHostState = snackbarHostState,
-        sharedTransitionScope = sharedTransitionScope,
-        animatedVisibilityScope = animatedVisibilityScope,
         app = app,
         condition = uiState.condition,
         onBack = {
@@ -88,8 +84,6 @@ fun DetailScreen(
 @Composable
 fun DetailContent(
     snackbarHostState: SnackbarHostState,
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     app: InstalledApp,
     condition: String,
     onBack: () -> Unit,
@@ -108,8 +102,6 @@ fun DetailContent(
                 .padding(horizontal = 20.dp),
         ) {
             AppInfo(
-                sharedTransitionScope = sharedTransitionScope,
-                animatedVisibilityScope = animatedVisibilityScope,
                 app = app,
                 onDeleteApp = onDeleteApp
             )
@@ -123,28 +115,35 @@ fun DetailContent(
  */
 @Composable
 private fun AppInfo(
-    sharedTransitionScope: SharedTransitionScope,
-    animatedVisibilityScope: AnimatedVisibilityScope,
     app: InstalledApp,
     onDeleteApp: () -> Unit
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+    val animatedVisibilityScope = LocalAnimatedVisibilityScope.current
+
     Category(name = stringResource(id = R.string.app_info))
     Box(
         modifier = Modifier.padding(vertical = 20.dp)
     ) {
         Row {
-            with(sharedTransitionScope) {
-                GrayScaleAppIcon(
-                    app = app,
-                    modifier = Modifier
-                        .size(80.dp)
-                        .sharedElement(
-                            rememberSharedContentState(key = "GrayScaleAppIcon_${app.packageName}"),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                        ),
-                    isInListView = false
-                )
-            }
+            GrayScaleAppIcon(
+                app = app,
+                modifier = Modifier
+                    .size(80.dp)
+                    .then(
+                        if (sharedTransitionScope != null && animatedVisibilityScope != null) {
+                            with(sharedTransitionScope) {
+                                Modifier.sharedElement(
+                                    rememberSharedContentState(key = "GrayScaleAppIcon_${app.packageName}"),
+                                    animatedVisibilityScope = animatedVisibilityScope
+                                )
+                            }
+                        } else {
+                            Modifier
+                        }
+                    ),
+                isInListView = false
+            )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -211,11 +210,9 @@ private fun NotificationSetting(
 @Composable
 private fun DetailPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
-    AppPreview { sharedTransitionScope, animatedVisibilityScope ->
+    AppTheme {
         DetailContent(
             snackbarHostState = snackbarHostState,
-            sharedTransitionScope = sharedTransitionScope,
-            animatedVisibilityScope = animatedVisibilityScope,
             app = InstalledApp("Sample App Name", "example.sample.test"),
             condition = "^.*$",
             onBack = { },
@@ -229,11 +226,9 @@ private fun DetailPreview() {
 @Composable
 private fun LongAppNameDetailPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
-    AppPreview { sharedTransitionScope, animatedVisibilityScope ->
+    AppTheme {
         DetailContent(
             snackbarHostState = snackbarHostState,
-            sharedTransitionScope = sharedTransitionScope,
-            animatedVisibilityScope = animatedVisibilityScope,
             app = InstalledApp(
                 "Sample App Name So Loooooooooooooooooooong",
                 "example.sample.test"

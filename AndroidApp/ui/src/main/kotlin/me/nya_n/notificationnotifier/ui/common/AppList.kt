@@ -1,7 +1,5 @@
 package me.nya_n.notificationnotifier.ui.common
 
-import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -25,11 +23,11 @@ import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
+import me.nya_n.notificationnotifier.ui.util.LocalSharedTransitionScope
 
 @Composable
 fun AppList(
-    sharedTransitionScope: SharedTransitionScope? = null,
-    animatedVisibilityScope: AnimatedVisibilityScope? = null,
     items: List<InstalledApp>,
     onAppSelected: (InstalledApp) -> Unit
 ) {
@@ -42,8 +40,6 @@ fun AppList(
                 key = { "($it)${items[it]}" },
                 itemContent = {
                     AppListItem(
-                        sharedTransitionScope = sharedTransitionScope,
-                        animatedVisibilityScope = animatedVisibilityScope,
                         app = items[it],
                         onAppSelected = onAppSelected
                     )
@@ -55,12 +51,13 @@ fun AppList(
 
 @Composable
 fun AppListItem(
-    sharedTransitionScope: SharedTransitionScope?,
-    animatedVisibilityScope: AnimatedVisibilityScope?,
     app: InstalledApp,
     onAppSelected: (InstalledApp) -> Unit
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+    val animatedVisibilityScope = LocalAnimatedVisibilityScope.current
     val interactionSource = remember { MutableInteractionSource() }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()

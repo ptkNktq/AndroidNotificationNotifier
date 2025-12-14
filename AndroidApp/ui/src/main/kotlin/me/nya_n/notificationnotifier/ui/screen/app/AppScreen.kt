@@ -7,6 +7,7 @@ import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,6 +26,8 @@ import me.nya_n.notificationnotifier.ui.screen.detail.DetailScreen
 import me.nya_n.notificationnotifier.ui.screen.license.LicenseScreen
 import me.nya_n.notificationnotifier.ui.screen.main.MainScreen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
+import me.nya_n.notificationnotifier.ui.util.LocalSharedTransitionScope
 import org.koin.androidx.compose.koinViewModel
 import java.net.URLEncoder
 
@@ -94,11 +97,12 @@ fun AppScreen(
                 },
             ) {
                 composable(Screen.Main.route) {
-                    MainScreen(
-                        navController = navController,
-                        sharedTransitionScope = this@SharedTransitionLayout,
-                        animatedVisibilityScope = this@composable
-                    )
+                    CompositionLocalProvider(
+                        LocalSharedTransitionScope provides this@SharedTransitionLayout,
+                        LocalAnimatedVisibilityScope provides this@composable
+                    ) {
+                        MainScreen(navController = navController)
+                    }
                 }
                 composable(Screen.License.route) { LicenseScreen(navController) }
                 composable(Screen.Detail.route) {
@@ -106,12 +110,15 @@ fun AppScreen(
                         it.arguments?.getString("app"),
                         InstalledApp::class.java
                     )
-                    DetailScreen(
-                        navController = navController,
-                        sharedTransitionScope = this@SharedTransitionLayout,
-                        animatedVisibilityScope = this@composable,
-                        app = app
-                    )
+                    CompositionLocalProvider(
+                        LocalSharedTransitionScope provides this@SharedTransitionLayout,
+                        LocalAnimatedVisibilityScope provides this@composable
+                    ) {
+                        DetailScreen(
+                            navController = navController,
+                            app = app
+                        )
+                    }
                 }
                 composable(Screen.About.route) { AboutScreen() }
             }
