@@ -3,6 +3,7 @@ package me.nya_n.notificationnotifier.ui.screen.app
 import android.content.Intent
 import android.provider.Settings
 import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
@@ -75,35 +76,45 @@ fun AppScreen(
             }
         }
 
-        NavHost(
-            navController = navController,
-            startDestination = Screen.Main.name,
-            enterTransition = {
-                slideInHorizontally(initialOffsetX = { it })
-            },
-            exitTransition = {
-                slideOutHorizontally(targetOffsetX = { -it })
-            },
-            popEnterTransition = {
-                slideInHorizontally(initialOffsetX = { -it })
-            },
-            popExitTransition = {
-                slideOutHorizontally(targetOffsetX = { it })
-            },
-        ) {
-            composable(Screen.Main.route) { MainScreen(navController) }
-            composable(Screen.License.route) { LicenseScreen(navController) }
-            composable(Screen.Detail.route) {
-                val app = Gson().fromJson(
-                    it.arguments?.getString("app"),
-                    InstalledApp::class.java
-                )
-                DetailScreen(
-                    navController = navController,
-                    app = app
-                )
+        SharedTransitionLayout {
+            NavHost(
+                navController = navController,
+                startDestination = Screen.Main.name,
+                enterTransition = {
+                    slideInHorizontally(initialOffsetX = { it })
+                },
+                exitTransition = {
+                    slideOutHorizontally(targetOffsetX = { -it })
+                },
+                popEnterTransition = {
+                    slideInHorizontally(initialOffsetX = { -it })
+                },
+                popExitTransition = {
+                    slideOutHorizontally(targetOffsetX = { it })
+                },
+            ) {
+                composable(Screen.Main.route) {
+                    MainScreen(
+                        navController = navController,
+                        sharedTransitionScope = this@SharedTransitionLayout,
+                        animatedVisibilityScope = this@composable
+                    )
+                }
+                composable(Screen.License.route) { LicenseScreen(navController) }
+                composable(Screen.Detail.route) {
+                    val app = Gson().fromJson(
+                        it.arguments?.getString("app"),
+                        InstalledApp::class.java
+                    )
+                    DetailScreen(
+                        navController = navController,
+                        sharedTransitionScope = this@SharedTransitionLayout,
+                        animatedVisibilityScope = this@composable,
+                        app = app
+                    )
+                }
+                composable(Screen.About.route) { AboutScreen() }
             }
-            composable(Screen.About.route) { AboutScreen() }
         }
     }
 }

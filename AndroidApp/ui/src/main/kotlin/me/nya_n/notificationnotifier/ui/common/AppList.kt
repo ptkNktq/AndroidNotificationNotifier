@@ -1,5 +1,7 @@
 package me.nya_n.notificationnotifier.ui.common
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -26,6 +28,8 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 @Composable
 fun AppList(
+    sharedTransitionScope: SharedTransitionScope? = null,
+    animatedVisibilityScope: AnimatedVisibilityScope? = null,
     items: List<InstalledApp>,
     onAppSelected: (InstalledApp) -> Unit
 ) {
@@ -36,7 +40,14 @@ fun AppList(
             items(
                 count = items.size,
                 key = { "($it)${items[it]}" },
-                itemContent = { AppListItem(app = items[it], onAppSelected = onAppSelected) }
+                itemContent = {
+                    AppListItem(
+                        sharedTransitionScope = sharedTransitionScope,
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        app = items[it],
+                        onAppSelected = onAppSelected
+                    )
+                }
             )
         }
     }
@@ -44,6 +55,8 @@ fun AppList(
 
 @Composable
 fun AppListItem(
+    sharedTransitionScope: SharedTransitionScope?,
+    animatedVisibilityScope: AnimatedVisibilityScope?,
     app: InstalledApp,
     onAppSelected: (InstalledApp) -> Unit
 ) {
@@ -62,7 +75,20 @@ fun AppListItem(
         ) {
             GrayScaleAppIcon(
                 app = app,
-                modifier = Modifier.size(56.dp),
+                modifier = Modifier
+                    .size(56.dp)
+                    .then(
+                        if (sharedTransitionScope != null && animatedVisibilityScope != null) {
+                            with(sharedTransitionScope) {
+                                Modifier.sharedElement(
+                                    rememberSharedContentState(key = "GrayScaleAppIcon_${app.packageName}"),
+                                    animatedVisibilityScope = animatedVisibilityScope
+                                )
+                            }
+                        } else {
+                            Modifier
+                        }
+                    ),
                 isInListView = true
             )
             Box(

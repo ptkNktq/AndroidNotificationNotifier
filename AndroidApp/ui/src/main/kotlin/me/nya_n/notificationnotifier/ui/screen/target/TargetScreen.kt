@@ -1,5 +1,7 @@
 package me.nya_n.notificationnotifier.ui.screen.target
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
@@ -16,7 +18,7 @@ import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.common.AppList
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.screen.app.Screen
-import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import me.nya_n.notificationnotifier.ui.util.AppPreview
 import org.koin.androidx.compose.koinViewModel
 
 /** 通知送信ターゲットに追加したアプリリスト */
@@ -24,6 +26,8 @@ import org.koin.androidx.compose.koinViewModel
 fun TargetScreen(
     navController: NavController,
     snackbarHostState: SnackbarHostState,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     viewModel: TargetViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -37,6 +41,8 @@ fun TargetScreen(
         viewModel.messageShown()
     }
     TargetContent(
+        sharedTransitionScope = sharedTransitionScope,
+        animatedVisibilityScope = animatedVisibilityScope,
         items = uiState.items,
         isLoading = uiState.isLoading
     ) {
@@ -46,6 +52,8 @@ fun TargetScreen(
 
 @Composable
 fun TargetContent(
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     items: List<InstalledApp>,
     isLoading: Boolean,
     onAppSelected: (InstalledApp) -> Unit
@@ -59,6 +67,8 @@ fun TargetContent(
         }
     } else {
         AppList(
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
             items = items,
             onAppSelected = onAppSelected
         )
@@ -73,8 +83,10 @@ private fun TargetPreview() {
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
     )
-    AppTheme {
+    AppPreview { sharedTransitionScope, animatedVisibilityScope ->
         TargetContent(
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
             items = items,
             isLoading = false,
             onAppSelected = { }
@@ -85,8 +97,10 @@ private fun TargetPreview() {
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
 private fun LoadingTargetPreview() {
-    AppTheme {
+    AppPreview { sharedTransitionScope, animatedVisibilityScope ->
         TargetContent(
+            sharedTransitionScope = sharedTransitionScope,
+            animatedVisibilityScope = animatedVisibilityScope,
             items = listOf(),
             isLoading = true,
             onAppSelected = { }

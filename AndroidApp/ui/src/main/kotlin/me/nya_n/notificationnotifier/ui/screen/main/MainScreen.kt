@@ -2,6 +2,8 @@ package me.nya_n.notificationnotifier.ui.screen.main
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -37,7 +39,11 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 
 /** メイン画面 */
 @Composable
-fun MainScreen(navController: NavController) {
+fun MainScreen(
+    navController: NavController,
+    sharedTransitionScope: SharedTransitionScope,
+    animatedVisibilityScope: AnimatedVisibilityScope,
+) {
     val snackbarHostState = remember { SnackbarHostState() }
     val activity = LocalActivity.current
     val scope = rememberCoroutineScope()
@@ -45,7 +51,9 @@ fun MainScreen(navController: NavController) {
         TabItem(stringResource(id = R.string.targets), Icons.Outlined.NotificationsActive) {
             TargetScreen(
                 navController = navController,
-                snackbarHostState = snackbarHostState
+                snackbarHostState = snackbarHostState,
+                sharedTransitionScope = sharedTransitionScope,
+                animatedVisibilityScope = animatedVisibilityScope
             )
         },
         TabItem(stringResource(id = R.string.apps), Icons.AutoMirrored.Rounded.List) {
