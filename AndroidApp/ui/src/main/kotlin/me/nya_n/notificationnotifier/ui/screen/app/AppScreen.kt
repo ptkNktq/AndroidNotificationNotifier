@@ -18,15 +18,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
-import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.common.RequireNotificationPermissionDialog
 import me.nya_n.notificationnotifier.ui.common.RequirePackageVisibilityDialog
 import me.nya_n.notificationnotifier.ui.screen.about.AboutScreen
-import me.nya_n.notificationnotifier.ui.screen.detail.DetailScreen
 import me.nya_n.notificationnotifier.ui.screen.license.LicenseScreen
 import me.nya_n.notificationnotifier.ui.screen.main.MainScreen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
-import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
 import me.nya_n.notificationnotifier.ui.util.LocalSharedTransitionScope
 import org.koin.androidx.compose.koinViewModel
 import java.net.URLEncoder
@@ -98,28 +95,12 @@ fun AppScreen(
             ) {
                 composable(Screen.Main.route) {
                     CompositionLocalProvider(
-                        LocalSharedTransitionScope provides this@SharedTransitionLayout,
-                        LocalAnimatedVisibilityScope provides this@composable
+                        LocalSharedTransitionScope provides this@SharedTransitionLayout
                     ) {
                         MainScreen(navController = navController)
                     }
                 }
                 composable(Screen.License.route) { LicenseScreen(navController) }
-                composable(Screen.Detail.route) {
-                    val app = Gson().fromJson(
-                        it.arguments?.getString("app"),
-                        InstalledApp::class.java
-                    )
-                    CompositionLocalProvider(
-                        LocalSharedTransitionScope provides this@SharedTransitionLayout,
-                        LocalAnimatedVisibilityScope provides this@composable
-                    ) {
-                        DetailScreen(
-                            navController = navController,
-                            app = app
-                        )
-                    }
-                }
                 composable(Screen.About.route) { AboutScreen() }
             }
         }
@@ -131,7 +112,10 @@ sealed class Screen(
     val name: String,
     private val args: List<String> = emptyList()
 ) {
-    data object Main : Screen("main")
+    data object Main : Screen("main") {
+        data object Targets : Screen("targets")
+        data object Detail : Screen("detail", listOf("app"))
+    }
     data object License : Screen("license")
     data object Detail : Screen("detail", listOf("app"))
     data object About : Screen("about")

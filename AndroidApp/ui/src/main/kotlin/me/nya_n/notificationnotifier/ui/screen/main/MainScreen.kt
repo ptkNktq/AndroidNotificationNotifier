@@ -19,6 +19,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -26,14 +27,22 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppScaffold
 import me.nya_n.notificationnotifier.ui.common.EmptyView
+import me.nya_n.notificationnotifier.ui.screen.app.Screen
+import me.nya_n.notificationnotifier.ui.screen.detail.DetailScreen
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionScreen
 import me.nya_n.notificationnotifier.ui.screen.settings.SettingsScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
 
 /** メイン画面 */
 @Composable
@@ -43,10 +52,36 @@ fun MainScreen(navController: NavController) {
     val scope = rememberCoroutineScope()
     val tabItems = listOf(
         TabItem(stringResource(id = R.string.targets), Icons.Outlined.NotificationsActive) {
-            TargetScreen(
+            val navController = rememberNavController()
+            NavHost(
                 navController = navController,
-                snackbarHostState = snackbarHostState
-            )
+                startDestination = Screen.Main.Targets.name
+            ) {
+                composable(Screen.Main.Targets.route) {
+                    CompositionLocalProvider(
+                        LocalAnimatedVisibilityScope provides this@composable
+                    ) {
+                        TargetScreen(
+                            navController = navController,
+                            snackbarHostState = snackbarHostState
+                        )
+                    }
+                }
+                composable(Screen.Main.Detail.route) {
+                    val app = Gson().fromJson(
+                        it.arguments?.getString("app"),
+                        InstalledApp::class.java
+                    )
+                    CompositionLocalProvider(
+                        LocalAnimatedVisibilityScope provides this@composable
+                    ) {
+                        DetailScreen(
+                            navController = navController,
+                            app = app
+                        )
+                    }
+                }
+            }
         },
         TabItem(stringResource(id = R.string.apps), Icons.AutoMirrored.Rounded.List) {
             SelectionScreen(snackbarHostState = snackbarHostState)
