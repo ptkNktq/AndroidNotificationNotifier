@@ -25,6 +25,7 @@ import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
 import me.nya_n.notificationnotifier.ui.util.LocalSharedTransitionScope
+import me.nya_n.notificationnotifier.ui.util.iconSharedTransitionKey
 
 @Composable
 fun AppList(
@@ -78,7 +79,7 @@ fun AppListItem(
                         if (sharedTransitionScope != null && animatedVisibilityScope != null) {
                             with(sharedTransitionScope) {
                                 Modifier.sharedElement(
-                                    rememberSharedContentState(key = "GrayScaleAppIcon_${app.packageName}"),
+                                    rememberSharedContentState(key = app.iconSharedTransitionKey),
                                     animatedVisibilityScope = animatedVisibilityScope
                                 )
                             }

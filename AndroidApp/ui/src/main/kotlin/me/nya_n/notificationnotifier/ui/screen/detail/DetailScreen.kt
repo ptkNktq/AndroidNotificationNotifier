@@ -44,6 +44,7 @@ import me.nya_n.notificationnotifier.ui.theme.AppColors
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
 import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
 import me.nya_n.notificationnotifier.ui.util.LocalSharedTransitionScope
+import me.nya_n.notificationnotifier.ui.util.iconSharedTransitionKey
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -134,7 +135,7 @@ private fun AppInfo(
                         if (sharedTransitionScope != null && animatedVisibilityScope != null) {
                             with(sharedTransitionScope) {
                                 Modifier.sharedElement(
-                                    rememberSharedContentState(key = "GrayScaleAppIcon_${app.packageName}"),
+                                    rememberSharedContentState(key = app.iconSharedTransitionKey),
                                     animatedVisibilityScope = animatedVisibilityScope
                                 )
                             }

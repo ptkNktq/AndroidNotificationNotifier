@@ -2,6 +2,7 @@ package me.nya_n.notificationnotifier.ui.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalInspectionMode
+import me.nya_n.notificationnotifier.model.InstalledApp
 
 /** 現在Preview中か？
  *   - Composableな関数内でのみ使用可能
@@ -13,3 +14,6 @@ fun isInPreview(): Boolean {
     val isForcePreview = false
     return LocalInspectionMode.current || isForcePreview
 }
+
+val InstalledApp.iconSharedTransitionKey: String
+    get() = "appIcon_$packageName"
