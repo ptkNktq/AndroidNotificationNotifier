@@ -36,7 +36,6 @@ import androidx.navigation.NavController
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppOutlinedButton
-import me.nya_n.notificationnotifier.ui.common.AppScaffold
 import me.nya_n.notificationnotifier.ui.common.Category
 import me.nya_n.notificationnotifier.ui.common.GrayScaleAppIcon
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
@@ -64,12 +63,8 @@ fun DetailScreen(
         viewModel.messageShown()
     }
     DetailContent(
-        snackbarHostState = snackbarHostState,
         app = app,
         condition = uiState.condition,
-        onBack = {
-            navController.popBackStack()
-        },
         onDeleteApp = {
             viewModel.deleteTarget()
             navController.previousBackStackEntry?.apply {
@@ -84,30 +79,21 @@ fun DetailScreen(
 /** 詳細画面のコンテンツ本体 */
 @Composable
 fun DetailContent(
-    snackbarHostState: SnackbarHostState,
     app: InstalledApp,
     condition: String,
-    onBack: () -> Unit,
     onDeleteApp: () -> Unit,
     onConditionChanged: (String) -> Unit
 ) {
-    AppScaffold(
-        snackbarHostState = snackbarHostState,
-        hasBackContent = true,
-        onBack = onBack
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-                .padding(horizontal = 20.dp),
-        ) {
-            AppInfo(
-                app = app,
-                onDeleteApp = onDeleteApp
-            )
-            NotificationSetting(condition, onConditionChanged)
-        }
+        AppInfo(
+            app = app,
+            onDeleteApp = onDeleteApp
+        )
+        NotificationSetting(condition, onConditionChanged)
     }
 }
 
@@ -210,13 +196,10 @@ private fun NotificationSetting(
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
 private fun DetailPreview() {
-    val snackbarHostState = remember { SnackbarHostState() }
     AppTheme {
         DetailContent(
-            snackbarHostState = snackbarHostState,
             app = InstalledApp("Sample App Name", "example.sample.test"),
             condition = "^.*$",
-            onBack = { },
             onDeleteApp = { },
             onConditionChanged = { }
         )
@@ -226,16 +209,13 @@ private fun DetailPreview() {
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
 private fun LongAppNameDetailPreview() {
-    val snackbarHostState = remember { SnackbarHostState() }
     AppTheme {
         DetailContent(
-            snackbarHostState = snackbarHostState,
             app = InstalledApp(
                 "Sample App Name So Loooooooooooooooooooong",
                 "example.sample.test"
             ),
             condition = "",
-            onBack = { },
             onDeleteApp = { },
             onConditionChanged = { }
         )
