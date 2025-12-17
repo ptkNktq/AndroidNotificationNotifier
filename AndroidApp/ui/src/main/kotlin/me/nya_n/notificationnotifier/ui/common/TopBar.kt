@@ -29,7 +29,8 @@ fun TopBar(
         },
         navigationIcon = {
             IconButton(
-                onClick = onBack ?: { }
+                onClick = onBack ?: { },
+                enabled = onBack != null
             ) {
                 if (onBack != null) {
                     Icon(
