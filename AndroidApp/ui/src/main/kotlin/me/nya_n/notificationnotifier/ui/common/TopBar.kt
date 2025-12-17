@@ -28,10 +28,10 @@ fun TopBar(
             )
         },
         navigationIcon = {
-            if (onBack != null) {
-                IconButton(
-                    onClick = onBack
-                ) {
+            IconButton(
+                onClick = onBack ?: { }
+            ) {
+                if (onBack != null) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = stringResource(id = R.string.back)
