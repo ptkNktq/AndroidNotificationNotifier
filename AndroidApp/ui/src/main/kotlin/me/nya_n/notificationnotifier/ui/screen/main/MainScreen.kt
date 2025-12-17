@@ -20,11 +20,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -32,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -51,23 +49,21 @@ import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
 @Composable
 fun MainScreen(navController: NavController) {
     val snackbarHostState = remember { SnackbarHostState() }
-    var onBack by remember { mutableStateOf<(() -> Unit)?>(null) }
+    val tab1NavController = rememberNavController()
     val activity = LocalActivity.current
     val scope = rememberCoroutineScope()
     val tabItems = listOf(
         TabItem(stringResource(id = R.string.targets), Icons.Outlined.NotificationsActive) {
-            val navController = rememberNavController()
             NavHost(
-                navController = navController,
+                navController = tab1NavController,
                 startDestination = Screen.Main.Targets.name
             ) {
                 composable(Screen.Main.Targets.route) {
                     CompositionLocalProvider(
                         LocalAnimatedVisibilityScope provides this@composable
                     ) {
-                        onBack = null
                         TargetScreen(
-                            navController = navController,
+                            navController = tab1NavController,
                             snackbarHostState = snackbarHostState
                         )
                     }
@@ -80,9 +76,8 @@ fun MainScreen(navController: NavController) {
                     CompositionLocalProvider(
                         LocalAnimatedVisibilityScope provides this@composable
                     ) {
-                        onBack = { navController.popBackStack() }
                         DetailScreen(
-                            navController = navController,
+                            navController = tab1NavController,
                             app = app
                         )
                     }
@@ -90,11 +85,9 @@ fun MainScreen(navController: NavController) {
             }
         },
         TabItem(stringResource(id = R.string.apps), Icons.AutoMirrored.Rounded.List) {
-            onBack = null
             SelectionScreen(snackbarHostState = snackbarHostState)
         },
         TabItem(stringResource(id = R.string.settings), Icons.Outlined.Settings) {
-            onBack = null
             SettingsScreen(
                 navController = navController,
                 snackbarHostState = snackbarHostState
@@ -102,6 +95,11 @@ fun MainScreen(navController: NavController) {
         },
     )
     val pagerState = rememberPagerState(pageCount = { tabItems.size })
+    val isTab1RootScreen =
+        tab1NavController.currentBackStackEntryAsState().value?.destination?.route == Screen.Main.Targets.route
+    val onBack: (() -> Unit)? = if (pagerState.currentPage == 0 && !isTab1RootScreen) {
+        { tab1NavController.popBackStack() }
+    } else null
     BackHandler(true) {
         snackbarHostState.currentSnackbarData?.dismiss()
         if (pagerState.currentPage == 0) {
@@ -118,9 +116,8 @@ fun MainScreen(navController: NavController) {
         onTabSelected = {
             snackbarHostState.currentSnackbarData?.dismiss()
             scope.launch { pagerState.scrollToPage(it, 0f) }
-        },
-
-        )
+        }
+    )
 }
 
 /** メイン画面のコンテンツ本体 */
