@@ -230,7 +230,6 @@ class ScreenshotTest {
     fun SubContentTopBarComponentScreenshotTest() {
         AppTheme {
             TopBar(
-                hasBackContent = true,
                 onBack = { }
             )
         }
