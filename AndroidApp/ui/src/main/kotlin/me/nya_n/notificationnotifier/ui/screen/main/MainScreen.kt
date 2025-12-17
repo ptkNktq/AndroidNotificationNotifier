@@ -20,8 +20,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -48,6 +51,7 @@ import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
 @Composable
 fun MainScreen(navController: NavController) {
     val snackbarHostState = remember { SnackbarHostState() }
+    var onBack by remember { mutableStateOf<(() -> Unit)?>(null) }
     val activity = LocalActivity.current
     val scope = rememberCoroutineScope()
     val tabItems = listOf(
@@ -61,6 +65,7 @@ fun MainScreen(navController: NavController) {
                     CompositionLocalProvider(
                         LocalAnimatedVisibilityScope provides this@composable
                     ) {
+                        onBack = null
                         TargetScreen(
                             navController = navController,
                             snackbarHostState = snackbarHostState
@@ -75,6 +80,7 @@ fun MainScreen(navController: NavController) {
                     CompositionLocalProvider(
                         LocalAnimatedVisibilityScope provides this@composable
                     ) {
+                        onBack = { navController.popBackStack() }
                         DetailScreen(
                             navController = navController,
                             app = app
@@ -84,9 +90,11 @@ fun MainScreen(navController: NavController) {
             }
         },
         TabItem(stringResource(id = R.string.apps), Icons.AutoMirrored.Rounded.List) {
+            onBack = null
             SelectionScreen(snackbarHostState = snackbarHostState)
         },
         TabItem(stringResource(id = R.string.settings), Icons.Outlined.Settings) {
+            onBack = null
             SettingsScreen(
                 navController = navController,
                 snackbarHostState = snackbarHostState
@@ -105,11 +113,14 @@ fun MainScreen(navController: NavController) {
     MainContent(
         snackbarHostState = snackbarHostState,
         tabItems = tabItems,
-        pagerState = pagerState
-    ) {
-        snackbarHostState.currentSnackbarData?.dismiss()
-        scope.launch { pagerState.scrollToPage(it, 0f) }
-    }
+        pagerState = pagerState,
+        onBack = onBack,
+        onTabSelected = {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            scope.launch { pagerState.scrollToPage(it, 0f) }
+        },
+
+        )
 }
 
 /** メイン画面のコンテンツ本体 */
@@ -118,10 +129,12 @@ fun MainContent(
     snackbarHostState: SnackbarHostState,
     tabItems: List<TabItem>,
     pagerState: PagerState,
-    onTabSelected: (selected: Int) -> Unit
+    onBack: (() -> Unit)? = null,
+    onTabSelected: (selected: Int) -> Unit,
 ) {
     AppScaffold(
         snackbarHostState = snackbarHostState,
+        onBack = onBack,
         bottomBar = {
             BottomBar(
                 items = tabItems,
@@ -188,8 +201,10 @@ private fun MainPreview() {
         MainContent(
             snackbarHostState = snackbarHostState,
             tabItems = tabItems,
-            pagerState = pagerState
-        ) { }
+            pagerState = pagerState,
+            onTabSelected = { },
+            onBack = null
+        )
     }
 }
 
