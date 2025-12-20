@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
+import me.nya_n.notificationnotifier.ui.util.LocalSharedTransitionScope
+import me.nya_n.notificationnotifier.ui.util.iconSharedTransitionKey
 
 @Composable
 fun AppList(
@@ -36,7 +39,12 @@ fun AppList(
             items(
                 count = items.size,
                 key = { "($it)${items[it]}" },
-                itemContent = { AppListItem(app = items[it], onAppSelected = onAppSelected) }
+                itemContent = {
+                    AppListItem(
+                        app = items[it],
+                        onAppSelected = onAppSelected
+                    )
+                }
             )
         }
     }
@@ -47,7 +55,10 @@ fun AppListItem(
     app: InstalledApp,
     onAppSelected: (InstalledApp) -> Unit
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+    val animatedVisibilityScope = LocalAnimatedVisibilityScope.current
     val interactionSource = remember { MutableInteractionSource() }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,7 +73,20 @@ fun AppListItem(
         ) {
             GrayScaleAppIcon(
                 app = app,
-                modifier = Modifier.size(56.dp),
+                modifier = Modifier
+                    .size(56.dp)
+                    .then(
+                        if (sharedTransitionScope != null && animatedVisibilityScope != null) {
+                            with(sharedTransitionScope) {
+                                Modifier.sharedElement(
+                                    rememberSharedContentState(key = app.iconSharedTransitionKey),
+                                    animatedVisibilityScope = animatedVisibilityScope
+                                )
+                            }
+                        } else {
+                            Modifier
+                        }
+                    ),
                 isInListView = true
             )
             Box(

@@ -18,8 +18,7 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    hasBackContent: Boolean = false,
-    onBack: () -> Unit = { }
+    onBack: (() -> Unit)? = null
 ) {
     TopAppBar(
         title = {
@@ -29,10 +28,11 @@ fun TopBar(
             )
         },
         navigationIcon = {
-            if (hasBackContent) {
-                IconButton(
-                    onClick = onBack
-                ) {
+            IconButton(
+                onClick = onBack ?: { },
+                enabled = onBack != null
+            ) {
+                if (onBack != null) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = stringResource(id = R.string.back)
@@ -59,7 +59,6 @@ private fun TopBarPreview() {
 private fun SubContentTopBarPreview() {
     AppTheme {
         TopBar(
-            hasBackContent = true,
             onBack = { }
         )
     }

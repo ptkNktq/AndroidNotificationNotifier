@@ -19,7 +19,6 @@ fun LicenseScreen(navController: NavController) {
     val snackbarHostState = remember { SnackbarHostState() }
     AppScaffold(
         snackbarHostState = snackbarHostState,
-        hasBackContent = true,
         onBack = {
             navController.popBackStack()
         }
