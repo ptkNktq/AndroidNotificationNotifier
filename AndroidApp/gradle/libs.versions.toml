@@ -10,7 +10,7 @@ versionName = "1.1"
 # ---------------------------------------------------------
 
 # Library
-agp = "8.9.3"
+agp = "8.13.2"
 kotlin = "2.2.21"
 com-google-devtools-ksp = "2.3.3" # Kotlinのバージョンに合わせる必要がある
 com-jaredsburrows-license = "0.9.8"
