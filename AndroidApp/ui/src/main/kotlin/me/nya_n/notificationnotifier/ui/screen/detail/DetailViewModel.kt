@@ -26,7 +26,13 @@ class DetailViewModel(
     init {
         /** 通知条件を読み込む */
         viewModelScope.launch {
-            _uiState.update { it.copy(condition = loadFilterConditionUseCase(target)) }
+            val data = loadFilterConditionUseCase.invoke(target)
+            _uiState.update {
+                it.copy(
+                    isIgnoreSummary = data.isIgnoreSummary,
+                    condition = data.condition
+                )
+            }
         }
     }
 
