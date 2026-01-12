@@ -19,6 +19,7 @@ import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStor
 import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
@@ -64,6 +65,7 @@ class UseCaseTest {
     private lateinit var saveAddressUseCase: SaveAddressUseCase
     private lateinit var loadAddressUseCase: LoadAddressUseCase
     private lateinit var notifyUseCase: NotifyUseCase
+    private lateinit var exportDataUseCase: ExportDataUseCase
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -109,6 +111,8 @@ class UseCaseTest {
         saveAddressUseCase = SaveAddressUseCaseImpl(userSettingsRepository)
         loadAddressUseCase = LoadAddressUseCaseImpl(userSettingsRepository)
         notifyUseCase = NotifyUseCaseImpl(userSettingsRepository, testDispatcher)
+        exportDataUseCase =
+            ExportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)
     }
 
     @Test
@@ -273,10 +277,7 @@ class UseCaseTest {
             saveAddressUseCase(addr)
 
             // バックアップ
-            ExportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)(
-                appContext,
-                uri
-            )
+            exportDataUseCase(appContext, uri)
 
             // バックアップ時とは異なるように適当に変更
             // ターゲット
