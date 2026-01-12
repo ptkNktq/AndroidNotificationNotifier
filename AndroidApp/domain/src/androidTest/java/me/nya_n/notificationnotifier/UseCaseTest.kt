@@ -20,6 +20,7 @@ import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvid
 import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
@@ -66,6 +67,7 @@ class UseCaseTest {
     private lateinit var loadAddressUseCase: LoadAddressUseCase
     private lateinit var notifyUseCase: NotifyUseCase
     private lateinit var exportDataUseCase: ExportDataUseCase
+    private lateinit var importDataUseCase: ImportDataUseCase
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -113,6 +115,8 @@ class UseCaseTest {
         notifyUseCase = NotifyUseCaseImpl(userSettingsRepository, testDispatcher)
         exportDataUseCase =
             ExportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)
+        importDataUseCase =
+            ImportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)
     }
 
     @Test
@@ -287,10 +291,7 @@ class UseCaseTest {
             toggleIgnoreSummaryUseCase.invoke(ToggleIgnoreSummaryUseCase.Args(app))
 
             // 復元
-            ImportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)(
-                appContext,
-                uri
-            )
+            importDataUseCase(appContext, uri)
 
             // 正常に復元できているか確認
             // ターゲット一覧
