@@ -19,6 +19,7 @@ import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStor
 import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
@@ -52,6 +53,7 @@ class UseCaseTest {
     private lateinit var addTargetAppUseCase: AddTargetAppUseCase
     private lateinit var loadAppUseCase: LoadAppUseCaseImpl
     private lateinit var deleteTargetAppUseCase: DeleteTargetAppUseCase
+    private lateinit var packageVisibilityGrantedUseCase: PackageVisibilityGrantedUseCase
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -89,6 +91,8 @@ class UseCaseTest {
         addTargetAppUseCase = AddTargetAppUseCaseImpl(appRepository)
         loadAppUseCase = LoadAppUseCaseImpl(userSettingsRepository, appRepository)
         deleteTargetAppUseCase = DeleteTargetAppUseCaseImpl(appRepository)
+        packageVisibilityGrantedUseCase =
+            PackageVisibilityGrantedUseCaseImpl(userSettingsRepository)
     }
 
     @Test
@@ -109,7 +113,7 @@ class UseCaseTest {
 
     @Test
     fun `インストール済みアプリの取得_成功（ついでにアプリ一覧取得権限許可処理も）`() {
-        PackageVisibilityGrantedUseCaseImpl(userSettingsRepository)()
+        packageVisibilityGrantedUseCase()
         val ret = loadAppUseCase.loadInstalledAppList(pm)
         assertThat(ret.getOrNull()).apply {
             isNotNull()
