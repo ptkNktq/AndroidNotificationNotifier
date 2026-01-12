@@ -19,6 +19,7 @@ import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStor
 import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
@@ -56,6 +57,7 @@ class UseCaseTest {
     private lateinit var packageVisibilityGrantedUseCase: PackageVisibilityGrantedUseCase
     private lateinit var saveFilterConditionUseCase: SaveFilterConditionUseCase
     private lateinit var toggleIgnoreSummaryUseCase: ToggleIgnoreSummaryUseCase
+    private lateinit var loadFilterConditionUseCase: LoadFilterConditionUseCase
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -97,6 +99,7 @@ class UseCaseTest {
             PackageVisibilityGrantedUseCaseImpl(userSettingsRepository)
         saveFilterConditionUseCase = SaveFilterConditionUseCaseImpl(appRepository)
         toggleIgnoreSummaryUseCase = ToggleIgnoreSummaryUseCaseImpl(appRepository)
+        loadFilterConditionUseCase = LoadFilterConditionUseCaseImpl(appRepository)
     }
 
     @Test
@@ -142,19 +145,35 @@ class UseCaseTest {
             val packageName = "com.sample.www"
             val app = InstalledApp("sample", packageName)
 
-            val loader = LoadFilterConditionUseCaseImpl(appRepository)
-
             // 追加
             saveFilterConditionUseCase(SaveFilterConditionUseCase.Args(app, cond))
-            assertThat(loader(app)).isEqualTo(FilterCondition(packageName, false, cond))
+            assertThat(loadFilterConditionUseCase(app)).isEqualTo(
+                FilterCondition(
+                    packageName,
+                    false,
+                    cond
+                )
+            )
 
             // メッセージ条件の更新
             saveFilterConditionUseCase(SaveFilterConditionUseCase.Args(app, updatedCond))
-            assertThat(loader(app)).isEqualTo(FilterCondition(packageName, false, updatedCond))
+            assertThat(loadFilterConditionUseCase(app)).isEqualTo(
+                FilterCondition(
+                    packageName,
+                    false,
+                    updatedCond
+                )
+            )
 
             // サマリー条件の更新
             toggleIgnoreSummaryUseCase.invoke(ToggleIgnoreSummaryUseCase.Args(app))
-            assertThat(loader(app)).isEqualTo(FilterCondition(packageName, true, updatedCond))
+            assertThat(loadFilterConditionUseCase(app)).isEqualTo(
+                FilterCondition(
+                    packageName,
+                    true,
+                    updatedCond
+                )
+            )
         }
     }
 
@@ -286,7 +305,7 @@ class UseCaseTest {
                 contains(app)
             }
             // 条件
-            val restoreCond = LoadFilterConditionUseCaseImpl(appRepository)(app)
+            val restoreCond = loadFilterConditionUseCase(app)
             assertThat(restoreCond).isEqualTo(FilterCondition(packageName, true, cond))
             // アドレス
             val restoreAddr = LoadAddressUseCaseImpl(userSettingsRepository)()
