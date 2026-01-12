@@ -10,8 +10,6 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import me.nya_n.notificationnotifier.data.repository.AppRepository
-import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.source.DB
@@ -54,8 +52,6 @@ class UseCaseTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher = UnconfinedTestDispatcher()
     private lateinit var appContext: Context
-    private lateinit var userSettingsRepository: UserSettingsRepository
-    private lateinit var appRepository: AppRepository
     private lateinit var addTargetAppUseCase: AddTargetAppUseCase
     private lateinit var loadAppUseCase: LoadAppUseCaseImpl
     private lateinit var deleteTargetAppUseCase: DeleteTargetAppUseCase
@@ -82,7 +78,7 @@ class UseCaseTest {
             }
         }
         pm = appContext.packageManager
-        userSettingsRepository = UserSettingsRepositoryImpl(
+        val userSettingsRepository = UserSettingsRepositoryImpl(
             UserSettingsDataStore(
                 SharedPreferenceProvider.create(
                     appContext,
@@ -97,7 +93,7 @@ class UseCaseTest {
         val db = DB.get(appContext, true).apply {
             clearAllTables()
         }
-        appRepository = AppRepositoryImpl(
+        val appRepository = AppRepositoryImpl(
             db.filterConditionDao(),
             db.targetAppDao(),
             testDispatcher
