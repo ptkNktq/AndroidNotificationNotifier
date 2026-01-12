@@ -41,6 +41,7 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.ToggleIgnoreSummaryUseC
 import me.nya_n.notificationnotifier.model.AppException.PermissionDeniedException
 import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
+import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -252,9 +253,13 @@ class UseCaseTest {
     }
 
     @Test
+    @LocalOnly
     fun `通知送信_成功`() {
+        // CI環境で実行しないようにする
+        assumeTrue("Local only", System.getenv("CI") == null)
+
         runTest(testDispatcher) {
-            val host = "192.168.10.18"
+            val host = "192.168.10.18" // テスト環境のIPアドレスに変更する
             val port = 8484
             val addr = "$host:$port"
             saveAddressUseCase(addr)
