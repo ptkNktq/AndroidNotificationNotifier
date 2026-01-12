@@ -15,7 +15,7 @@ import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
 import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvider
-import me.nya_n.notificationnotifier.domain.usecase.*
+import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.DeleteTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ExportDataUseCaseImpl
@@ -27,6 +27,7 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.NotifyUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrantedUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
+import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
 import org.junit.Before
 import org.junit.Ignore
@@ -116,15 +117,16 @@ class UseCaseTest {
         runBlocking {
             val cond = "test"
             val updatedCond = "updated"
-            val app = InstalledApp("sample", "com.sample.www")
+            val packageName = "com.sample.www"
+            val app = InstalledApp("sample", packageName)
             val saver = SaveFilterConditionUseCaseImpl(appRepository)
             saver(SaveFilterConditionUseCase.Args(app, cond))
 
             val loader = LoadFilterConditionUseCaseImpl(appRepository)
-            assertThat(loader(app)).isEqualTo(cond)
+            assertThat(loader(app)).isEqualTo(FilterCondition(packageName, false, cond))
 
             saver(SaveFilterConditionUseCase.Args(app, updatedCond))
-            assertThat(loader(app)).isEqualTo(updatedCond)
+            assertThat(loader(app)).isEqualTo(FilterCondition(packageName, false, updatedCond))
         }
     }
 
