@@ -219,7 +219,8 @@ class UseCaseTest {
 
             // 初期値の保存
             // ターゲット
-            val app = InstalledApp("export", "test.export")
+            val packageName = "test.export"
+            val app = InstalledApp("export", packageName)
             targetSaver(app)
             // 条件
             val cond = ".*"
@@ -250,7 +251,7 @@ class UseCaseTest {
             }
             // 条件
             val restoreCond = LoadFilterConditionUseCaseImpl(appRepository)(app)
-            assertThat(restoreCond).isEqualTo(cond)
+            assertThat(restoreCond).isEqualTo(FilterCondition(packageName, false, cond))
             // アドレス
             val restoreAddr = LoadAddressUseCaseImpl(userSettingsRepository)()
             assertThat(restoreAddr).isEqualTo(addr)
