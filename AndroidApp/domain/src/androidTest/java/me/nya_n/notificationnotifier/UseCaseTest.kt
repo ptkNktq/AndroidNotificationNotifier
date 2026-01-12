@@ -21,6 +21,7 @@ import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
@@ -62,6 +63,7 @@ class UseCaseTest {
     private lateinit var loadFilterConditionUseCase: LoadFilterConditionUseCase
     private lateinit var saveAddressUseCase: SaveAddressUseCase
     private lateinit var loadAddressUseCase: LoadAddressUseCase
+    private lateinit var notifyUseCase: NotifyUseCase
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -106,6 +108,7 @@ class UseCaseTest {
         loadFilterConditionUseCase = LoadFilterConditionUseCaseImpl(appRepository)
         saveAddressUseCase = SaveAddressUseCaseImpl(userSettingsRepository)
         loadAddressUseCase = LoadAddressUseCaseImpl(userSettingsRepository)
+        notifyUseCase = NotifyUseCaseImpl(userSettingsRepository, testDispatcher)
     }
 
     @Test
@@ -236,12 +239,7 @@ class UseCaseTest {
     @Test
     fun `通知送信_失敗`() {
         runTest(testDispatcher) {
-            assertThat(
-                NotifyUseCaseImpl(
-                    userSettingsRepository,
-                    testDispatcher
-                )("通知テスト").exceptionOrNull()
-            ).isNotNull()
+            assertThat(notifyUseCase("通知テスト").exceptionOrNull()).isNotNull()
         }
     }
 
@@ -253,9 +251,7 @@ class UseCaseTest {
             val port = 5555
             val addr = "$host:$port"
             saveAddressUseCase(addr)
-            assertThat(
-                NotifyUseCaseImpl(userSettingsRepository, testDispatcher)("通知テスト").getOrNull()
-            ).isNotNull()
+            assertThat(notifyUseCase("通知テスト").getOrNull()).isNotNull()
         }
     }
 
