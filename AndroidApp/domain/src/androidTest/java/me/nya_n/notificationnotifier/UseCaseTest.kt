@@ -54,6 +54,7 @@ class UseCaseTest {
     private lateinit var loadAppUseCase: LoadAppUseCaseImpl
     private lateinit var deleteTargetAppUseCase: DeleteTargetAppUseCase
     private lateinit var packageVisibilityGrantedUseCase: PackageVisibilityGrantedUseCase
+    private lateinit var saveFilterConditionUseCase: SaveFilterConditionUseCase
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -93,6 +94,7 @@ class UseCaseTest {
         deleteTargetAppUseCase = DeleteTargetAppUseCaseImpl(appRepository)
         packageVisibilityGrantedUseCase =
             PackageVisibilityGrantedUseCaseImpl(userSettingsRepository)
+        saveFilterConditionUseCase = SaveFilterConditionUseCaseImpl(appRepository)
     }
 
     @Test
@@ -138,16 +140,15 @@ class UseCaseTest {
             val packageName = "com.sample.www"
             val app = InstalledApp("sample", packageName)
 
-            val saver = SaveFilterConditionUseCaseImpl(appRepository)
             val toggler = ToggleIgnoreSummaryUseCaseImpl(appRepository)
             val loader = LoadFilterConditionUseCaseImpl(appRepository)
 
             // 追加
-            saver(SaveFilterConditionUseCase.Args(app, cond))
+            saveFilterConditionUseCase(SaveFilterConditionUseCase.Args(app, cond))
             assertThat(loader(app)).isEqualTo(FilterCondition(packageName, false, cond))
 
             // メッセージ条件の更新
-            saver(SaveFilterConditionUseCase.Args(app, updatedCond))
+            saveFilterConditionUseCase(SaveFilterConditionUseCase.Args(app, updatedCond))
             assertThat(loader(app)).isEqualTo(FilterCondition(packageName, false, updatedCond))
 
             // サマリー条件の更新
@@ -242,7 +243,6 @@ class UseCaseTest {
     fun `バックアップ、復元`() {
         val uri = Uri.fromFile(File.createTempFile(exportFileName, null, exportFile))
         runTest(testDispatcher) {
-            val condSaver = SaveFilterConditionUseCaseImpl(appRepository)
             val addrSaver = SaveAddressUseCaseImpl(userSettingsRepository)
             val toggler = ToggleIgnoreSummaryUseCaseImpl(appRepository)
 
@@ -253,7 +253,7 @@ class UseCaseTest {
             addTargetAppUseCase(app)
             // 条件
             val cond = ".*"
-            condSaver(SaveFilterConditionUseCase.Args(app, cond))
+            saveFilterConditionUseCase(SaveFilterConditionUseCase.Args(app, cond))
             toggler.invoke(ToggleIgnoreSummaryUseCase.Args(app))
             // アドレス
             val addr = "192.168.1.4:5050"
@@ -269,7 +269,7 @@ class UseCaseTest {
             // ターゲット
             addTargetAppUseCase(InstalledApp("new", "new"))
             // 条件
-            condSaver(SaveFilterConditionUseCase.Args(app, "new"))
+            saveFilterConditionUseCase(SaveFilterConditionUseCase.Args(app, "new"))
             toggler.invoke(ToggleIgnoreSummaryUseCase.Args(app))
 
             // 復元
