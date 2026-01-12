@@ -17,6 +17,7 @@ import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
 import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvider
+import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
@@ -47,6 +48,7 @@ class UseCaseTest {
     private lateinit var appContext: Context
     private lateinit var userSettingsRepository: UserSettingsRepository
     private lateinit var appRepository: AppRepository
+    private lateinit var addTargetAppUseCase: AddTargetAppUseCase
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -81,13 +83,14 @@ class UseCaseTest {
             db.targetAppDao(),
             testDispatcher
         )
+        addTargetAppUseCase = AddTargetAppUseCaseImpl(appRepository)
     }
 
     @Test
     fun `通知対象アプリの追加、取得、削除`() {
         runTest(testDispatcher) {
             val app = InstalledApp("sample", "com.sample.www")
-            AddTargetAppUseCaseImpl(appRepository)(app)
+            addTargetAppUseCase(app)
 
             val loader = LoadAppUseCaseImpl(userSettingsRepository, appRepository)
             val added = loader.loadTargetList()
@@ -231,7 +234,6 @@ class UseCaseTest {
     fun `バックアップ、復元`() {
         val uri = Uri.fromFile(File.createTempFile(exportFileName, null, exportFile))
         runTest(testDispatcher) {
-            val targetSaver = AddTargetAppUseCaseImpl(appRepository)
             val condSaver = SaveFilterConditionUseCaseImpl(appRepository)
             val addrSaver = SaveAddressUseCaseImpl(userSettingsRepository)
             val toggler = ToggleIgnoreSummaryUseCaseImpl(appRepository)
@@ -240,7 +242,7 @@ class UseCaseTest {
             // ターゲット
             val packageName = "test.export"
             val app = InstalledApp("export", packageName)
-            targetSaver(app)
+            addTargetAppUseCase(app)
             // 条件
             val cond = ".*"
             condSaver(SaveFilterConditionUseCase.Args(app, cond))
@@ -257,7 +259,7 @@ class UseCaseTest {
 
             // バックアップ時とは異なるように適当に変更
             // ターゲット
-            targetSaver(InstalledApp("new", "new"))
+            addTargetAppUseCase(InstalledApp("new", "new"))
             // 条件
             condSaver(SaveFilterConditionUseCase.Args(app, "new"))
             toggler.invoke(ToggleIgnoreSummaryUseCase.Args(app))
