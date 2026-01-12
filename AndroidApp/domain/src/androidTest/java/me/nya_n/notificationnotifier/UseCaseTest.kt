@@ -21,6 +21,7 @@ import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
@@ -58,6 +59,7 @@ class UseCaseTest {
     private lateinit var saveFilterConditionUseCase: SaveFilterConditionUseCase
     private lateinit var toggleIgnoreSummaryUseCase: ToggleIgnoreSummaryUseCase
     private lateinit var loadFilterConditionUseCase: LoadFilterConditionUseCase
+    private lateinit var saveAddressUseCase: SaveAddressUseCase
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -100,6 +102,7 @@ class UseCaseTest {
         saveFilterConditionUseCase = SaveFilterConditionUseCaseImpl(appRepository)
         toggleIgnoreSummaryUseCase = ToggleIgnoreSummaryUseCaseImpl(appRepository)
         loadFilterConditionUseCase = LoadFilterConditionUseCaseImpl(appRepository)
+        saveAddressUseCase = SaveAddressUseCaseImpl(userSettingsRepository)
     }
 
     @Test
@@ -179,36 +182,34 @@ class UseCaseTest {
 
     @Test
     fun `IPアドレスの追加、更新_成功、成功`() {
-        val saver = SaveAddressUseCaseImpl(userSettingsRepository)
         val loader = LoadAddressUseCaseImpl(userSettingsRepository)
 
         val host = "192.168.11.4"
         val port = 5555
         val addr = "$host:$port"
-        assertThat(saver(addr).getOrNull()).isNotNull()
+        assertThat(saveAddressUseCase(addr).getOrNull()).isNotNull()
         assertThat(loader()).isEqualTo(addr)
 
         val updatedHost = "192.168.11.2"
         val updatedPort = 3456
         val updatedAddr = "$updatedHost:$updatedPort"
-        assertThat(saver(updatedAddr).getOrNull()).isNotNull()
+        assertThat(saveAddressUseCase(updatedAddr).getOrNull()).isNotNull()
         assertThat(loader()).isEqualTo(updatedAddr)
     }
 
     @Test
     fun `IPアドレスの追加、更新_成功、失敗`() {
-        val saver = SaveAddressUseCaseImpl(userSettingsRepository)
         val loader = LoadAddressUseCaseImpl(userSettingsRepository)
 
         val host = "192.168.11.4"
         val port = 5555
         val addr = "$host:$port"
-        assertThat(saver(addr).getOrNull()).isNotNull()
+        assertThat(saveAddressUseCase(addr).getOrNull()).isNotNull()
         assertThat(loader()).isEqualTo(addr)
 
         val updatedHost = "192.168.11.2"
         val updatedAddr = "$updatedHost:"
-        assertThat(saver(updatedAddr).exceptionOrNull()).isNotNull()
+        assertThat(saveAddressUseCase(updatedAddr).exceptionOrNull()).isNotNull()
         assertThat(loader()).isEqualTo(addr)
     }
 
@@ -216,21 +217,21 @@ class UseCaseTest {
     fun `IPアドレスの追加_失敗_hostなし`() {
         val port = 5555
         val addr = ":$port"
-        assertThat(SaveAddressUseCaseImpl(userSettingsRepository)(addr).exceptionOrNull()).isNotNull()
+        assertThat(saveAddressUseCase(addr).exceptionOrNull()).isNotNull()
     }
 
     @Test
     fun `IPアドレスの追加_失敗_portなし`() {
         val host = "192.168.11.4"
         val addr = "$host:"
-        assertThat(SaveAddressUseCaseImpl(userSettingsRepository)(addr).exceptionOrNull()).isNotNull()
+        assertThat(saveAddressUseCase(addr).exceptionOrNull()).isNotNull()
     }
 
     @Test
     fun `IPアドレスの追加_失敗_portが数値じゃない`() {
         val host = "192.168.11.4"
         val addr = "$host:test"
-        assertThat(SaveAddressUseCaseImpl(userSettingsRepository)(addr).exceptionOrNull()).isNotNull()
+        assertThat(saveAddressUseCase(addr).exceptionOrNull()).isNotNull()
     }
 
     @Test
@@ -252,7 +253,7 @@ class UseCaseTest {
             val host = "192.168.11.4"
             val port = 5555
             val addr = "$host:$port"
-            SaveAddressUseCaseImpl(userSettingsRepository)(addr)
+            saveAddressUseCase(addr)
             assertThat(
                 NotifyUseCaseImpl(userSettingsRepository, testDispatcher)("通知テスト").getOrNull()
             ).isNotNull()
@@ -263,8 +264,6 @@ class UseCaseTest {
     fun `バックアップ、復元`() {
         val uri = Uri.fromFile(File.createTempFile(exportFileName, null, exportFile))
         runTest(testDispatcher) {
-            val addrSaver = SaveAddressUseCaseImpl(userSettingsRepository)
-
             // 初期値の保存
             // ターゲット
             val packageName = "test.export"
@@ -276,7 +275,7 @@ class UseCaseTest {
             toggleIgnoreSummaryUseCase.invoke(ToggleIgnoreSummaryUseCase.Args(app))
             // アドレス
             val addr = "192.168.1.4:5050"
-            addrSaver(addr)
+            saveAddressUseCase(addr)
 
             // バックアップ
             ExportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)(
