@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
@@ -160,6 +161,15 @@ private fun NotificationSetting(
     val focusManager = LocalFocusManager.current
     var condition by remember(initCondition) { mutableStateOf(initCondition) }
     Category(name = stringResource(id = R.string.notification_settings))
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = true,
+            onCheckedChange = { },
+        )
+        Text("サマリーは無視する。")
+    }
     /* FIXME: TODO:
      *  テキスト未確定状態で、IMEの◀,▶でカーソルを移動させたとき、カーソルの移動がおかしくなる
      *  TextFieldValueも試したが改善されず
