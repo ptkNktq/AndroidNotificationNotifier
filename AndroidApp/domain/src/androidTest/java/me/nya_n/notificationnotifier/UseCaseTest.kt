@@ -7,7 +7,7 @@ import androidx.core.content.edit
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import me.nya_n.notificationnotifier.data.repository.AppRepository
 import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
@@ -80,7 +80,7 @@ class UseCaseTest {
 
     @Test
     fun `通知対象アプリの追加、取得、削除`() {
-        runBlocking {
+        runTest {
             val app = InstalledApp("sample", "com.sample.www")
             AddTargetAppUseCaseImpl(appRepository)(app)
 
@@ -116,7 +116,7 @@ class UseCaseTest {
 
     @Test
     fun `通知条件の追加、取得、更新`() {
-        runBlocking {
+        runTest {
             val cond = "test"
             val updatedCond = "updated"
             val packageName = "com.sample.www"
@@ -198,7 +198,7 @@ class UseCaseTest {
 
     @Test
     fun `通知送信_失敗`() {
-        runBlocking {
+        runTest {
             assertThat(
                 NotifyUseCaseImpl(userSettingsRepository)("通知テスト").exceptionOrNull()
             ).isNotNull()
@@ -208,7 +208,7 @@ class UseCaseTest {
     @Test
     @Ignore("FIXME: socket failed: EPERM (Operation not permitted)")
     fun `通知送信_成功`() {
-        runBlocking {
+        runTest {
             val host = "192.168.11.4"
             val port = 5555
             val addr = "$host:$port"
@@ -222,7 +222,7 @@ class UseCaseTest {
     @Test
     fun `バックアップ、復元`() {
         val uri = Uri.fromFile(File.createTempFile(exportFileName, null, exportFile))
-        runBlocking {
+        runTest {
             val targetSaver = AddTargetAppUseCaseImpl(appRepository)
             val condSaver = SaveFilterConditionUseCaseImpl(appRepository)
             val addrSaver = SaveAddressUseCaseImpl(userSettingsRepository)
