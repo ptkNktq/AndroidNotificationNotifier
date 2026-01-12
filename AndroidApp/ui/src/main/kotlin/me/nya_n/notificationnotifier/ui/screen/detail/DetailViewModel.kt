@@ -10,12 +10,14 @@ import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.model.InstalledApp
 
 class DetailViewModel(
     private val loadFilterConditionUseCase: LoadFilterConditionUseCase,
     private val saveFilterConditionUseCase: SaveFilterConditionUseCase,
     private val deleteTargetAppUseCase: DeleteTargetAppUseCase,
+    private val toggleIgnoreSummaryUseCase: ToggleIgnoreSummaryUseCase,
     private val target: InstalledApp
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(UiState())
@@ -36,7 +38,10 @@ class DetailViewModel(
     }
 
     fun onIgnoreSummaryChanged() {
-        _uiState.update { it.copy(isIgnoreSummary = !it.isIgnoreSummary) }
+        viewModelScope.launch {
+            val isIgnoreSummary = toggleIgnoreSummaryUseCase.invoke(ToggleIgnoreSummaryUseCase.Args(target))
+            _uiState.update { it.copy(isIgnoreSummary = isIgnoreSummary) }
+        }
     }
 
     /** 通知条件を保存 */

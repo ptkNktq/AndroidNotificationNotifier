@@ -14,6 +14,9 @@ data class FilterCondition(
     @SerializedName("target_package_name")
     val targetPackageName: String,
 
+    /** サマリーを無視するか？ */
+    val isIgnoreSummary: Boolean,
+
     /** 条件 */
     val condition: String
 ) : Serializable
