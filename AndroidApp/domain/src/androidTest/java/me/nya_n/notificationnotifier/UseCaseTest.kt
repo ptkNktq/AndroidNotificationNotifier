@@ -104,7 +104,7 @@ class UseCaseTest {
             testDispatcher
         )
         addTargetAppUseCase = AddTargetAppUseCaseImpl(appRepository)
-        loadAppUseCase = LoadAppUseCaseImpl(userSettingsRepository, appRepository)
+        loadAppUseCase = LoadAppUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)
         deleteTargetAppUseCase = DeleteTargetAppUseCaseImpl(appRepository)
         packageVisibilityGrantedUseCase =
             PackageVisibilityGrantedUseCaseImpl(userSettingsRepository)
