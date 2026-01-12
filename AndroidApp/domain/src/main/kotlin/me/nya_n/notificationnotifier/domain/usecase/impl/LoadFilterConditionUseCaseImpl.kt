@@ -8,7 +8,7 @@ class LoadFilterConditionUseCaseImpl(
     private val appRepository: AppRepository
 ) : LoadFilterConditionUseCase {
     override suspend operator fun invoke(target: InstalledApp): String {
-        val cond = appRepository.getFilterCondition(target.packageName)
-        return cond?.condition ?: ""
+        val cond = appRepository.getFilterConditionOrDefault(target.packageName)
+        return cond.condition
     }
 }

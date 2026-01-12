@@ -10,12 +10,12 @@ class ToggleIgnoreSummaryUseCaseImpl(
 ) : ToggleIgnoreSummaryUseCase {
     override suspend fun invoke(args: Args): Boolean {
         val target = args.target.packageName
-        val data = appRepository.getFilterCondition(target)
-        val result = data?.isIgnoreSummary != false
+        val data = appRepository.getFilterConditionOrDefault(target)
+        val result = !data.isIgnoreSummary
         appRepository.saveFilterCondition(FilterCondition(
             targetPackageName = target,
             isIgnoreSummary = result,
-            condition = data?.condition ?: ""
+            condition = data.condition
         ))
         return result
     }

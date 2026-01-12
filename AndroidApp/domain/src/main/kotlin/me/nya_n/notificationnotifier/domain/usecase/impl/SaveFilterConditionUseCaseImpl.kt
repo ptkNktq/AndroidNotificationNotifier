@@ -10,12 +10,12 @@ class SaveFilterConditionUseCaseImpl(
 ) : SaveFilterConditionUseCase {
     override suspend operator fun invoke(args: Args) {
         val target = args.target.packageName
-        val data = appRepository.getFilterCondition(target)
+        val data = appRepository.getFilterConditionOrDefault(target)
         appRepository.saveFilterCondition(
             FilterCondition(
                 targetPackageName = args.target.packageName,
                 condition = args.condition ?: "",
-                isIgnoreSummary = data?.isIgnoreSummary != false
+                isIgnoreSummary = data.isIgnoreSummary
             )
         )
     }

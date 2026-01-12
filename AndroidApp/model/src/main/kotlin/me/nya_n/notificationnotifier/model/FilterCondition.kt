@@ -21,4 +21,14 @@ data class FilterCondition(
 
     /** 条件 */
     val condition: String
-) : Serializable
+) : Serializable {
+    companion object {
+        fun default(packageName: String): FilterCondition {
+            return FilterCondition(
+                targetPackageName = packageName,
+                isIgnoreSummary = true,
+                condition = ""
+            )
+        }
+    }
+}
