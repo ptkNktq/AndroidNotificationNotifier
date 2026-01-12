@@ -78,7 +78,8 @@ class UseCaseTest {
         }
         appRepository = AppRepositoryImpl(
             db.filterConditionDao(),
-            db.targetAppDao()
+            db.targetAppDao(),
+            testDispatcher
         )
     }
 
@@ -204,7 +205,10 @@ class UseCaseTest {
     fun `通知送信_失敗`() {
         runTest(testDispatcher) {
             assertThat(
-                NotifyUseCaseImpl(userSettingsRepository)("通知テスト").exceptionOrNull()
+                NotifyUseCaseImpl(
+                    userSettingsRepository,
+                    testDispatcher
+                )("通知テスト").exceptionOrNull()
             ).isNotNull()
         }
     }
@@ -218,7 +222,7 @@ class UseCaseTest {
             val addr = "$host:$port"
             SaveAddressUseCaseImpl(userSettingsRepository)(addr)
             assertThat(
-                NotifyUseCaseImpl(userSettingsRepository)("通知テスト").getOrNull()
+                NotifyUseCaseImpl(userSettingsRepository, testDispatcher)("通知テスト").getOrNull()
             ).isNotNull()
         }
     }
@@ -246,7 +250,10 @@ class UseCaseTest {
             addrSaver(addr)
 
             // バックアップ
-            ExportDataUseCaseImpl(userSettingsRepository, appRepository)(appContext, uri)
+            ExportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)(
+                appContext,
+                uri
+            )
 
             // バックアップ時とは異なるように適当に変更
             // ターゲット
@@ -256,7 +263,10 @@ class UseCaseTest {
             toggler.invoke(ToggleIgnoreSummaryUseCase.Args(app))
 
             // 復元
-            ImportDataUseCaseImpl(userSettingsRepository, appRepository)(appContext, uri)
+            ImportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)(
+                appContext,
+                uri
+            )
 
             // 正常に復元できているか確認
             // ターゲット一覧
