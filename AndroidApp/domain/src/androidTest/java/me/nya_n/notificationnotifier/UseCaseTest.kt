@@ -7,6 +7,8 @@ import androidx.core.content.edit
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.nya_n.notificationnotifier.data.repository.AppRepository
 import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
@@ -40,6 +42,8 @@ import java.io.File
 @Suppress("NonAsciiCharacters", "RemoveRedundantBackticks")
 @RunWith(AndroidJUnit4::class)
 class UseCaseTest {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val testDispatcher = UnconfinedTestDispatcher()
     private lateinit var appContext: Context
     private lateinit var userSettingsRepository: UserSettingsRepository
     private lateinit var appRepository: AppRepository
@@ -80,7 +84,7 @@ class UseCaseTest {
 
     @Test
     fun `通知対象アプリの追加、取得、削除`() {
-        runTest {
+        runTest(testDispatcher) {
             val app = InstalledApp("sample", "com.sample.www")
             AddTargetAppUseCaseImpl(appRepository)(app)
 
@@ -116,7 +120,7 @@ class UseCaseTest {
 
     @Test
     fun `通知条件の追加、取得、更新`() {
-        runTest {
+        runTest(testDispatcher) {
             val cond = "test"
             val updatedCond = "updated"
             val packageName = "com.sample.www"
@@ -198,7 +202,7 @@ class UseCaseTest {
 
     @Test
     fun `通知送信_失敗`() {
-        runTest {
+        runTest(testDispatcher) {
             assertThat(
                 NotifyUseCaseImpl(userSettingsRepository)("通知テスト").exceptionOrNull()
             ).isNotNull()
@@ -208,7 +212,7 @@ class UseCaseTest {
     @Test
     @Ignore("FIXME: socket failed: EPERM (Operation not permitted)")
     fun `通知送信_成功`() {
-        runTest {
+        runTest(testDispatcher) {
             val host = "192.168.11.4"
             val port = 5555
             val addr = "$host:$port"
@@ -222,7 +226,7 @@ class UseCaseTest {
     @Test
     fun `バックアップ、復元`() {
         val uri = Uri.fromFile(File.createTempFile(exportFileName, null, exportFile))
-        runTest {
+        runTest(testDispatcher) {
             val targetSaver = AddTargetAppUseCaseImpl(appRepository)
             val condSaver = SaveFilterConditionUseCaseImpl(appRepository)
             val addrSaver = SaveAddressUseCaseImpl(userSettingsRepository)
