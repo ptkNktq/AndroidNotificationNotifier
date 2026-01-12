@@ -11,7 +11,7 @@ versionName = "1.1"
 
 # Library
 agp = "8.9.3"
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 kotlinx-coroutines = "1.10.2"
 com-google-devtools-ksp = "2.3.3" # Kotlinのバージョンに合わせる必要がある
 com-jaredsburrows-license = "0.9.8"
