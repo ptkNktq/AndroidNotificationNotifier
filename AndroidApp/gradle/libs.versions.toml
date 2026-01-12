@@ -12,6 +12,7 @@ versionName = "1.1"
 # Library
 agp = "8.9.3"
 kotlin = "2.2.21"
+kotlinx-coroutines = "1.10.2"
 com-google-devtools-ksp = "2.3.3" # Kotlinのバージョンに合わせる必要がある
 com-jaredsburrows-license = "0.9.8"
 androidx-core = "1.17.0"
@@ -63,6 +64,7 @@ androidx-compose-navigation = { module = "androidx.navigation:navigation-compose
 
 # test
 junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-corountines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 com-google-truth = { module = "com.google.truth:truth", version.ref = "com-google-truth" }
 androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-ext" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
