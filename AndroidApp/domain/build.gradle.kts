@@ -25,7 +25,7 @@ dependencies {
     androidTestImplementation(libs.com.google.truth)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.kotlinx.corountines.test)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 
     // その他
     implementation(libs.com.google.code.gson)
