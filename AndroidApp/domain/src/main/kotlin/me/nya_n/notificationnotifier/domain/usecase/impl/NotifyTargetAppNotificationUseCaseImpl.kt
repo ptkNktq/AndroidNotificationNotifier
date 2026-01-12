@@ -1,6 +1,7 @@
 package me.nya_n.notificationnotifier.domain.usecase.impl
 
 import android.app.Notification
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.AppRepository
@@ -9,7 +10,8 @@ import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 
 class NotifyTargetAppNotificationUseCaseImpl(
     private val appRepository: AppRepository,
-    private val notifyUseCase: NotifyUseCase
+    private val notifyUseCase: NotifyUseCase,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : NotifyTargetAppNotificationUseCase {
     override suspend operator fun invoke(
         packageName: String,
@@ -37,7 +39,7 @@ class NotifyTargetAppNotificationUseCaseImpl(
                 }
             }
 
-            withContext(Dispatchers.IO) {
+            withContext(coroutineDispatcher) {
                 notifyUseCase("${title}\n${message}")
             }
         }

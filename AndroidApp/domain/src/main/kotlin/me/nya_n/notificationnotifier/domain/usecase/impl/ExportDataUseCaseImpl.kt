@@ -3,6 +3,7 @@ package me.nya_n.notificationnotifier.domain.usecase.impl
 import android.content.Context
 import android.net.Uri
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.AppRepository
@@ -14,6 +15,7 @@ import me.nya_n.notificationnotifier.model.Backup
 class ExportDataUseCaseImpl(
     private val userSettingsRepository: UserSettingsRepository,
     private val appRepository: AppRepository,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ExportDataUseCase {
     override suspend operator fun invoke(context: Context, uri: Uri): Result<Unit> {
         return runCatching {
@@ -24,7 +26,7 @@ class ExportDataUseCaseImpl(
                 appRepository.getFilterConditionList()
             )
             val json = Gson().toJson(data)
-            withContext(Dispatchers.IO) {
+            withContext(coroutineDispatcher) {
                 context.contentResolver.openOutputStream(uri).use {
                     it?.write(json.toByteArray())
                 }

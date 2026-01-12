@@ -2,6 +2,7 @@ package me.nya_n.notificationnotifier.domain.usecase.impl
 
 import android.content.pm.PackageManager
 import androidx.annotation.VisibleForTesting
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.AppRepository
@@ -13,11 +14,12 @@ import me.nya_n.notificationnotifier.model.InstalledApp
 
 class LoadAppUseCaseImpl(
     private val userSettingsRepository: UserSettingsRepository,
-    private val appRepository: AppRepository
+    private val appRepository: AppRepository,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LoadAppUseCase {
 
     override suspend operator fun invoke(pm: PackageManager): Result<Outputs> =
-        withContext(Dispatchers.IO) {
+        withContext(coroutineDispatcher) {
             val apps = loadInstalledAppList(pm).getOrElse {
                 return@withContext Result.failure(it)
             }

@@ -3,6 +3,7 @@ package me.nya_n.notificationnotifier.domain.usecase.impl
 import android.content.Context
 import android.net.Uri
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.AppRepository
@@ -16,11 +17,12 @@ import java.io.InputStreamReader
 class ImportDataUseCaseImpl(
     private val userSettingsRepository: UserSettingsRepository,
     private val appRepository: AppRepository,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ImportDataUseCase {
     override suspend operator fun invoke(context: Context, uri: Uri): Result<Unit> {
         return runCatching {
             val sb = StringBuilder()
-            withContext(Dispatchers.IO) {
+            withContext(coroutineDispatcher) {
                 context.contentResolver.openInputStream(uri).use { input ->
                     BufferedReader(InputStreamReader(input)).use { reader ->
                         sb.append(reader.readLine())
