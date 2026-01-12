@@ -1,6 +1,7 @@
 package me.nya_n.notificationnotifier.data.repository.impl
 
 import android.content.pm.PackageManager
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.AppRepository
@@ -12,16 +13,17 @@ import me.nya_n.notificationnotifier.model.InstalledApp
 class AppRepositoryImpl(
     private val filterConditionDao: FilterConditionDao,
     private val targetAppDao: TargetAppDao,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : AppRepository {
     override suspend fun clearAll() {
-        withContext(Dispatchers.IO) {
+        withContext(coroutineDispatcher) {
             filterConditionDao.clear()
             targetAppDao.clear()
         }
     }
 
     override suspend fun getFilterCondition(targetPackageName: String): FilterCondition? {
-        return withContext(Dispatchers.IO) {
+        return withContext(coroutineDispatcher) {
             filterConditionDao.get(targetPackageName)
         }
     }
@@ -31,31 +33,31 @@ class AppRepositoryImpl(
     }
 
     override suspend fun getFilterConditionList(): List<FilterCondition> {
-        return withContext(Dispatchers.IO) {
+        return withContext(coroutineDispatcher) {
             filterConditionDao.getAll()
         }
     }
 
     override suspend fun saveFilterCondition(condition: FilterCondition) {
-        withContext(Dispatchers.IO) {
+        withContext(coroutineDispatcher) {
             filterConditionDao.insert(condition)
         }
     }
 
     override suspend fun getTargetAppList(): List<InstalledApp> {
-        return withContext(Dispatchers.IO) {
+        return withContext(coroutineDispatcher) {
             targetAppDao.getAll()
         }
     }
 
     override suspend fun addTargetApp(target: InstalledApp) {
-        withContext(Dispatchers.IO) {
+        withContext(coroutineDispatcher) {
             targetAppDao.insert(target)
         }
     }
 
     override suspend fun deleteTargetApp(target: InstalledApp) {
-        withContext(Dispatchers.IO) {
+        withContext(coroutineDispatcher) {
             targetAppDao.delete(target)
         }
     }

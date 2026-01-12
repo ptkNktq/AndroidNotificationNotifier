@@ -21,10 +21,11 @@ dependencies {
     api(libs.androidx.compose.runtime)
 
     // test
-    implementation(libs.junit)
-    implementation(libs.com.google.truth)
-    implementation(libs.androidx.test.ext.junit)
-    implementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.com.google.truth)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 
     // その他
     implementation(libs.com.google.code.gson)
