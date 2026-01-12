@@ -42,7 +42,6 @@ import me.nya_n.notificationnotifier.model.AppException.PermissionDeniedExceptio
 import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
@@ -253,11 +252,10 @@ class UseCaseTest {
     }
 
     @Test
-    @Ignore("FIXME: socket failed: EPERM (Operation not permitted)")
     fun `通知送信_成功`() {
         runTest(testDispatcher) {
-            val host = "192.168.11.4"
-            val port = 5555
+            val host = "192.168.10.18"
+            val port = 8484
             val addr = "$host:$port"
             saveAddressUseCase(addr)
             assertThat(notifyUseCase("通知テスト").getOrNull()).isNotNull()
