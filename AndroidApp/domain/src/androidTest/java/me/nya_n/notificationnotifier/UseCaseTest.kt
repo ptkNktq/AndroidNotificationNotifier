@@ -49,6 +49,7 @@ class UseCaseTest {
     private lateinit var userSettingsRepository: UserSettingsRepository
     private lateinit var appRepository: AppRepository
     private lateinit var addTargetAppUseCase: AddTargetAppUseCase
+    private lateinit var loadAppUseCase: LoadAppUseCaseImpl
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -84,6 +85,7 @@ class UseCaseTest {
             testDispatcher
         )
         addTargetAppUseCase = AddTargetAppUseCaseImpl(appRepository)
+        loadAppUseCase = LoadAppUseCaseImpl(userSettingsRepository, appRepository)
     }
 
     @Test
@@ -92,13 +94,12 @@ class UseCaseTest {
             val app = InstalledApp("sample", "com.sample.www")
             addTargetAppUseCase(app)
 
-            val loader = LoadAppUseCaseImpl(userSettingsRepository, appRepository)
-            val added = loader.loadTargetList()
+            val added = loadAppUseCase.loadTargetList()
             assertThat(added).hasSize(1)
             assertThat(added.first()).isEqualTo(app)
 
             DeleteTargetAppUseCaseImpl(appRepository)(app)
-            val deleted = loader.loadTargetList()
+            val deleted = loadAppUseCase.loadTargetList()
             assertThat(deleted).isEmpty()
         }
     }
@@ -106,7 +107,7 @@ class UseCaseTest {
     @Test
     fun `インストール済みアプリの取得_成功（ついでにアプリ一覧取得権限許可処理も）`() {
         PackageVisibilityGrantedUseCaseImpl(userSettingsRepository)()
-        val ret = LoadAppUseCaseImpl(userSettingsRepository, appRepository).loadInstalledAppList(pm)
+        val ret = loadAppUseCase.loadInstalledAppList(pm)
         assertThat(ret.getOrNull()).apply {
             isNotNull()
             isNotEmpty()
@@ -115,7 +116,7 @@ class UseCaseTest {
 
     @Test
     fun `インストール済みアプリの取得_失敗`() {
-        val ret = LoadAppUseCaseImpl(userSettingsRepository, appRepository).loadInstalledAppList(pm)
+        val ret = loadAppUseCase.loadInstalledAppList(pm)
         assertThat(ret.exceptionOrNull()).apply {
             isNotNull()
             isInstanceOf(me.nya_n.notificationnotifier.model.AppException.PermissionDeniedException::class.java)
@@ -272,8 +273,7 @@ class UseCaseTest {
 
             // 正常に復元できているか確認
             // ターゲット一覧
-            val restoreTargets =
-                LoadAppUseCaseImpl(userSettingsRepository, appRepository).loadTargetList()
+            val restoreTargets = loadAppUseCase.loadTargetList()
             assertThat(restoreTargets).apply {
                 hasSize(1)
                 contains(app)
