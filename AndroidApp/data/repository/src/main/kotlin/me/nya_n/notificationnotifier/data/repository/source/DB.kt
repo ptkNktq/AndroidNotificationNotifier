@@ -12,8 +12,9 @@ import me.nya_n.notificationnotifier.model.InstalledApp
         FilterCondition::class,
         InstalledApp::class
     ],
-    version = 2,
-    exportSchema = false
+    version = 1,
+    exportSchema = true,
+    autoMigrations = []
 )
 abstract class DB : RoomDatabase() {
 
