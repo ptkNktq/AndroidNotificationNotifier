@@ -179,7 +179,7 @@ private fun NotificationSetting(
             checked = isIgnoreSummary,
             onCheckedChange = { onIgnoreSummaryChanged() },
         )
-        Text("サマリーは無視する。")
+        Text(stringResource(id = R.string.ignore_summaries))
     }
     /* FIXME: TODO:
      *  テキスト未確定状態で、IMEの◀,▶でカーソルを移動させたとき、カーソルの移動がおかしくなる
