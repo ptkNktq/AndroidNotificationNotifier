@@ -15,7 +15,8 @@ import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
 import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvider
-import me.nya_n.notificationnotifier.domain.usecase.*
+import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.DeleteTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ExportDataUseCaseImpl
@@ -27,6 +28,8 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.NotifyUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrantedUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.ToggleIgnoreSummaryUseCaseImpl
+import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
 import org.junit.Before
 import org.junit.Ignore
@@ -116,15 +119,24 @@ class UseCaseTest {
         runBlocking {
             val cond = "test"
             val updatedCond = "updated"
-            val app = InstalledApp("sample", "com.sample.www")
+            val packageName = "com.sample.www"
+            val app = InstalledApp("sample", packageName)
+
             val saver = SaveFilterConditionUseCaseImpl(appRepository)
-            saver(SaveFilterConditionUseCase.Args(app, cond))
-
+            val toggler = ToggleIgnoreSummaryUseCaseImpl(appRepository)
             val loader = LoadFilterConditionUseCaseImpl(appRepository)
-            assertThat(loader(app)).isEqualTo(cond)
 
+            // 追加
+            saver(SaveFilterConditionUseCase.Args(app, cond))
+            assertThat(loader(app)).isEqualTo(FilterCondition(packageName, false, cond))
+
+            // メッセージ条件の更新
             saver(SaveFilterConditionUseCase.Args(app, updatedCond))
-            assertThat(loader(app)).isEqualTo(updatedCond)
+            assertThat(loader(app)).isEqualTo(FilterCondition(packageName, false, updatedCond))
+
+            // サマリー条件の更新
+            toggler.invoke(ToggleIgnoreSummaryUseCase.Args(app))
+            assertThat(loader(app)).isEqualTo(FilterCondition(packageName, true, updatedCond))
         }
     }
 
@@ -214,14 +226,17 @@ class UseCaseTest {
             val targetSaver = AddTargetAppUseCaseImpl(appRepository)
             val condSaver = SaveFilterConditionUseCaseImpl(appRepository)
             val addrSaver = SaveAddressUseCaseImpl(userSettingsRepository)
+            val toggler = ToggleIgnoreSummaryUseCaseImpl(appRepository)
 
             // 初期値の保存
             // ターゲット
-            val app = InstalledApp("export", "test.export")
+            val packageName = "test.export"
+            val app = InstalledApp("export", packageName)
             targetSaver(app)
             // 条件
             val cond = ".*"
             condSaver(SaveFilterConditionUseCase.Args(app, cond))
+            toggler.invoke(ToggleIgnoreSummaryUseCase.Args(app))
             // アドレス
             val addr = "192.168.1.4:5050"
             addrSaver(addr)
@@ -234,6 +249,7 @@ class UseCaseTest {
             targetSaver(InstalledApp("new", "new"))
             // 条件
             condSaver(SaveFilterConditionUseCase.Args(app, "new"))
+            toggler.invoke(ToggleIgnoreSummaryUseCase.Args(app))
 
             // 復元
             ImportDataUseCaseImpl(userSettingsRepository, appRepository)(appContext, uri)
@@ -248,7 +264,7 @@ class UseCaseTest {
             }
             // 条件
             val restoreCond = LoadFilterConditionUseCaseImpl(appRepository)(app)
-            assertThat(restoreCond).isEqualTo(cond)
+            assertThat(restoreCond).isEqualTo(FilterCondition(packageName, true, cond))
             // アドレス
             val restoreAddr = LoadAddressUseCaseImpl(userSettingsRepository)()
             assertThat(restoreAddr).isEqualTo(addr)

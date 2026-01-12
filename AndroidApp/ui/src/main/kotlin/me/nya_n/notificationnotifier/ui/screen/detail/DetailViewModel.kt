@@ -10,12 +10,14 @@ import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.model.InstalledApp
 
 class DetailViewModel(
     private val loadFilterConditionUseCase: LoadFilterConditionUseCase,
     private val saveFilterConditionUseCase: SaveFilterConditionUseCase,
     private val deleteTargetAppUseCase: DeleteTargetAppUseCase,
+    private val toggleIgnoreSummaryUseCase: ToggleIgnoreSummaryUseCase,
     private val target: InstalledApp
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(UiState())
@@ -24,7 +26,13 @@ class DetailViewModel(
     init {
         /** 通知条件を読み込む */
         viewModelScope.launch {
-            _uiState.update { it.copy(condition = loadFilterConditionUseCase(target)) }
+            val data = loadFilterConditionUseCase.invoke(target)
+            _uiState.update {
+                it.copy(
+                    isIgnoreSummary = data.isIgnoreSummary,
+                    condition = data.condition
+                )
+            }
         }
     }
 
@@ -32,6 +40,13 @@ class DetailViewModel(
     fun deleteTarget() {
         viewModelScope.launch {
             deleteTargetAppUseCase(target)
+        }
+    }
+
+    fun onIgnoreSummaryChanged() {
+        viewModelScope.launch {
+            val isIgnoreSummary = toggleIgnoreSummaryUseCase.invoke(ToggleIgnoreSummaryUseCase.Args(target))
+            _uiState.update { it.copy(isIgnoreSummary = isIgnoreSummary) }
         }
     }
 

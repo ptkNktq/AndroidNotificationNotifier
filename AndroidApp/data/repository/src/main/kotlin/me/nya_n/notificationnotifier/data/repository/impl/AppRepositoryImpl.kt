@@ -26,6 +26,10 @@ class AppRepositoryImpl(
         }
     }
 
+    override suspend fun getFilterConditionOrDefault(targetPackageName: String): FilterCondition {
+        return getFilterCondition(targetPackageName) ?: FilterCondition.default(targetPackageName)
+    }
+
     override suspend fun getFilterConditionList(): List<FilterCondition> {
         return withContext(Dispatchers.IO) {
             filterConditionDao.getAll()

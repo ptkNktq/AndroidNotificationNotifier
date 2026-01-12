@@ -10,6 +10,7 @@ interface AppRepository {
 
     /* フィルタリング条件関連 */
     suspend fun getFilterCondition(targetPackageName: String): FilterCondition?
+    suspend fun getFilterConditionOrDefault(targetPackageName: String): FilterCondition
 
     suspend fun getFilterConditionList(): List<FilterCondition>
 

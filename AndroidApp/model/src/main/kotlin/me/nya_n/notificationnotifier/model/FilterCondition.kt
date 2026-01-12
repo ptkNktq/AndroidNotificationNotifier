@@ -14,6 +14,21 @@ data class FilterCondition(
     @SerializedName("target_package_name")
     val targetPackageName: String,
 
+    /** サマリーを無視するか？ */
+    @ColumnInfo(name = "is_ignore_summary", defaultValue = "0")
+    @SerializedName("is_ignore_summary")
+    val isIgnoreSummary: Boolean,
+
     /** 条件 */
     val condition: String
-) : Serializable
+) : Serializable {
+    companion object {
+        fun default(packageName: String): FilterCondition {
+            return FilterCondition(
+                targetPackageName = packageName,
+                isIgnoreSummary = false,
+                condition = ""
+            )
+        }
+    }
+}

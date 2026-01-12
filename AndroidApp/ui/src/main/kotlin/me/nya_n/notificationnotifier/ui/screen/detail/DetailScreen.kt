@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
@@ -64,7 +65,6 @@ fun DetailScreen(
     }
     DetailContent(
         app = app,
-        condition = uiState.condition,
         onDeleteApp = {
             viewModel.deleteTarget()
             navController.previousBackStackEntry?.apply {
@@ -72,6 +72,9 @@ fun DetailScreen(
             }
             navController.popBackStack()
         },
+        isIgnoreSummary = uiState.isIgnoreSummary,
+        onIgnoreSummaryChanged = { viewModel.onIgnoreSummaryChanged() },
+        condition = uiState.condition,
         onConditionChanged = { viewModel.save(it) }
     )
 }
@@ -80,8 +83,10 @@ fun DetailScreen(
 @Composable
 fun DetailContent(
     app: InstalledApp,
-    condition: String,
     onDeleteApp: () -> Unit,
+    isIgnoreSummary: Boolean,
+    onIgnoreSummaryChanged: () -> Unit,
+    condition: String,
     onConditionChanged: (String) -> Unit
 ) {
     Column(
@@ -93,7 +98,12 @@ fun DetailContent(
             app = app,
             onDeleteApp = onDeleteApp
         )
-        NotificationSetting(condition, onConditionChanged)
+        NotificationSetting(
+            isIgnoreSummary = isIgnoreSummary,
+            onIgnoreSummaryChanged = onIgnoreSummaryChanged,
+            initCondition = condition,
+            onConditionChanged = onConditionChanged
+        )
     }
 }
 
@@ -153,6 +163,8 @@ private fun AppInfo(
  */
 @Composable
 private fun NotificationSetting(
+    isIgnoreSummary: Boolean,
+    onIgnoreSummaryChanged: () -> Unit,
     initCondition: String,
     onConditionChanged: (String) -> Unit
 ) {
@@ -160,6 +172,15 @@ private fun NotificationSetting(
     val focusManager = LocalFocusManager.current
     var condition by remember(initCondition) { mutableStateOf(initCondition) }
     Category(name = stringResource(id = R.string.notification_settings))
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = isIgnoreSummary,
+            onCheckedChange = { onIgnoreSummaryChanged() },
+        )
+        Text(stringResource(id = R.string.ignore_summaries))
+    }
     /* FIXME: TODO:
      *  テキスト未確定状態で、IMEの◀,▶でカーソルを移動させたとき、カーソルの移動がおかしくなる
      *  TextFieldValueも試したが改善されず
@@ -199,8 +220,10 @@ private fun DetailPreview() {
     AppTheme {
         DetailContent(
             app = InstalledApp("Sample App Name", "example.sample.test"),
-            condition = "^.*$",
             onDeleteApp = { },
+            isIgnoreSummary = true,
+            onIgnoreSummaryChanged = { },
+            condition = "^.*$",
             onConditionChanged = { }
         )
     }
@@ -215,8 +238,10 @@ private fun LongAppNameDetailPreview() {
                 "Sample App Name So Loooooooooooooooooooong",
                 "example.sample.test"
             ),
-            condition = "",
             onDeleteApp = { },
+            isIgnoreSummary = false,
+            onIgnoreSummaryChanged = { },
+            condition = "",
             onConditionChanged = { }
         )
     }
