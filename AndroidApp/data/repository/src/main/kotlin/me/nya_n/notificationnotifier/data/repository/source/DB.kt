@@ -61,7 +61,7 @@ abstract class DB : RoomDatabase() {
         fun version(): Int {
             return try {
                 INSTANCE?.openHelper?.readableDatabase?.version ?: -1
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 -1
             }
         }
