@@ -18,6 +18,7 @@ import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
 import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
+import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
@@ -50,6 +51,7 @@ class UseCaseTest {
     private lateinit var appRepository: AppRepository
     private lateinit var addTargetAppUseCase: AddTargetAppUseCase
     private lateinit var loadAppUseCase: LoadAppUseCaseImpl
+    private lateinit var deleteTargetAppUseCase: DeleteTargetAppUseCase
     private lateinit var pm: PackageManager
     private lateinit var exportFile: File
     private val exportFileName: String = "export.json"
@@ -86,6 +88,7 @@ class UseCaseTest {
         )
         addTargetAppUseCase = AddTargetAppUseCaseImpl(appRepository)
         loadAppUseCase = LoadAppUseCaseImpl(userSettingsRepository, appRepository)
+        deleteTargetAppUseCase = DeleteTargetAppUseCaseImpl(appRepository)
     }
 
     @Test
@@ -98,7 +101,7 @@ class UseCaseTest {
             assertThat(added).hasSize(1)
             assertThat(added.first()).isEqualTo(app)
 
-            DeleteTargetAppUseCaseImpl(appRepository)(app)
+            deleteTargetAppUseCase(app)
             val deleted = loadAppUseCase.loadTargetList()
             assertThat(deleted).isEmpty()
         }
