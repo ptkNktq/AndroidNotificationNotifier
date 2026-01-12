@@ -15,6 +15,8 @@ data class FilterCondition(
     val targetPackageName: String,
 
     /** サマリーを無視するか？ */
+    @ColumnInfo(name = "is_ignore_summary", defaultValue = "1")
+    @SerializedName("is_ignore_summary")
     val isIgnoreSummary: Boolean,
 
     /** 条件 */

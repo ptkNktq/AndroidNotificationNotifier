@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "502a3aa5ee8845e9eb83f41fde725eaf",
+    "identityHash": "6e99a450eb5b629fc5fa91318671eaee",
     "entities": [
       {
         "tableName": "conditions",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`target_package_name` TEXT NOT NULL, `isIgnoreSummary` INTEGER NOT NULL, `condition` TEXT NOT NULL, PRIMARY KEY(`target_package_name`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`target_package_name` TEXT NOT NULL, `is_ignore_summary` INTEGER NOT NULL DEFAULT 1, `condition` TEXT NOT NULL, PRIMARY KEY(`target_package_name`))",
         "fields": [
           {
             "fieldPath": "targetPackageName",
@@ -16,9 +16,10 @@
           },
           {
             "fieldPath": "isIgnoreSummary",
-            "columnName": "isIgnoreSummary",
+            "columnName": "is_ignore_summary",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": true,
+            "defaultValue": "1"
           },
           {
             "fieldPath": "condition",
@@ -61,7 +62,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '502a3aa5ee8845e9eb83f41fde725eaf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6e99a450eb5b629fc5fa91318671eaee')"
     ]
   }
 }

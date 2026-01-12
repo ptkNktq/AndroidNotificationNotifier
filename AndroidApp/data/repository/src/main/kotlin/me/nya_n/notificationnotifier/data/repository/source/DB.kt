@@ -1,6 +1,7 @@
 package me.nya_n.notificationnotifier.data.repository.source
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -12,9 +13,11 @@ import me.nya_n.notificationnotifier.model.InstalledApp
         FilterCondition::class,
         InstalledApp::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true,
-    autoMigrations = []
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
+    ]
 )
 abstract class DB : RoomDatabase() {
 
