@@ -65,7 +65,6 @@ fun DetailScreen(
     }
     DetailContent(
         app = app,
-        condition = uiState.condition,
         onDeleteApp = {
             viewModel.deleteTarget()
             navController.previousBackStackEntry?.apply {
@@ -73,6 +72,9 @@ fun DetailScreen(
             }
             navController.popBackStack()
         },
+        isIgnoreSummary = uiState.isIgnoreSummary,
+        onIgnoreSummaryChanged = { viewModel.onIgnoreSummaryChanged() },
+        condition = uiState.condition,
         onConditionChanged = { viewModel.save(it) }
     )
 }
@@ -81,8 +83,10 @@ fun DetailScreen(
 @Composable
 fun DetailContent(
     app: InstalledApp,
-    condition: String,
     onDeleteApp: () -> Unit,
+    isIgnoreSummary: Boolean,
+    onIgnoreSummaryChanged: () -> Unit,
+    condition: String,
     onConditionChanged: (String) -> Unit
 ) {
     Column(
@@ -94,7 +98,12 @@ fun DetailContent(
             app = app,
             onDeleteApp = onDeleteApp
         )
-        NotificationSetting(condition, onConditionChanged)
+        NotificationSetting(
+            isIgnoreSummary = isIgnoreSummary,
+            onIgnoreSummaryChanged = onIgnoreSummaryChanged,
+            initCondition = condition,
+            onConditionChanged = onConditionChanged
+        )
     }
 }
 
@@ -154,6 +163,8 @@ private fun AppInfo(
  */
 @Composable
 private fun NotificationSetting(
+    isIgnoreSummary: Boolean,
+    onIgnoreSummaryChanged: () -> Unit,
     initCondition: String,
     onConditionChanged: (String) -> Unit
 ) {
@@ -165,8 +176,8 @@ private fun NotificationSetting(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
-            checked = true,
-            onCheckedChange = { },
+            checked = isIgnoreSummary,
+            onCheckedChange = { onIgnoreSummaryChanged() },
         )
         Text("サマリーは無視する。")
     }
@@ -209,8 +220,10 @@ private fun DetailPreview() {
     AppTheme {
         DetailContent(
             app = InstalledApp("Sample App Name", "example.sample.test"),
-            condition = "^.*$",
             onDeleteApp = { },
+            isIgnoreSummary = true,
+            onIgnoreSummaryChanged = { },
+            condition = "^.*$",
             onConditionChanged = { }
         )
     }
@@ -225,8 +238,10 @@ private fun LongAppNameDetailPreview() {
                 "Sample App Name So Loooooooooooooooooooong",
                 "example.sample.test"
             ),
-            condition = "",
             onDeleteApp = { },
+            isIgnoreSummary = false,
+            onIgnoreSummaryChanged = { },
+            condition = "",
             onConditionChanged = { }
         )
     }

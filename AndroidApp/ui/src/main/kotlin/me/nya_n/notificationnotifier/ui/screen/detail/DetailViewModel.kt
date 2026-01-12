@@ -35,6 +35,10 @@ class DetailViewModel(
         }
     }
 
+    fun onIgnoreSummaryChanged() {
+        _uiState.update { it.copy(isIgnoreSummary = !it.isIgnoreSummary) }
+    }
+
     /** 通知条件を保存 */
     fun save(condition: String) {
         viewModelScope.launch {
