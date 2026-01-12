@@ -38,6 +38,7 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrante
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ToggleIgnoreSummaryUseCaseImpl
+import me.nya_n.notificationnotifier.model.AppException.PermissionDeniedException
 import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
 import org.junit.Before
@@ -49,9 +50,16 @@ import java.io.File
 @Suppress("NonAsciiCharacters", "RemoveRedundantBackticks")
 @RunWith(AndroidJUnit4::class)
 class UseCaseTest {
+    companion object {
+        private const val ExportFileName: String = "export.json"
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher = UnconfinedTestDispatcher()
     private lateinit var appContext: Context
+    private lateinit var pm: PackageManager
+    private lateinit var exportFile: File
+
     private lateinit var addTargetAppUseCase: AddTargetAppUseCase
     private lateinit var loadAppUseCase: LoadAppUseCaseImpl
     private lateinit var deleteTargetAppUseCase: DeleteTargetAppUseCase
@@ -64,15 +72,12 @@ class UseCaseTest {
     private lateinit var notifyUseCase: NotifyUseCase
     private lateinit var exportDataUseCase: ExportDataUseCase
     private lateinit var importDataUseCase: ImportDataUseCase
-    private lateinit var pm: PackageManager
-    private lateinit var exportFile: File
-    private val exportFileName: String = "export.json"
 
     @Before
     fun setUp() {
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
         exportFile = appContext.filesDir
-        File(exportFile, exportFileName).apply {
+        File(exportFile, ExportFileName).apply {
             if (exists()) {
                 delete()
             }
@@ -90,7 +95,7 @@ class UseCaseTest {
                 }
             )
         )
-        val db = DB.get(appContext, true).apply {
+        val db = DB.get(appContext, isInMemory = true).apply {
             clearAllTables()
         }
         val appRepository = AppRepositoryImpl(
@@ -146,7 +151,7 @@ class UseCaseTest {
         val ret = loadAppUseCase.loadInstalledAppList(pm)
         assertThat(ret.exceptionOrNull()).apply {
             isNotNull()
-            isInstanceOf(me.nya_n.notificationnotifier.model.AppException.PermissionDeniedException::class.java)
+            isInstanceOf(PermissionDeniedException::class.java)
         }
     }
 
@@ -261,7 +266,7 @@ class UseCaseTest {
 
     @Test
     fun `バックアップ、復元`() {
-        val uri = Uri.fromFile(File.createTempFile(exportFileName, null, exportFile))
+        val uri = Uri.fromFile(File.createTempFile(ExportFileName, null, exportFile))
         runTest(testDispatcher) {
             // 初期値の保存
             // ターゲット
