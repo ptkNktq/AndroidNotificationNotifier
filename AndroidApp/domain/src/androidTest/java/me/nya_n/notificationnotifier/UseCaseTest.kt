@@ -1,19 +1,16 @@
 package me.nya_n.notificationnotifier
 
 import android.net.Uri
-import androidx.core.content.edit
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
+import me.nya_n.notificationnotifier.data.repository.AppRepository
+import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.impl.BackupRepositoryImpl
-import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepositoryImpl
-import me.nya_n.notificationnotifier.data.repository.source.DB
-import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
-import me.nya_n.notificationnotifier.data.repository.util.SharedPreferenceProvider
 import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
@@ -57,6 +54,9 @@ class UseCaseTest {
     private val testDispatcher = UnconfinedTestDispatcher()
     private lateinit var exportFile: File
 
+    private val userSettingsRepository: UserSettingsRepository = mockk()
+    private val appRepository: AppRepository = mockk()
+
     private lateinit var addTargetAppUseCase: AddTargetAppUseCase
     private lateinit var loadAppUseCase: LoadAppUseCaseImpl
     private lateinit var deleteTargetAppUseCase: DeleteTargetAppUseCase
@@ -79,27 +79,6 @@ class UseCaseTest {
                 delete()
             }
         }
-        val userSettingsRepository = UserSettingsRepositoryImpl(
-            UserSettingsDataStore(
-                SharedPreferenceProvider.create(
-                    appContext,
-                    UserSettingsDataStore.DATA_STORE_NAME
-                ).apply {
-                    edit {
-                        clear()
-                    }
-                }
-            )
-        )
-        val db = DB.get(appContext, isInMemory = true).apply {
-            clearAllTables()
-        }
-        val appRepository = AppRepositoryImpl(
-            appContext.packageManager,
-            db.filterConditionDao(),
-            db.targetAppDao(),
-            testDispatcher
-        )
         val backupRepository = BackupRepositoryImpl(appContext, testDispatcher)
         addTargetAppUseCase = AddTargetAppUseCaseImpl(appRepository)
         loadAppUseCase = LoadAppUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)
