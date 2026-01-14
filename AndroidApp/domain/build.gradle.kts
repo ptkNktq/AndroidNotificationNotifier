@@ -21,6 +21,10 @@ dependencies {
     api(libs.androidx.compose.runtime)
 
     // test
+    testImplementation(libs.junit)
+    testImplementation(libs.com.google.truth)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.com.google.truth)
     androidTestImplementation(libs.androidx.test.ext.junit)

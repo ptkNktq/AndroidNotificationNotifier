@@ -12,32 +12,24 @@ import me.nya_n.notificationnotifier.data.repository.AppRepository
 import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.impl.BackupRepositoryImpl
 import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
-import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadFilterConditionUseCase
-import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
-import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
-import me.nya_n.notificationnotifier.domain.usecase.impl.DeleteTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ExportDataUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ImportDataUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.LoadAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.LoadAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.LoadFilterConditionUseCaseImpl
-import me.nya_n.notificationnotifier.domain.usecase.impl.NotifyUseCaseImpl
-import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrantedUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ToggleIgnoreSummaryUseCaseImpl
-import me.nya_n.notificationnotifier.model.AppException.PermissionDeniedException
 import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
-import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -59,14 +51,11 @@ class UseCaseTest {
 
     private lateinit var addTargetAppUseCase: AddTargetAppUseCase
     private lateinit var loadAppUseCase: LoadAppUseCaseImpl
-    private lateinit var deleteTargetAppUseCase: DeleteTargetAppUseCase
-    private lateinit var packageVisibilityGrantedUseCase: PackageVisibilityGrantedUseCase
     private lateinit var saveFilterConditionUseCase: SaveFilterConditionUseCase
     private lateinit var toggleIgnoreSummaryUseCase: ToggleIgnoreSummaryUseCase
     private lateinit var loadFilterConditionUseCase: LoadFilterConditionUseCase
     private lateinit var saveAddressUseCase: SaveAddressUseCase
     private lateinit var loadAddressUseCase: LoadAddressUseCase
-    private lateinit var notifyUseCase: NotifyUseCase
     private lateinit var exportDataUseCase: ExportDataUseCase
     private lateinit var importDataUseCase: ImportDataUseCase
 
@@ -82,166 +71,15 @@ class UseCaseTest {
         val backupRepository = BackupRepositoryImpl(appContext, testDispatcher)
         addTargetAppUseCase = AddTargetAppUseCaseImpl(appRepository)
         loadAppUseCase = LoadAppUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)
-        deleteTargetAppUseCase = DeleteTargetAppUseCaseImpl(appRepository)
-        packageVisibilityGrantedUseCase =
-            PackageVisibilityGrantedUseCaseImpl(userSettingsRepository)
         saveFilterConditionUseCase = SaveFilterConditionUseCaseImpl(appRepository)
         toggleIgnoreSummaryUseCase = ToggleIgnoreSummaryUseCaseImpl(appRepository)
         loadFilterConditionUseCase = LoadFilterConditionUseCaseImpl(appRepository)
         saveAddressUseCase = SaveAddressUseCaseImpl(userSettingsRepository)
         loadAddressUseCase = LoadAddressUseCaseImpl(userSettingsRepository)
-        notifyUseCase = NotifyUseCaseImpl(userSettingsRepository, testDispatcher)
         exportDataUseCase =
             ExportDataUseCaseImpl(userSettingsRepository, appRepository, backupRepository)
         importDataUseCase =
             ImportDataUseCaseImpl(userSettingsRepository, appRepository, backupRepository)
-    }
-
-    @Test
-    fun `通知対象アプリの追加、取得、削除`() {
-        runTest(testDispatcher) {
-            val app = InstalledApp("sample", "com.sample.www")
-            addTargetAppUseCase(app)
-
-            val added = loadAppUseCase.loadTargetList()
-            assertThat(added).hasSize(1)
-            assertThat(added.first()).isEqualTo(app)
-
-            deleteTargetAppUseCase(app)
-            val deleted = loadAppUseCase.loadTargetList()
-            assertThat(deleted).isEmpty()
-        }
-    }
-
-    @Test
-    fun `インストール済みアプリの取得_成功（ついでにアプリ一覧取得権限許可処理も）`() {
-        packageVisibilityGrantedUseCase()
-        val ret = loadAppUseCase.loadInstalledAppList()
-        assertThat(ret.getOrNull()).apply {
-            isNotNull()
-            isNotEmpty()
-        }
-    }
-
-    @Test
-    fun `インストール済みアプリの取得_失敗`() {
-        val ret = loadAppUseCase.loadInstalledAppList()
-        assertThat(ret.exceptionOrNull()).apply {
-            isNotNull()
-            isInstanceOf(PermissionDeniedException::class.java)
-        }
-    }
-
-    @Test
-    fun `通知条件の追加、取得、更新`() {
-        runTest(testDispatcher) {
-            val cond = "test"
-            val updatedCond = "updated"
-            val packageName = "com.sample.www"
-            val app = InstalledApp("sample", packageName)
-
-            // 追加
-            saveFilterConditionUseCase(SaveFilterConditionUseCase.Args(app, cond))
-            assertThat(loadFilterConditionUseCase(app)).isEqualTo(
-                FilterCondition(
-                    packageName,
-                    false,
-                    cond
-                )
-            )
-
-            // メッセージ条件の更新
-            saveFilterConditionUseCase(SaveFilterConditionUseCase.Args(app, updatedCond))
-            assertThat(loadFilterConditionUseCase(app)).isEqualTo(
-                FilterCondition(
-                    packageName,
-                    false,
-                    updatedCond
-                )
-            )
-
-            // サマリー条件の更新
-            toggleIgnoreSummaryUseCase.invoke(ToggleIgnoreSummaryUseCase.Args(app))
-            assertThat(loadFilterConditionUseCase(app)).isEqualTo(
-                FilterCondition(
-                    packageName,
-                    true,
-                    updatedCond
-                )
-            )
-        }
-    }
-
-    @Test
-    fun `IPアドレスの追加、更新_成功、成功`() {
-        val host = "192.168.11.4"
-        val port = 5555
-        val addr = "$host:$port"
-        assertThat(saveAddressUseCase(addr).getOrNull()).isNotNull()
-        assertThat(loadAddressUseCase()).isEqualTo(addr)
-
-        val updatedHost = "192.168.11.2"
-        val updatedPort = 3456
-        val updatedAddr = "$updatedHost:$updatedPort"
-        assertThat(saveAddressUseCase(updatedAddr).getOrNull()).isNotNull()
-        assertThat(loadAddressUseCase()).isEqualTo(updatedAddr)
-    }
-
-    @Test
-    fun `IPアドレスの追加、更新_成功、失敗`() {
-        val host = "192.168.11.4"
-        val port = 5555
-        val addr = "$host:$port"
-        assertThat(saveAddressUseCase(addr).getOrNull()).isNotNull()
-        assertThat(loadAddressUseCase()).isEqualTo(addr)
-
-        val updatedHost = "192.168.11.2"
-        val updatedAddr = "$updatedHost:"
-        assertThat(saveAddressUseCase(updatedAddr).exceptionOrNull()).isNotNull()
-        assertThat(loadAddressUseCase()).isEqualTo(addr)
-    }
-
-    @Test
-    fun `IPアドレスの追加_失敗_hostなし`() {
-        val port = 5555
-        val addr = ":$port"
-        assertThat(saveAddressUseCase(addr).exceptionOrNull()).isNotNull()
-    }
-
-    @Test
-    fun `IPアドレスの追加_失敗_portなし`() {
-        val host = "192.168.11.4"
-        val addr = "$host:"
-        assertThat(saveAddressUseCase(addr).exceptionOrNull()).isNotNull()
-    }
-
-    @Test
-    fun `IPアドレスの追加_失敗_portが数値じゃない`() {
-        val host = "192.168.11.4"
-        val addr = "$host:test"
-        assertThat(saveAddressUseCase(addr).exceptionOrNull()).isNotNull()
-    }
-
-    @Test
-    fun `通知送信_失敗`() {
-        runTest(testDispatcher) {
-            assertThat(notifyUseCase("通知テスト").exceptionOrNull()).isNotNull()
-        }
-    }
-
-    @Test
-    @LocalOnly
-    fun `通知送信_成功`() {
-        // CI環境で実行しないようにする
-        assumeTrue("Local only", System.getenv("CI") == null)
-
-        runTest(testDispatcher) {
-            val host = "192.168.10.18" // テスト環境のIPアドレスに変更する
-            val port = 8484
-            val addr = "$host:$port"
-            saveAddressUseCase(addr)
-            assertThat(notifyUseCase("通知テスト").getOrNull()).isNotNull()
-        }
     }
 
     @Test
