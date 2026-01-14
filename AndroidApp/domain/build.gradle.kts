@@ -27,6 +27,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
 
     // その他
     implementation(libs.com.google.code.gson)
