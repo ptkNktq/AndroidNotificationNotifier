@@ -1,6 +1,5 @@
 package me.nya_n.notificationnotifier
 
-import android.content.Context
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -10,6 +9,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
+import me.nya_n.notificationnotifier.data.repository.impl.BackupRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
@@ -55,7 +55,6 @@ class UseCaseTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher = UnconfinedTestDispatcher()
-    private lateinit var appContext: Context
     private lateinit var exportFile: File
 
     private lateinit var addTargetAppUseCase: AddTargetAppUseCase
@@ -73,7 +72,7 @@ class UseCaseTest {
 
     @Before
     fun setUp() {
-        appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         exportFile = appContext.filesDir
         File(exportFile, ExportFileName).apply {
             if (exists()) {
@@ -101,6 +100,7 @@ class UseCaseTest {
             db.targetAppDao(),
             testDispatcher
         )
+        val backupRepository = BackupRepositoryImpl(appContext, testDispatcher)
         addTargetAppUseCase = AddTargetAppUseCaseImpl(appRepository)
         loadAppUseCase = LoadAppUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)
         deleteTargetAppUseCase = DeleteTargetAppUseCaseImpl(appRepository)
@@ -113,9 +113,9 @@ class UseCaseTest {
         loadAddressUseCase = LoadAddressUseCaseImpl(userSettingsRepository)
         notifyUseCase = NotifyUseCaseImpl(userSettingsRepository, testDispatcher)
         exportDataUseCase =
-            ExportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)
+            ExportDataUseCaseImpl(userSettingsRepository, appRepository, backupRepository)
         importDataUseCase =
-            ImportDataUseCaseImpl(userSettingsRepository, appRepository, testDispatcher)
+            ImportDataUseCaseImpl(userSettingsRepository, appRepository, backupRepository)
     }
 
     @Test
@@ -283,7 +283,7 @@ class UseCaseTest {
             saveAddressUseCase(addr)
 
             // バックアップ
-            exportDataUseCase(appContext, uri)
+            exportDataUseCase(uri)
 
             // バックアップ時とは異なるように適当に変更
             // ターゲット
@@ -293,7 +293,7 @@ class UseCaseTest {
             toggleIgnoreSummaryUseCase.invoke(ToggleIgnoreSummaryUseCase.Args(app))
 
             // 復元
-            importDataUseCase(appContext, uri)
+            importDataUseCase(uri)
 
             // 正常に復元できているか確認
             // ターゲット一覧
