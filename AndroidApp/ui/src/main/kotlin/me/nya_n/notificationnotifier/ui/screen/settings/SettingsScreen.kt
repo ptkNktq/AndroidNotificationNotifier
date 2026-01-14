@@ -36,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -63,20 +62,19 @@ fun SettingsScreen(
     snackbarHostState: SnackbarHostState,
     viewModel: SettingsViewModel = koinViewModel()
 ) {
-    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
     val uiEvents by viewModel.uiEvent.collectAsState()
     val exportLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode != AppCompatActivity.RESULT_OK) return@rememberLauncherForActivityResult
-        viewModel.exportData(context, it.data?.data)
+        viewModel.exportData(it.data?.data)
     }
     val importLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode != AppCompatActivity.RESULT_OK) return@rememberLauncherForActivityResult
-        viewModel.importData(context, it.data?.data)
+        viewModel.importData(it.data?.data)
     }
     uiEvents.firstOrNull()?.let {
         when (it) {

@@ -1,6 +1,5 @@
 package me.nya_n.notificationnotifier.data.repository
 
-import android.content.pm.PackageManager
 import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
 
@@ -23,5 +22,5 @@ interface AppRepository {
 
     suspend fun deleteTargetApp(target: InstalledApp)
 
-    fun loadInstalledAppList(pm: PackageManager): List<InstalledApp>
+    fun loadInstalledAppList(): List<InstalledApp>
 }

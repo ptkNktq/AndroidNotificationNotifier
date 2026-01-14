@@ -1,6 +1,5 @@
 package me.nya_n.notificationnotifier.ui.screen.settings
 
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,13 +60,13 @@ class SettingsViewModel(
     }
 
     /** バックアップのために外部ストレージにデータを保存 */
-    fun exportData(context: Context, uri: Uri?) {
+    fun exportData(uri: Uri?) {
         if (uri == null) {
             _uiState.update { it.copy(message = Message.Error(R.string.export_failed)) }
             return
         }
         viewModelScope.launch {
-            val message = if (exportDataUseCase(context, uri).isSuccess) {
+            val message = if (exportDataUseCase(uri).isSuccess) {
                 Message.Notice(R.string.export_succeeded)
             } else {
                 Message.Error(R.string.export_failed)
@@ -77,13 +76,13 @@ class SettingsViewModel(
     }
 
     /** 外部ストレージのバックアップからデータを復元 */
-    fun importData(context: Context, uri: Uri?) {
+    fun importData(uri: Uri?) {
         if (uri == null) {
             _uiState.update { it.copy(message = Message.Error(R.string.import_failed)) }
             return
         }
         viewModelScope.launch {
-            val message = if (importDataUseCase(context, uri).isSuccess) {
+            val message = if (importDataUseCase(uri).isSuccess) {
                 Message.Notice(R.string.import_succeeded)
             } else {
                 Message.Error(R.string.import_failed)

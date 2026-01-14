@@ -1,6 +1,5 @@
 package me.nya_n.notificationnotifier.domain.usecase.impl
 
-import android.content.pm.PackageManager
 import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -18,9 +17,9 @@ class LoadAppUseCaseImpl(
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : LoadAppUseCase {
 
-    override suspend operator fun invoke(pm: PackageManager): Result<Outputs> =
+    override suspend operator fun invoke(): Result<Outputs> =
         withContext(coroutineDispatcher) {
-            val apps = loadInstalledAppList(pm).getOrElse {
+            val apps = loadInstalledAppList().getOrElse {
                 return@withContext Result.failure(it)
             }
             val targets = loadTargetList()
@@ -28,12 +27,12 @@ class LoadAppUseCaseImpl(
         }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun loadInstalledAppList(pm: PackageManager): Result<List<InstalledApp>> {
+    fun loadInstalledAppList(): Result<List<InstalledApp>> {
         val settings = userSettingsRepository.getUserSettings()
         return if (!settings.isPackageVisibilityGranted) {
             Result.failure(AppException.PermissionDeniedException())
         } else {
-            Result.success(appRepository.loadInstalledAppList(pm))
+            Result.success(appRepository.loadInstalledAppList())
         }
     }
 

@@ -1,6 +1,5 @@
 package me.nya_n.notificationnotifier.ui.screen.target
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,10 +11,8 @@ import me.nya_n.notificationnotifier.domain.usecase.LoadAppUseCase
 import me.nya_n.notificationnotifier.model.Message
 
 class TargetViewModel(
-    context: Context,
     private val useCase: LoadAppUseCase
 ) : ViewModel() {
-    private val pm = context.packageManager
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
@@ -26,7 +23,7 @@ class TargetViewModel(
                 // 未読込の場合だけプログレスバーを表示
                 _uiState.update { it.copy(isLoading = true) }
             }
-            useCase(pm).onSuccess { res ->
+            useCase().onSuccess { res ->
                 _uiState.update { it.copy(items = res.targets) }
             }
             _uiState.update { it.copy(isLoading = false) }

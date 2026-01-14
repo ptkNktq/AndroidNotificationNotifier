@@ -1,35 +1,22 @@
 package me.nya_n.notificationnotifier.domain.usecase.impl
 
-import android.content.Context
 import android.net.Uri
 import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.AppRepository
+import me.nya_n.notificationnotifier.data.repository.BackupRepository
 import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.model.Backup
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 class ImportDataUseCaseImpl(
     private val userSettingsRepository: UserSettingsRepository,
     private val appRepository: AppRepository,
-    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val backupRepository: BackupRepository,
 ) : ImportDataUseCase {
-    override suspend operator fun invoke(context: Context, uri: Uri): Result<Unit> {
+    override suspend operator fun invoke(uri: Uri): Result<Unit> {
         return runCatching {
-            val sb = StringBuilder()
-            withContext(coroutineDispatcher) {
-                context.contentResolver.openInputStream(uri).use { input ->
-                    BufferedReader(InputStreamReader(input)).use { reader ->
-                        sb.append(reader.readLine())
-                    }
-                }
-            }
-            val json = sb.toString()
+            val json = backupRepository.importFromUri(uri)
             val backup = Gson().fromJson(json, Backup::class.java)
             if (backup.version != DB.version()) {
                 throw RuntimeException("bad version.")

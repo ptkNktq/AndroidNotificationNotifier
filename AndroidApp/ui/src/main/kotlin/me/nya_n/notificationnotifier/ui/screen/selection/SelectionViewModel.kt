@@ -1,7 +1,5 @@
 package me.nya_n.notificationnotifier.ui.screen.selection
 
-import android.content.Context
-import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,12 +14,9 @@ import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
 
 class SelectionViewModel(
-    context: Context,
     private val loadAppUseCase: LoadAppUseCase,
     private val addTargetAppUseCase: AddTargetAppUseCase
 ) : ViewModel() {
-    private val pm: PackageManager = context.packageManager
-
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
@@ -32,7 +27,7 @@ class SelectionViewModel(
                 // 未読込の場合だけプログレスバーを表示
                 _uiState.update { it.copy(isLoading = true) }
             }
-            loadAppUseCase(pm).onSuccess { res ->
+            loadAppUseCase().onSuccess { res ->
                 val query = uiState.value.query
                 val items = res.notTargets
                     .filter { app -> app.label.contains(query) || app.packageName.contains(query) }
