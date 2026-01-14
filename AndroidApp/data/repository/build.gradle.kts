@@ -20,6 +20,13 @@ dependencies {
     // room
     api(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
+
+    // test
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.com.google.truth)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 }
 
 ksp {
