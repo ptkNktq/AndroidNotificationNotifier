@@ -2,8 +2,10 @@ package me.nya_n.notificationnotifier
 
 import android.app.Application
 import me.nya_n.notificationnotifier.data.repository.AppRepository
+import me.nya_n.notificationnotifier.data.repository.BackupRepository
 import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
 import me.nya_n.notificationnotifier.data.repository.impl.AppRepositoryImpl
+import me.nya_n.notificationnotifier.data.repository.impl.BackupRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.impl.UserSettingsRepositoryImpl
 import me.nya_n.notificationnotifier.data.repository.source.DB
 import me.nya_n.notificationnotifier.data.repository.source.UserSettingsDataStore
@@ -82,6 +84,7 @@ class App : Application() {
         // Repository
         single<UserSettingsRepository> { UserSettingsRepositoryImpl(get()) }
         single<AppRepository> { AppRepositoryImpl(applicationContext.packageManager, get(), get()) }
+        single<BackupRepository> { BackupRepositoryImpl(applicationContext) }
 
         // ViewModel
         viewModel { AppViewModel(get(), packageName, get(), get()) }
@@ -93,8 +96,8 @@ class App : Application() {
         // UseCase
         factory<AddTargetAppUseCase> { AddTargetAppUseCaseImpl(get()) }
         factory<DeleteTargetAppUseCase> { DeleteTargetAppUseCaseImpl(get()) }
-        factory<ExportDataUseCase> { ExportDataUseCaseImpl(get(), get()) }
-        factory<ImportDataUseCase> { ImportDataUseCaseImpl(get(), get()) }
+        factory<ExportDataUseCase> { ExportDataUseCaseImpl(get(), get(), get()) }
+        factory<ImportDataUseCase> { ImportDataUseCaseImpl(get(), get(), get()) }
         factory<LoadAddressUseCase> { LoadAddressUseCaseImpl(get()) }
         factory<LoadAppUseCase> { LoadAppUseCaseImpl(get(), get()) }
         factory<LoadFilterConditionUseCase> { LoadFilterConditionUseCaseImpl(get()) }
