@@ -41,11 +41,15 @@ class UserSettingsRepositoryTest {
     }
 
     @Test
-    fun `ユーザー設定の保存、取得`() {
+    fun `ユーザー設定の保存、取得、更新`() {
         runTest(testDispatcher) {
             val data = UserSettings("192.168.10.18", 8484, false)
             userSettingsRepository.saveUserSettings(data)
             assertThat(userSettingsRepository.getUserSettings()).isEqualTo(data)
+
+            val updated = data.copy(port = 2525, isPackageVisibilityGranted = true)
+            userSettingsRepository.saveUserSettings(updated)
+            assertThat(userSettingsRepository.getUserSettings()).isEqualTo(updated)
         }
     }
 }
