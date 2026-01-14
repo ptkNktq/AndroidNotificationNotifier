@@ -81,13 +81,13 @@ class App : Application() {
 
         // Repository
         single<UserSettingsRepository> { UserSettingsRepositoryImpl(get()) }
-        single<AppRepository> { AppRepositoryImpl(get(), get()) }
+        single<AppRepository> { AppRepositoryImpl(applicationContext.packageManager, get(), get()) }
 
         // ViewModel
         viewModel { AppViewModel(get(), packageName, get(), get()) }
-        viewModel { SelectionViewModel(get(), get(), get()) }
+        viewModel { SelectionViewModel(get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
-        viewModel { TargetViewModel(get(), get()) }
+        viewModel { TargetViewModel(get()) }
         viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
 
         // UseCase

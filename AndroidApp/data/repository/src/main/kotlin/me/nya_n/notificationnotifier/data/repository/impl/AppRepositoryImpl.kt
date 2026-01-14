@@ -11,6 +11,7 @@ import me.nya_n.notificationnotifier.model.FilterCondition
 import me.nya_n.notificationnotifier.model.InstalledApp
 
 class AppRepositoryImpl(
+    private val packageManager: PackageManager,
     private val filterConditionDao: FilterConditionDao,
     private val targetAppDao: TargetAppDao,
     private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
@@ -62,10 +63,10 @@ class AppRepositoryImpl(
         }
     }
 
-    override fun loadInstalledAppList(pm: PackageManager): List<InstalledApp> {
-        return pm.getInstalledApplications(PackageManager.GET_META_DATA)
+    override fun loadInstalledAppList(): List<InstalledApp> {
+        return packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
             .map {
-                val label = pm.getApplicationLabel(it).toString()
+                val label = packageManager.getApplicationLabel(it).toString()
                 InstalledApp(
                     label,
                     it.packageName

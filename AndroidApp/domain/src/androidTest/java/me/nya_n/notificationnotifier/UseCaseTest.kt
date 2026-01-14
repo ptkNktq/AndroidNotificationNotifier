@@ -1,7 +1,6 @@
 package me.nya_n.notificationnotifier
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -57,7 +56,6 @@ class UseCaseTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher = UnconfinedTestDispatcher()
     private lateinit var appContext: Context
-    private lateinit var pm: PackageManager
     private lateinit var exportFile: File
 
     private lateinit var addTargetAppUseCase: AddTargetAppUseCase
@@ -82,7 +80,6 @@ class UseCaseTest {
                 delete()
             }
         }
-        pm = appContext.packageManager
         val userSettingsRepository = UserSettingsRepositoryImpl(
             UserSettingsDataStore(
                 SharedPreferenceProvider.create(
@@ -99,6 +96,7 @@ class UseCaseTest {
             clearAllTables()
         }
         val appRepository = AppRepositoryImpl(
+            appContext.packageManager,
             db.filterConditionDao(),
             db.targetAppDao(),
             testDispatcher
@@ -139,7 +137,7 @@ class UseCaseTest {
     @Test
     fun `インストール済みアプリの取得_成功（ついでにアプリ一覧取得権限許可処理も）`() {
         packageVisibilityGrantedUseCase()
-        val ret = loadAppUseCase.loadInstalledAppList(pm)
+        val ret = loadAppUseCase.loadInstalledAppList()
         assertThat(ret.getOrNull()).apply {
             isNotNull()
             isNotEmpty()
@@ -148,7 +146,7 @@ class UseCaseTest {
 
     @Test
     fun `インストール済みアプリの取得_失敗`() {
-        val ret = loadAppUseCase.loadInstalledAppList(pm)
+        val ret = loadAppUseCase.loadInstalledAppList()
         assertThat(ret.exceptionOrNull()).apply {
             isNotNull()
             isInstanceOf(PermissionDeniedException::class.java)
