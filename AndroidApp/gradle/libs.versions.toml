@@ -32,6 +32,7 @@ androidx-room = "2.8.4"
 io-insert-koin = "4.1.1"
 com-google-code-gson = "2.13.2"
 com-squareup-leakcanary = "2.14"
+mockk = "1.14.7"
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
@@ -68,6 +69,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 com-google-truth = { module = "com.google.truth:truth", version.ref = "com-google-truth" }
 androidx-test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-ext" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 # for build-logic
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
