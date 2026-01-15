@@ -6,9 +6,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v6
     - name: set up JDK 17
@@ -17,11 +15,20 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
+
     - name: Grant execute permission for gradlew
       run: |
         cd ./AndroidApp
         chmod +x ./gradlew
+
     - name: Build with Gradle
       run: |
         cd ./AndroidApp
         ./gradlew build
+
+    - name: Notify discord
+      uses: sarisia/actions-status-discord@v1
+      if: always()
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
