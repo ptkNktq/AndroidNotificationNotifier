@@ -1,6 +1,7 @@
 package me.nya_n.notificationnotifier
 
 import android.app.Application
+import android.net.ConnectivityManager
 import me.nya_n.notificationnotifier.data.repository.AppRepository
 import me.nya_n.notificationnotifier.data.repository.BackupRepository
 import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
@@ -62,6 +63,8 @@ class App : Application() {
     }
 
     private val modules = module {
+        single { applicationContext.getSystemService(ConnectivityManager::class.java) }
+
         // BuildConfigのデータ共有用
         single {
             AppConfig(
@@ -104,7 +107,7 @@ class App : Application() {
         factory<LoadAppUseCase> { LoadAppUseCaseImpl(get(), get()) }
         factory<LoadFilterConditionUseCase> { LoadFilterConditionUseCaseImpl(get()) }
         factory<NotifyTargetAppNotificationUseCase> {
-            NotifyTargetAppNotificationUseCaseImpl(get(), get())
+            NotifyTargetAppNotificationUseCaseImpl(get(), get(), get(), get())
         }
         factory<NotifyUseCase> { NotifyUseCaseImpl(get()) }
         factory<PackageVisibilityGrantedUseCase> { PackageVisibilityGrantedUseCaseImpl(get()) }
