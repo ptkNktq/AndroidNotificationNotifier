@@ -32,3 +32,4 @@ jobs:
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         status: ${{ job.status }}
+        content: "<@225341405726244865> チェック終わったみたい  <:yoshi:981971678542315530>"
