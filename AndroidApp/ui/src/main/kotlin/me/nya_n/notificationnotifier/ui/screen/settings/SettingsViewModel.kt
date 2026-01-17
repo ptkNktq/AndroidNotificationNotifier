@@ -59,6 +59,10 @@ class SettingsViewModel(
         }
     }
 
+    fun updateWifiOnlySetting(isWifiOnlyNotificationEnabled: Boolean) {
+        _uiState.update { it.copy(isWifiOnlyNotificationEnabled = isWifiOnlyNotificationEnabled) }
+    }
+
     /** バックアップのために外部ストレージにデータを保存 */
     fun exportData(uri: Uri?) {
         if (uri == null) {

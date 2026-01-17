@@ -117,6 +117,8 @@ fun SettingsScreen(
         versionName = uiState.appConfig.versionString,
         onValueChange = { viewModel.updateAddress(it) },
         onNotifyTest = { viewModel.notifyTest() },
+        isWifiOnlyNotificationEnabled = uiState.isWifiOnlyNotificationEnabled,
+        onWifiOnlySettingChanged = { viewModel.updateWifiOnlySetting(it) },
         onExportData = { viewModel.event(UiEvent.ExportData()) },
         onImportData = { viewModel.event(UiEvent.ImportData()) },
         onLicense = { navController.navigate(Screen.License.route) },
@@ -132,6 +134,8 @@ fun SettingsContent(
     versionName: String,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit,
+    isWifiOnlyNotificationEnabled: Boolean,
+    onWifiOnlySettingChanged: (Boolean) -> Unit,
     onExportData: () -> Unit,
     onImportData: () -> Unit,
     onLicense: () -> Unit,
@@ -149,7 +153,9 @@ fun SettingsContent(
             NotifySettings(
                 address = address,
                 onValueChange = onValueChange,
-                onNotifyTest = onNotifyTest
+                onNotifyTest = onNotifyTest,
+                isWifiOnlyNotificationEnabled = isWifiOnlyNotificationEnabled,
+                onWifiOnlySettingChanged = onWifiOnlySettingChanged
             )
             OtherSettings(
                 onExportData = onExportData,
@@ -178,7 +184,9 @@ fun SettingsContent(
 private fun NotifySettings(
     address: String,
     onValueChange: (String) -> Unit,
-    onNotifyTest: () -> Unit
+    onNotifyTest: () -> Unit,
+    isWifiOnlyNotificationEnabled: Boolean,
+    onWifiOnlySettingChanged: (Boolean) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -222,8 +230,8 @@ private fun NotifySettings(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(
-            checked = false,
-            onCheckedChange = { }
+            checked = isWifiOnlyNotificationEnabled,
+            onCheckedChange = onWifiOnlySettingChanged
         )
         Text("Wi-Fi接続時のみ転送する。")
     }
@@ -304,6 +312,8 @@ private fun SettingsPreview() {
             versionName = "1.0",
             onValueChange = { },
             onNotifyTest = { },
+            isWifiOnlyNotificationEnabled = true,
+            onWifiOnlySettingChanged = { },
             onExportData = { },
             onImportData = { },
             onLicense = { },
