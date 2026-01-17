@@ -23,6 +23,7 @@ import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveWifiOnlyNotificationSettingUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.CheckPackageVisibilityUseCaseImpl
@@ -37,6 +38,7 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.NotifyUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrantedUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.SaveWifiOnlyNotificationSettingUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ToggleIgnoreSummaryUseCaseImpl
 import me.nya_n.notificationnotifier.model.AppConfig
 import me.nya_n.notificationnotifier.ui.screen.app.AppViewModel
@@ -91,7 +93,7 @@ class App : Application() {
         viewModel { SelectionViewModel(get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
         // UseCase
         factory<AddTargetAppUseCase> { AddTargetAppUseCaseImpl(get()) }
@@ -110,5 +112,10 @@ class App : Application() {
         factory<SaveAddressUseCase> { SaveAddressUseCaseImpl(get()) }
         factory<SaveFilterConditionUseCase> { SaveFilterConditionUseCaseImpl(get()) }
         factory<ToggleIgnoreSummaryUseCase> { ToggleIgnoreSummaryUseCaseImpl(get()) }
+        factory<SaveWifiOnlyNotificationSettingUseCase> {
+            SaveWifiOnlyNotificationSettingUseCaseImpl(
+                get()
+            )
+        }
     }
 }

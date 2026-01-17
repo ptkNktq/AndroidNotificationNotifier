@@ -49,7 +49,7 @@ class UseCaseTest {
 
     @Test
     fun `インストール済みアプリの取得_許可あり`() {
-        every { userSettingsRepository.getUserSettings() } returns UserSettings("", 0, true)
+        every { userSettingsRepository.getUserSettings() } returns UserSettings("", 0, true, false)
         every { appRepository.loadInstalledAppList() } returns listOf(InstalledApp("", ""))
 
         val ret = loadAppUseCase.loadInstalledAppList()
@@ -61,7 +61,7 @@ class UseCaseTest {
 
     @Test
     fun `インストール済みアプリの取得_許可なし`() {
-        every { userSettingsRepository.getUserSettings() } returns UserSettings("", 0, false)
+        every { userSettingsRepository.getUserSettings() } returns UserSettings("", 0, false, false)
         every { appRepository.loadInstalledAppList() } throws PermissionDeniedException()
 
         val ret = loadAppUseCase.loadInstalledAppList()
@@ -76,7 +76,8 @@ class UseCaseTest {
         every { userSettingsRepository.getUserSettings() } returns UserSettings(
             "192.168.10.18",
             8484,
-            true
+            true,
+            false
         )
         every { userSettingsRepository.saveUserSettings(any()) } just Runs
 
@@ -115,7 +116,8 @@ class UseCaseTest {
         every { userSettingsRepository.getUserSettings() } returns UserSettings(
             "192.168.10.18",
             8484,
-            true
+            true,
+            false
         )
 
         runTest(testDispatcher) {

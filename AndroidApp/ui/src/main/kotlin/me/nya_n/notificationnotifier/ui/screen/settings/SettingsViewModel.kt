@@ -12,6 +12,7 @@ import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveWifiOnlyNotificationSettingUseCase
 import me.nya_n.notificationnotifier.model.AppConfig
 import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
@@ -22,6 +23,7 @@ class SettingsViewModel(
     loadAddressUseCase: LoadAddressUseCase,
     private val saveAddressUseCase: SaveAddressUseCase,
     private val notifyUseCase: NotifyUseCase,
+    private val saveWifiOnlyNotificationSettingUseCase: SaveWifiOnlyNotificationSettingUseCase,
     private val exportDataUseCase: ExportDataUseCase,
     private val importDataUseCase: ImportDataUseCase
 ) : BaseViewModel<UiEvent>() {
@@ -60,6 +62,7 @@ class SettingsViewModel(
     }
 
     fun updateWifiOnlySetting(isWifiOnlyNotificationEnabled: Boolean) {
+        saveWifiOnlyNotificationSettingUseCase(isWifiOnlyNotificationEnabled)
         _uiState.update { it.copy(isWifiOnlyNotificationEnabled = isWifiOnlyNotificationEnabled) }
     }
 
