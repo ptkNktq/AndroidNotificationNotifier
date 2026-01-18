@@ -32,3 +32,4 @@ jobs:
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         status: ${{ job.status }}
+        content: "<@${{ secrets.DISCORD_NOTIFY_USER_ID }}> チェック終わったみたい ${{ secrets.DISCORD_NOTIFY_SUFFIX }}"

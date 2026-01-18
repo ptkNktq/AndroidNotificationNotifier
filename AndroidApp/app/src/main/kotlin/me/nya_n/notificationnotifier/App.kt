@@ -1,6 +1,7 @@
 package me.nya_n.notificationnotifier
 
 import android.app.Application
+import android.net.ConnectivityManager
 import me.nya_n.notificationnotifier.data.repository.AppRepository
 import me.nya_n.notificationnotifier.data.repository.BackupRepository
 import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
@@ -23,6 +24,7 @@ import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import me.nya_n.notificationnotifier.domain.usecase.PackageVisibilityGrantedUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveFilterConditionUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveWifiOnlyNotificationSettingUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ToggleIgnoreSummaryUseCase
 import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.CheckPackageVisibilityUseCaseImpl
@@ -37,6 +39,7 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.NotifyUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.PackageVisibilityGrantedUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.SaveFilterConditionUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.SaveWifiOnlyNotificationSettingUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ToggleIgnoreSummaryUseCaseImpl
 import me.nya_n.notificationnotifier.model.AppConfig
 import me.nya_n.notificationnotifier.ui.screen.app.AppViewModel
@@ -60,6 +63,8 @@ class App : Application() {
     }
 
     private val modules = module {
+        single { applicationContext.getSystemService(ConnectivityManager::class.java) }
+
         // BuildConfigのデータ共有用
         single {
             AppConfig(
@@ -91,7 +96,7 @@ class App : Application() {
         viewModel { SelectionViewModel(get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get()) }
 
         // UseCase
         factory<AddTargetAppUseCase> { AddTargetAppUseCaseImpl(get()) }
@@ -102,7 +107,7 @@ class App : Application() {
         factory<LoadAppUseCase> { LoadAppUseCaseImpl(get(), get()) }
         factory<LoadFilterConditionUseCase> { LoadFilterConditionUseCaseImpl(get()) }
         factory<NotifyTargetAppNotificationUseCase> {
-            NotifyTargetAppNotificationUseCaseImpl(get(), get())
+            NotifyTargetAppNotificationUseCaseImpl(get(), get(), get(), get())
         }
         factory<NotifyUseCase> { NotifyUseCaseImpl(get()) }
         factory<PackageVisibilityGrantedUseCase> { PackageVisibilityGrantedUseCaseImpl(get()) }
@@ -110,5 +115,10 @@ class App : Application() {
         factory<SaveAddressUseCase> { SaveAddressUseCaseImpl(get()) }
         factory<SaveFilterConditionUseCase> { SaveFilterConditionUseCaseImpl(get()) }
         factory<ToggleIgnoreSummaryUseCase> { ToggleIgnoreSummaryUseCaseImpl(get()) }
+        factory<SaveWifiOnlyNotificationSettingUseCase> {
+            SaveWifiOnlyNotificationSettingUseCaseImpl(
+                get()
+            )
+        }
     }
 }

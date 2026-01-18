@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.CloudUpload
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Devices
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
@@ -115,6 +117,8 @@ fun SettingsScreen(
         versionName = uiState.appConfig.versionString,
         onValueChange = { viewModel.updateAddress(it) },
         onNotifyTest = { viewModel.notifyTest() },
+        isWifiOnlyNotificationEnabled = uiState.isWifiOnlyNotificationEnabled,
+        onWifiOnlySettingChanged = { viewModel.updateWifiOnlySetting(it) },
         onExportData = { viewModel.event(UiEvent.ExportData()) },
         onImportData = { viewModel.event(UiEvent.ImportData()) },
         onLicense = { navController.navigate(Screen.License.route) },
@@ -130,6 +134,8 @@ fun SettingsContent(
     versionName: String,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit,
+    isWifiOnlyNotificationEnabled: Boolean,
+    onWifiOnlySettingChanged: (Boolean) -> Unit,
     onExportData: () -> Unit,
     onImportData: () -> Unit,
     onLicense: () -> Unit,
@@ -147,7 +153,9 @@ fun SettingsContent(
             NotifySettings(
                 address = address,
                 onValueChange = onValueChange,
-                onNotifyTest = onNotifyTest
+                onNotifyTest = onNotifyTest,
+                isWifiOnlyNotificationEnabled = isWifiOnlyNotificationEnabled,
+                onWifiOnlySettingChanged = onWifiOnlySettingChanged
             )
             OtherSettings(
                 onExportData = onExportData,
@@ -176,7 +184,9 @@ fun SettingsContent(
 private fun NotifySettings(
     address: String,
     onValueChange: (String) -> Unit,
-    onNotifyTest: () -> Unit
+    onNotifyTest: () -> Unit,
+    isWifiOnlyNotificationEnabled: Boolean,
+    onWifiOnlySettingChanged: (Boolean) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -216,6 +226,15 @@ private fun NotifySettings(
         text = stringResource(id = R.string.notify_test),
         onClick = onNotifyTest
     )
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = isWifiOnlyNotificationEnabled,
+            onCheckedChange = onWifiOnlySettingChanged
+        )
+        Text("Wi-Fi接続時のみ転送する。")
+    }
 }
 
 /** その他の項目
@@ -293,6 +312,8 @@ private fun SettingsPreview() {
             versionName = "1.0",
             onValueChange = { },
             onNotifyTest = { },
+            isWifiOnlyNotificationEnabled = true,
+            onWifiOnlySettingChanged = { },
             onExportData = { },
             onImportData = { },
             onLicense = { },
