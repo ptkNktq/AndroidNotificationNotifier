@@ -5,9 +5,11 @@ plugins {
 
 android {
     namespace = "me.nya_n.notificationnotifier.data.repository"
+}
 
-    kotlinOptions {
-        jvmTarget = "17"
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
