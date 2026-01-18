@@ -8,9 +8,11 @@ android {
     namespace = "me.nya_n.notificationnotifier.ui"
     @Suppress("UnstableApiUsage")
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
+}
 
-    kotlinOptions {
-        jvmTarget = "17"
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
@@ -32,4 +34,9 @@ dependencies {
     // その他
     implementation(libs.io.insert.koin)
     implementation(libs.io.insert.koin.compose)
+}
+
+tasks.withType<Test>().configureEach {
+    // FIXME: ScreenshotTestを全部コメントアウトしてるので一時的にfalseにしておく
+    failOnNoDiscoveredTests = false
 }
