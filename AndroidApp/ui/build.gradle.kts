@@ -29,6 +29,7 @@ dependencies {
     androidTestImplementation(composeBom)
     debugImplementation(libs.androidx.compose.ui.tooling)
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+    screenshotTestImplementation(libs.screenshot.validation.api)
     implementation(libs.bundles.androidx.compose)
 
     // その他
