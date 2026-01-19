@@ -1,6 +1,7 @@
 plugins {
     id("common.library.compose")
-    alias(libs.plugins.com.jaredsburrows.license)
+    // note: 最新のgradle/agp非対応
+//    alias(libs.plugins.com.jaredsburrows.license)
     alias(libs.plugins.screenshot)
 }
 
