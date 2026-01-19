@@ -7,7 +7,6 @@ plugins {
 
 android {
     namespace = "me.nya_n.notificationnotifier.ui"
-    @Suppress("UnstableApiUsage")
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
