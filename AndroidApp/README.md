@@ -1,5 +1,11 @@
 # Androidアプリ
 
+### 開発環境
+
+- Android Studio Otter 3 Feature Drop | 2025.2.3
+- Windows 11
+    - 一部 wsl2(Ubuntu 22.04.5 LTS)
+
 ### テスト
 
 ###### ユニットテスト

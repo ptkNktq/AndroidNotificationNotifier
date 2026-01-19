@@ -1,19 +1,13 @@
 plugins {
     id("common.library.compose")
-    alias(libs.plugins.com.jaredsburrows.license)
+    // note: 最新のgradle/agp非対応
+//    alias(libs.plugins.com.jaredsburrows.license)
     alias(libs.plugins.screenshot)
 }
 
 android {
     namespace = "me.nya_n.notificationnotifier.ui"
-    @Suppress("UnstableApiUsage")
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
-    }
 }
 
 dependencies {
