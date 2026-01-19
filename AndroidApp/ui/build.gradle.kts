@@ -29,14 +29,10 @@ dependencies {
     androidTestImplementation(composeBom)
     debugImplementation(libs.androidx.compose.ui.tooling)
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
+    screenshotTestImplementation(libs.screenshot.validation.api)
     implementation(libs.bundles.androidx.compose)
 
     // その他
     implementation(libs.io.insert.koin)
     implementation(libs.io.insert.koin.compose)
-}
-
-tasks.withType<Test>().configureEach {
-    // FIXME: ScreenshotTestを全部コメントアウトしてるので一時的にfalseにしておく
-    failOnNoDiscoveredTests = false
 }
