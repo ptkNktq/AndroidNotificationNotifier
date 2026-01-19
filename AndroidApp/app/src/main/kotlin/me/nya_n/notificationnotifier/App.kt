@@ -15,6 +15,7 @@ import me.nya_n.notificationnotifier.domain.usecase.AddTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.CheckPackageVisibilityUseCase
 import me.nya_n.notificationnotifier.domain.usecase.DeleteTargetAppUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
+import me.nya_n.notificationnotifier.domain.usecase.GetUserSettingsUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAppUseCase
@@ -30,6 +31,7 @@ import me.nya_n.notificationnotifier.domain.usecase.impl.AddTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.CheckPackageVisibilityUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.DeleteTargetAppUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ExportDataUseCaseImpl
+import me.nya_n.notificationnotifier.domain.usecase.impl.GetUserSettingsUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.ImportDataUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.LoadAddressUseCaseImpl
 import me.nya_n.notificationnotifier.domain.usecase.impl.LoadAppUseCaseImpl
@@ -96,7 +98,7 @@ class App : Application() {
         viewModel { SelectionViewModel(get(), get()) }
         viewModel { params -> DetailViewModel(get(), get(), get(), get(), params.get()) }
         viewModel { TargetViewModel(get()) }
-        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get()) }
+        viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
 
         // UseCase
         factory<AddTargetAppUseCase> { AddTargetAppUseCaseImpl(get()) }
@@ -120,5 +122,6 @@ class App : Application() {
                 get()
             )
         }
+        factory<GetUserSettingsUseCase> { GetUserSettingsUseCaseImpl(get()) }
     }
 }
