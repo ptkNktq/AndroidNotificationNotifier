@@ -17,10 +17,6 @@ dependencies {
     api(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
-    // FIXME: なぜか必要と言われるので追加しておく。どっかでcompose使ってたっけ...？
-    val composeBom = platform(libs.androidx.compose.bom)
-    implementation(composeBom)
-
     // test
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.com.google.truth)

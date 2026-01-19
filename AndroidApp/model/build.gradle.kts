@@ -1,5 +1,5 @@
 plugins {
-    id("common.library.compose")
+    id("common.library")
     alias(libs.plugins.com.google.devtools.ksp)
 }
 
@@ -12,9 +12,6 @@ dependencies {
     // room
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
-    // compose for @Stable annotation
-    implementation(platform(libs.androidx.compose.bom))
-    api(libs.androidx.compose.runtime)
 
     // その他
     api(libs.com.google.code.gson)
