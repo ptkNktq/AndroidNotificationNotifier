@@ -7,12 +7,6 @@ android {
     namespace = "me.nya_n.notificationnotifier.data.repository"
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
-    }
-}
-
 dependencies {
     api(project(":model"))
 

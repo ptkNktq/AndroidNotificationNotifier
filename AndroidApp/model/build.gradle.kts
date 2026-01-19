@@ -7,12 +7,6 @@ android {
     namespace = "me.nya_n.notificationnotifier.model"
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
-    }
-}
-
 dependencies {
     // androidx
     // room

@@ -11,12 +11,6 @@ android {
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
-    }
-}
-
 dependencies {
     implementation(project(":domain"))
 
