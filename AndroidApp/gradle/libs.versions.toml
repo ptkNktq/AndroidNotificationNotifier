@@ -33,6 +33,7 @@ io-insert-koin = "4.1.1"
 com-google-code-gson = "2.13.2"
 com-squareup-leakcanary = "2.14"
 mockk = "1.14.7"
+about-libraries = "14.0.0-b01"
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
@@ -42,6 +43,7 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools-ksp" }
 com-jaredsburrows-license = { id = "com.jaredsburrows.license", version.ref = "com-jaredsburrows-license" }
 screenshot = { id = "com.android.compose.screenshot", version.ref = "androidx-compose-screenshot" }
+about-libraries = { id = "com.mikepenz.aboutlibraries.plugin.android", version.ref = "about-libraries" }
 
 [libraries]
 # androidx
@@ -77,10 +79,16 @@ screenshot-validation-api = { group = "com.android.tools.screenshot", name = "sc
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 
 # その他
+com-google-code-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson" }
+# DI
 io-insert-koin = { module = "io.insert-koin:koin-android", version.ref = "io-insert-koin" }
 io-insert-koin-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "io-insert-koin" }
-com-google-code-gson = { module = "com.google.code.gson:gson", version.ref = "com-google-code-gson" }
+# analyze
 com-squareup-leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "com-squareup-leakcanary" }
+# license
+about-libraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "about-libraries" }
+about-libraries-compose-core = { module = "com.mikepenz:aboutlibraries-compose-core", version.ref = "about-libraries" }
+about-libraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "about-libraries" }
 
 [bundles]
 androidx-compose = [

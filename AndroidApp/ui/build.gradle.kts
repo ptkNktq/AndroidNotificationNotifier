@@ -29,4 +29,6 @@ dependencies {
     // その他
     implementation(libs.io.insert.koin)
     implementation(libs.io.insert.koin.compose)
+    implementation(libs.about.libraries.compose.core)
+    implementation(libs.about.libraries.compose.m3)
 }
