@@ -1,18 +1,13 @@
 package me.nya_n.notificationnotifier
 
 import com.android.build.api.dsl.LibraryExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 
 internal fun Project.configureLibrary(
     extension: LibraryExtension
 ) {
+    configureCommon(extension)
     extension.apply {
-        compileSdk = libs.version("compileSdk").toInt()
-        defaultConfig {
-            minSdk = libs.version("minSdk").toInt()
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        }
         buildTypes {
             release {
                 isMinifyEnabled = false
@@ -21,10 +16,6 @@ internal fun Project.configureLibrary(
                     "proguard-rules.pro"
                 )
             }
-        }
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
         }
     }
 }
