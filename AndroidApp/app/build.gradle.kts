@@ -1,5 +1,6 @@
 plugins {
     id("common.android")
+    alias(libs.plugins.about.libraries)
 }
 
 android {
@@ -26,4 +27,5 @@ dependencies {
     // その他
     implementation(libs.io.insert.koin)
     debugImplementation(libs.com.squareup.leakcanary.android)
+    implementation(libs.about.libraries.core)
 }
