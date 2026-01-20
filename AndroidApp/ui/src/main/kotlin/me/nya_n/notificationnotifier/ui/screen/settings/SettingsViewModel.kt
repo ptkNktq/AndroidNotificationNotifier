@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
+import me.nya_n.notificationnotifier.domain.usecase.GetUserSettingsUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
@@ -24,6 +25,7 @@ class SettingsViewModel(
     private val saveAddressUseCase: SaveAddressUseCase,
     private val notifyUseCase: NotifyUseCase,
     private val saveWifiOnlyNotificationSettingUseCase: SaveWifiOnlyNotificationSettingUseCase,
+    private val getUserSettingsUseCase: GetUserSettingsUseCase,
     private val exportDataUseCase: ExportDataUseCase,
     private val importDataUseCase: ImportDataUseCase
 ) : BaseViewModel<UiEvent>() {
@@ -34,7 +36,13 @@ class SettingsViewModel(
 
     init {
         viewModelScope.launch {
-            _uiState.update { it.copy(address = loadAddressUseCase()) }
+            val userSettings = getUserSettingsUseCase()
+            _uiState.update {
+                it.copy(
+                    address = loadAddressUseCase(),
+                    isWifiOnlyNotificationEnabled = userSettings.isWifiOnlyNotificationEnabled
+                )
+            }
         }
     }
 
