@@ -16,7 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.mikepenz.aboutlibraries.Libs
+import com.mikepenz.aboutlibraries.entity.Developer
+import com.mikepenz.aboutlibraries.entity.Library
+import com.mikepenz.aboutlibraries.entity.License
+import com.mikepenz.aboutlibraries.entity.Scm
 import com.mikepenz.aboutlibraries.ui.compose.LibraryDefaults
 import com.mikepenz.aboutlibraries.ui.compose.android.produceLibraries
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
@@ -28,11 +32,24 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 fun LicenseScreen(navController: NavController) {
     val snackbarHostState = remember { SnackbarHostState() }
     val libraries by produceLibraries()
-    AppScaffold(
+    LicenseContent(
         snackbarHostState = snackbarHostState,
+        libraries = libraries,
         onBack = {
             navController.popBackStack()
         }
+    )
+}
+
+@Composable
+fun LicenseContent(
+    snackbarHostState: SnackbarHostState,
+    libraries: Libs?,
+    onBack: () -> Unit
+) {
+    AppScaffold(
+        snackbarHostState = snackbarHostState,
+        onBack = onBack
     ) {
         LibrariesContainer(
             libraries,
@@ -58,10 +75,62 @@ fun LicenseScreen(navController: NavController) {
 @Preview
 @Composable
 private fun LicensePreview() {
-    val navController = rememberNavController()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val libs = Libs(
+        libraries = listOf(
+            Library(
+                uniqueId = "sample1",
+                artifactVersion = "1.2.3",
+                name = "sample1",
+                description = "test description",
+                website = "https://nya-n.me",
+                developers = listOf(Developer("kani", null)),
+                organization = null,
+                scm = Scm(null, null, null),
+                licenses = setOf(
+                    License(
+                        name = "Apache-2.0",
+                        url = "https://www.apache.org/licenses/LICENSE-2.0",
+                        hash = "abc123hash"
+                    )
+                )
+            ),
+            Library(
+                uniqueId = "sample2",
+                artifactVersion = null,
+                name = "sample2",
+                description = null,
+                website = null,
+                developers = listOf(),
+                organization = null,
+                scm = Scm(null, null, null),
+                licenses = setOf(
+                    License(
+                        name = "MIT",
+                        url = "https://opensource.org/licenses/MIT",
+                        hash = "def456hash"
+                    )
+                ),
+            ),
+            Library(
+                uniqueId = "sample3",
+                artifactVersion = null,
+                name = "sample3",
+                description = null,
+                website = null,
+                developers = listOf(),
+                organization = null,
+                scm = null,
+                licenses = setOf()
+            )
+        ),
+        licenses = setOf(),
+    )
     AppTheme {
-        LicenseScreen(
-            navController = navController
+        LicenseContent(
+            snackbarHostState = snackbarHostState,
+            libraries = libs,
+            onBack = { }
         )
     }
 }
