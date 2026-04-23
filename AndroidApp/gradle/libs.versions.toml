@@ -11,7 +11,7 @@ versionName = "1.1"
 
 # Library
 agp = "9.0.0"
-kotlin = "2.3.0"
+kotlin = "2.3.21"
 kotlinx-coroutines = "1.10.2"
 com-google-devtools-ksp = "2.3.4"
 androidx-core = "1.17.0"
