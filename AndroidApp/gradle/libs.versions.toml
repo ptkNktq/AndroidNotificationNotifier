@@ -32,7 +32,7 @@ io-insert-koin = "4.1.1"
 com-google-code-gson = "2.13.2"
 com-squareup-leakcanary = "2.14"
 mockk = "1.14.7"
-about-libraries = "14.0.0-b01"
+about-libraries = "14.2.1"
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
