@@ -31,7 +31,7 @@ androidx-room = "2.8.4"
 io-insert-koin = "4.1.1"
 com-google-code-gson = "2.13.2"
 com-squareup-leakcanary = "2.14"
-mockk = "1.14.7"
+mockk = "1.14.11"
 about-libraries = "14.0.0-b01"
 
 [plugins]
