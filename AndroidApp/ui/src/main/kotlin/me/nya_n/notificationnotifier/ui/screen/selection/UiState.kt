@@ -10,6 +10,8 @@ data class UiState(
     /** アプリフィルタに使うクエリ */
     val query: String = "",
 
+    val isLoading: Boolean = false,
+
     /** ユーザーに表示するメッセージ */
     val message: Message? = null
 )

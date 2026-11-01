@@ -32,4 +32,7 @@
     <string name="app_info">アプリの情報</string>
     <string name="notification_settings">通知設定</string>
     <string name="ok">[OK]</string>
+    <string name="about">開発者について</string>
+    <string name="back">戻る</string>
+    <string name="ignore_summaries">サマリーは無視する。</string>
 </resources>

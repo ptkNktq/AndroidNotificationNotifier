@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.text.SpannableString
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.domain.usecase.NotifyTargetAppNotificationUseCase
 import org.koin.android.ext.android.inject
 
@@ -29,7 +32,7 @@ class NotificationService : NotificationListenerService() {
             val extras = sbn.notification.extras
             val title = getTitle(extras) ?: return@launch
             val message = extras.getCharSequence("android.text").toString()
-            useCase(sbn.packageName, title, message)
+            useCase.invoke(sbn.packageName, title, message, sbn.notification.flags)
         }
     }
 

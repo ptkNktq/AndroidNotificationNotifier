@@ -18,7 +18,7 @@ object AppColors {
     val Primary = Brown
 
     @Composable
-    fun OutlinedTextFieldColors() = OutlinedTextFieldDefaults.colors(
+    fun outlinedTextFieldColors() = OutlinedTextFieldDefaults.colors(
         focusedTextColor = MaterialTheme.colorScheme.primary,
         unfocusedTextColor = MaterialTheme.colorScheme.primary,
         focusedContainerColor = MaterialTheme.colorScheme.onPrimary,

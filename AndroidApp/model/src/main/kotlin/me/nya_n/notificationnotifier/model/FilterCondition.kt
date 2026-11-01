@@ -8,17 +8,27 @@ import java.io.Serializable
 
 @Entity(tableName = "conditions")
 data class FilterCondition(
-    /*
-     * フィルタ対象のパッケージ名
-     */
+    /** フィルタ対象のパッケージ名 */
     @PrimaryKey
     @ColumnInfo(name = "target_package_name")
     @SerializedName("target_package_name")
     val targetPackageName: String,
 
-    /*
-     * 条件
-     */
-    val condition: String
+    /** サマリーを無視するか？ */
+    @ColumnInfo(name = "is_ignore_summary", defaultValue = "0")
+    @SerializedName("is_ignore_summary")
+    val isIgnoreSummary: Boolean,
 
-) : Serializable
+    /** 条件 */
+    val condition: String
+) : Serializable {
+    companion object {
+        fun default(packageName: String): FilterCondition {
+            return FilterCondition(
+                targetPackageName = packageName,
+                isIgnoreSummary = false,
+                condition = ""
+            )
+        }
+    }
+}

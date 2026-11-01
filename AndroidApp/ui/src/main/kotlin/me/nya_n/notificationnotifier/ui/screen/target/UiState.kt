@@ -6,5 +6,6 @@ import me.nya_n.notificationnotifier.model.Message
 data class UiState(
     /** 通知送信ターゲットに追加したアプリ一覧 */
     val items: List<InstalledApp> = emptyList(),
+    val isLoading: Boolean = false,
     val message: Message? = null
 )

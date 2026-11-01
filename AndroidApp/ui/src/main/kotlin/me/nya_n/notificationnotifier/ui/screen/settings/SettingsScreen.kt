@@ -5,7 +5,9 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +22,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ReceiptLong
 import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.CloudUpload
+import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Devices
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
@@ -30,10 +34,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -60,20 +64,19 @@ fun SettingsScreen(
     snackbarHostState: SnackbarHostState,
     viewModel: SettingsViewModel = koinViewModel()
 ) {
-    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
     val uiEvents by viewModel.uiEvent.collectAsState()
     val exportLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode != AppCompatActivity.RESULT_OK) return@rememberLauncherForActivityResult
-        viewModel.exportData(context, it.data?.data)
+        viewModel.exportData(it.data?.data)
     }
     val importLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode != AppCompatActivity.RESULT_OK) return@rememberLauncherForActivityResult
-        viewModel.importData(context, it.data?.data)
+        viewModel.importData(it.data?.data)
     }
     uiEvents.firstOrNull()?.let {
         when (it) {
@@ -109,40 +112,66 @@ fun SettingsScreen(
         viewModel.messageShown()
     }
     SettingsContent(
-        uiState = uiState,
+        address = uiState.address,
+        versionCode = uiState.appConfig.versionCode,
+        versionName = uiState.appConfig.versionString,
         onValueChange = { viewModel.updateAddress(it) },
         onNotifyTest = { viewModel.notifyTest() },
+        isWifiOnlyNotificationEnabled = uiState.isWifiOnlyNotificationEnabled,
+        onWifiOnlySettingChanged = { viewModel.updateWifiOnlySetting(it) },
         onExportData = { viewModel.event(UiEvent.ExportData()) },
         onImportData = { viewModel.event(UiEvent.ImportData()) },
-        onLicense = { navController.navigate(Screen.License.route) }
+        onLicense = { navController.navigate(Screen.License.route) },
+        onAboutDeveloper = { navController.navigate(Screen.About.route) }
     )
 }
 
 /** 設定画面のコンテンツ本体 */
 @Composable
 fun SettingsContent(
-    uiState: UiState,
+    address: String,
+    versionCode: Int,
+    versionName: String,
     onValueChange: (String) -> Unit,
     onNotifyTest: () -> Unit,
+    isWifiOnlyNotificationEnabled: Boolean,
+    onWifiOnlySettingChanged: (Boolean) -> Unit,
     onExportData: () -> Unit,
     onImportData: () -> Unit,
-    onLicense: () -> Unit
+    onLicense: () -> Unit,
+    onAboutDeveloper: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp)
+    Box(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        NotifySettings(
-            uiState,
-            onValueChange = onValueChange,
-            onNotifyTest = onNotifyTest
-        )
-        OtherSettings(
-            onExportData = onExportData,
-            onImportData = onImportData,
-            onLicense = onLicense
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 20.dp)
+        ) {
+            NotifySettings(
+                address = address,
+                onValueChange = onValueChange,
+                onNotifyTest = onNotifyTest,
+                isWifiOnlyNotificationEnabled = isWifiOnlyNotificationEnabled,
+                onWifiOnlySettingChanged = onWifiOnlySettingChanged
+            )
+            OtherSettings(
+                onExportData = onExportData,
+                onImportData = onImportData,
+                onLicense = onLicense,
+                onAboutDeveloper = onAboutDeveloper
+            )
+        }
+        Text(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
+            text = "v$versionName($versionCode)",
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.primary
+            )
         )
     }
 }
@@ -152,10 +181,12 @@ fun SettingsContent(
  *   - 送信テスト
  */
 @Composable
-fun NotifySettings(
-    uiState: UiState,
+private fun NotifySettings(
+    address: String,
     onValueChange: (String) -> Unit,
-    onNotifyTest: () -> Unit
+    onNotifyTest: () -> Unit,
+    isWifiOnlyNotificationEnabled: Boolean,
+    onWifiOnlySettingChanged: (Boolean) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -165,7 +196,7 @@ fun NotifySettings(
      *  とりあえず最初に表示されるIMEが英数になる
      */
     OutlinedTextField(
-        value = uiState.address,
+        value = address,
         placeholder = { Text(text = stringResource(id = R.string.address)) },
         onValueChange = onValueChange,
         keyboardOptions = KeyboardOptions(
@@ -179,7 +210,7 @@ fun NotifySettings(
             }
         ),
         singleLine = true,
-        colors = AppColors.OutlinedTextFieldColors(),
+        colors = AppColors.outlinedTextFieldColors(),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.Devices,
@@ -195,6 +226,15 @@ fun NotifySettings(
         text = stringResource(id = R.string.notify_test),
         onClick = onNotifyTest
     )
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = isWifiOnlyNotificationEnabled,
+            onCheckedChange = onWifiOnlySettingChanged
+        )
+        Text("Wi-Fi接続時のみ転送する。")
+    }
 }
 
 /** その他の項目
@@ -202,10 +242,11 @@ fun NotifySettings(
  *   - バージョン表示
  */
 @Composable
-fun OtherSettings(
+private fun OtherSettings(
     onExportData: () -> Unit,
     onImportData: () -> Unit,
-    onLicense: () -> Unit
+    onLicense: () -> Unit,
+    onAboutDeveloper: () -> Unit
 ) {
     Category(name = stringResource(id = R.string.settings_others))
     ClickableBasicItem(
@@ -223,6 +264,11 @@ fun OtherSettings(
         text = stringResource(id = R.string.license),
         onClickListener = onLicense
     )
+    ClickableBasicItem(
+        icon = Icons.Outlined.Code,
+        text = stringResource(id = R.string.about),
+        onClickListener = onAboutDeveloper
+    )
 }
 
 /** 基本的な項目
@@ -230,7 +276,7 @@ fun OtherSettings(
  *   - クリックできる
  */
 @Composable
-fun ClickableBasicItem(
+private fun ClickableBasicItem(
     icon: ImageVector,
     text: String,
     onClickListener: () -> Unit
@@ -258,15 +304,20 @@ fun ClickableBasicItem(
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun SettingsPreview() {
+private fun SettingsPreview() {
     AppTheme {
         SettingsContent(
-            uiState = UiState(address = "192.168.11.2:5555"),
+            address = "192.168.11.2:5555",
+            versionCode = 1,
+            versionName = "1.0",
             onValueChange = { },
             onNotifyTest = { },
+            isWifiOnlyNotificationEnabled = true,
+            onWifiOnlySettingChanged = { },
             onExportData = { },
             onImportData = { },
-            onLicense = { }
+            onLicense = { },
+            onAboutDeveloper = { }
         )
     }
 }

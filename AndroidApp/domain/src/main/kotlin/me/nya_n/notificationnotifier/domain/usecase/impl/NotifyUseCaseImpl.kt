@@ -1,5 +1,6 @@
 package me.nya_n.notificationnotifier.domain.usecase.impl
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.nya_n.notificationnotifier.data.repository.UserSettingsRepository
@@ -9,7 +10,8 @@ import java.net.InetSocketAddress
 import java.net.Socket
 
 class NotifyUseCaseImpl(
-    private val userSettingsRepository: UserSettingsRepository
+    private val userSettingsRepository: UserSettingsRepository,
+    private val coroutineDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : NotifyUseCase {
     companion object {
         private const val CONNECTION_TIMEOUT = 1_000
@@ -17,7 +19,7 @@ class NotifyUseCaseImpl(
 
     override suspend operator fun invoke(message: String): Result<Unit> {
         return runCatching {
-            withContext(Dispatchers.IO) {
+            withContext(coroutineDispatcher) {
                 val settings = userSettingsRepository.getUserSettings()
                 val addr = InetSocketAddress(
                     InetAddress.getByName(settings.host),

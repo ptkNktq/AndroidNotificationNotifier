@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.NotificationsActive
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
@@ -36,12 +37,14 @@ import androidx.navigation.NavController
 import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppOutlinedButton
-import me.nya_n.notificationnotifier.ui.common.AppScaffold
 import me.nya_n.notificationnotifier.ui.common.Category
 import me.nya_n.notificationnotifier.ui.common.GrayScaleAppIcon
 import me.nya_n.notificationnotifier.ui.common.SnackbarMessage
 import me.nya_n.notificationnotifier.ui.theme.AppColors
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
+import me.nya_n.notificationnotifier.ui.util.LocalSharedTransitionScope
+import me.nya_n.notificationnotifier.ui.util.iconSharedTransitionKey
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -61,9 +64,7 @@ fun DetailScreen(
         viewModel.messageShown()
     }
     DetailContent(
-        snackbarHostState = snackbarHostState,
         app = app,
-        condition = uiState.condition,
         onDeleteApp = {
             viewModel.deleteTarget()
             navController.previousBackStackEntry?.apply {
@@ -71,6 +72,9 @@ fun DetailScreen(
             }
             navController.popBackStack()
         },
+        isIgnoreSummary = uiState.isIgnoreSummary,
+        onIgnoreSummaryChanged = { viewModel.onIgnoreSummaryChanged() },
+        condition = uiState.condition,
         onConditionChanged = { viewModel.save(it) }
     )
 }
@@ -78,22 +82,28 @@ fun DetailScreen(
 /** 詳細画面のコンテンツ本体 */
 @Composable
 fun DetailContent(
-    snackbarHostState: SnackbarHostState,
     app: InstalledApp,
-    condition: String,
     onDeleteApp: () -> Unit,
+    isIgnoreSummary: Boolean,
+    onIgnoreSummaryChanged: () -> Unit,
+    condition: String,
     onConditionChanged: (String) -> Unit
 ) {
-    AppScaffold(snackbarHostState = snackbarHostState) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-                .padding(horizontal = 20.dp),
-        ) {
-            AppInfo(app, onDeleteApp)
-            NotificationSetting(condition, onConditionChanged)
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
+    ) {
+        AppInfo(
+            app = app,
+            onDeleteApp = onDeleteApp
+        )
+        NotificationSetting(
+            isIgnoreSummary = isIgnoreSummary,
+            onIgnoreSummaryChanged = onIgnoreSummaryChanged,
+            initCondition = condition,
+            onConditionChanged = onConditionChanged
+        )
     }
 }
 
@@ -101,10 +111,13 @@ fun DetailContent(
  *   - アイコンとアプリ名
  */
 @Composable
-fun AppInfo(
+private fun AppInfo(
     app: InstalledApp,
     onDeleteApp: () -> Unit
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+    val animatedVisibilityScope = LocalAnimatedVisibilityScope.current
+
     Category(name = stringResource(id = R.string.app_info))
     Box(
         modifier = Modifier.padding(vertical = 20.dp)
@@ -112,7 +125,20 @@ fun AppInfo(
         Row {
             GrayScaleAppIcon(
                 app = app,
-                modifier = Modifier.size(80.dp),
+                modifier = Modifier
+                    .size(80.dp)
+                    .then(
+                        if (sharedTransitionScope != null && animatedVisibilityScope != null) {
+                            with(sharedTransitionScope) {
+                                Modifier.sharedElement(
+                                    rememberSharedContentState(key = app.iconSharedTransitionKey),
+                                    animatedVisibilityScope = animatedVisibilityScope
+                                )
+                            }
+                        } else {
+                            Modifier
+                        }
+                    ),
                 isInListView = false
             )
             Box(
@@ -136,7 +162,9 @@ fun AppInfo(
  *   - 条件
  */
 @Composable
-fun NotificationSetting(
+private fun NotificationSetting(
+    isIgnoreSummary: Boolean,
+    onIgnoreSummaryChanged: () -> Unit,
     initCondition: String,
     onConditionChanged: (String) -> Unit
 ) {
@@ -144,6 +172,15 @@ fun NotificationSetting(
     val focusManager = LocalFocusManager.current
     var condition by remember(initCondition) { mutableStateOf(initCondition) }
     Category(name = stringResource(id = R.string.notification_settings))
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = isIgnoreSummary,
+            onCheckedChange = { onIgnoreSummaryChanged() },
+        )
+        Text(stringResource(id = R.string.ignore_summaries))
+    }
     /* FIXME: TODO:
      *  テキスト未確定状態で、IMEの◀,▶でカーソルを移動させたとき、カーソルの移動がおかしくなる
      *  TextFieldValueも試したが改善されず
@@ -162,7 +199,7 @@ fun NotificationSetting(
             }
         ),
         singleLine = true,
-        colors = AppColors.OutlinedTextFieldColors(),
+        colors = AppColors.outlinedTextFieldColors(),
         leadingIcon = {
             Image(
                 imageVector = Icons.Outlined.NotificationsActive,
@@ -179,14 +216,14 @@ fun NotificationSetting(
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun DetailPreview() {
-    val snackbarHostState = remember { SnackbarHostState() }
+private fun DetailPreview() {
     AppTheme {
         DetailContent(
-            snackbarHostState = snackbarHostState,
             app = InstalledApp("Sample App Name", "example.sample.test"),
-            condition = "^.*$",
             onDeleteApp = { },
+            isIgnoreSummary = true,
+            onIgnoreSummaryChanged = { },
+            condition = "^.*$",
             onConditionChanged = { }
         )
     }
@@ -194,17 +231,17 @@ fun DetailPreview() {
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun LongAppNameDetailPreview() {
-    val snackbarHostState = remember { SnackbarHostState() }
+private fun LongAppNameDetailPreview() {
     AppTheme {
         DetailContent(
-            snackbarHostState = snackbarHostState,
             app = InstalledApp(
                 "Sample App Name So Loooooooooooooooooooong",
                 "example.sample.test"
             ),
-            condition = "",
             onDeleteApp = { },
+            isIgnoreSummary = false,
+            onIgnoreSummaryChanged = { },
+            condition = "",
             onConditionChanged = { }
         )
     }

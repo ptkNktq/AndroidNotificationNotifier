@@ -1,7 +1,7 @@
 package me.nya_n.notificationnotifier.ui.common
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -18,11 +18,14 @@ import me.nya_n.notificationnotifier.ui.theme.AppTheme
 @Composable
 fun AppScaffold(
     snackbarHostState: SnackbarHostState,
+    onBack: (() -> Unit)? = null,
     bottomBar: @Composable () -> Unit = { },
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
-        topBar = { TopBar() },
+        topBar = {
+            TopBar(onBack = onBack)
+        },
         bottomBar = bottomBar,
         containerColor = MaterialTheme.colorScheme.secondary,
         snackbarHost = {
@@ -45,14 +48,14 @@ fun AppScaffold(
                 }
             }
         },
-        modifier = Modifier.systemBarsPadding(),
+        modifier = Modifier.fillMaxSize(),
         content = content
     )
 }
 
 @Preview
 @Composable
-fun AppScaffoldPreview() {
+private fun AppScaffoldPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
     AppTheme {
         AppScaffold(snackbarHostState) { }

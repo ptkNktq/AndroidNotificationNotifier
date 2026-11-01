@@ -1,6 +1,5 @@
 package me.nya_n.notificationnotifier.ui.screen.settings
 
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,29 +8,41 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.nya_n.notificationnotifier.domain.usecase.ExportDataUseCase
+import me.nya_n.notificationnotifier.domain.usecase.GetUserSettingsUseCase
 import me.nya_n.notificationnotifier.domain.usecase.ImportDataUseCase
 import me.nya_n.notificationnotifier.domain.usecase.LoadAddressUseCase
 import me.nya_n.notificationnotifier.domain.usecase.NotifyUseCase
 import me.nya_n.notificationnotifier.domain.usecase.SaveAddressUseCase
+import me.nya_n.notificationnotifier.domain.usecase.SaveWifiOnlyNotificationSettingUseCase
+import me.nya_n.notificationnotifier.model.AppConfig
 import me.nya_n.notificationnotifier.model.Message
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.screen.BaseViewModel
 
 class SettingsViewModel(
+    appConfig: AppConfig,
     loadAddressUseCase: LoadAddressUseCase,
     private val saveAddressUseCase: SaveAddressUseCase,
     private val notifyUseCase: NotifyUseCase,
+    private val saveWifiOnlyNotificationSettingUseCase: SaveWifiOnlyNotificationSettingUseCase,
+    private val getUserSettingsUseCase: GetUserSettingsUseCase,
     private val exportDataUseCase: ExportDataUseCase,
     private val importDataUseCase: ImportDataUseCase
 ) : BaseViewModel<UiEvent>() {
 
     /** UIの状態 */
-    private val _uiState = MutableStateFlow(UiState())
+    private val _uiState = MutableStateFlow(UiState(appConfig))
     val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _uiState.update { it.copy(address = loadAddressUseCase()) }
+            val userSettings = getUserSettingsUseCase()
+            _uiState.update {
+                it.copy(
+                    address = loadAddressUseCase(),
+                    isWifiOnlyNotificationEnabled = userSettings.isWifiOnlyNotificationEnabled
+                )
+            }
         }
     }
 
@@ -58,14 +69,19 @@ class SettingsViewModel(
         }
     }
 
+    fun updateWifiOnlySetting(isWifiOnlyNotificationEnabled: Boolean) {
+        saveWifiOnlyNotificationSettingUseCase(isWifiOnlyNotificationEnabled)
+        _uiState.update { it.copy(isWifiOnlyNotificationEnabled = isWifiOnlyNotificationEnabled) }
+    }
+
     /** バックアップのために外部ストレージにデータを保存 */
-    fun exportData(context: Context, uri: Uri?) {
+    fun exportData(uri: Uri?) {
         if (uri == null) {
             _uiState.update { it.copy(message = Message.Error(R.string.export_failed)) }
             return
         }
         viewModelScope.launch {
-            val message = if (exportDataUseCase(context, uri).isSuccess) {
+            val message = if (exportDataUseCase(uri).isSuccess) {
                 Message.Notice(R.string.export_succeeded)
             } else {
                 Message.Error(R.string.export_failed)
@@ -75,13 +91,13 @@ class SettingsViewModel(
     }
 
     /** 外部ストレージのバックアップからデータを復元 */
-    fun importData(context: Context, uri: Uri?) {
+    fun importData(uri: Uri?) {
         if (uri == null) {
             _uiState.update { it.copy(message = Message.Error(R.string.import_failed)) }
             return
         }
         viewModelScope.launch {
-            val message = if (importDataUseCase(context, uri).isSuccess) {
+            val message = if (importDataUseCase(uri).isSuccess) {
                 Message.Notice(R.string.import_succeeded)
             } else {
                 Message.Error(R.string.import_failed)

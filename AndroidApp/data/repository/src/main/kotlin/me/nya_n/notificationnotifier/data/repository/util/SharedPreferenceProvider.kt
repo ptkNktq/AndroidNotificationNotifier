@@ -1,4 +1,4 @@
-package me.nya_n.notificationnotifier.domain.util
+package me.nya_n.notificationnotifier.data.repository.util
 
 import android.content.Context
 import android.content.SharedPreferences

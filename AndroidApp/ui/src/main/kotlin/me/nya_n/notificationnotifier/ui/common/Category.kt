@@ -51,7 +51,7 @@ fun Category(name: String) {
 
 @Preview
 @Composable
-fun CategoryPreview() {
+private fun CategoryPreview() {
     AppTheme {
         Category("カテゴリ")
     }

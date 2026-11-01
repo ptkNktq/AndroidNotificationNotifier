@@ -35,7 +35,7 @@ fun AppOutlinedButton(
 
 @Preview
 @Composable
-fun AppOutlinedButtonPreview() {
+private fun AppOutlinedButtonPreview() {
     AppTheme {
         AppOutlinedButton("text") { }
     }

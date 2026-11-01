@@ -9,33 +9,42 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.nya_n.notificationnotifier.model.InstalledApp
+import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
+import me.nya_n.notificationnotifier.ui.util.LocalSharedTransitionScope
+import me.nya_n.notificationnotifier.ui.util.iconSharedTransitionKey
 
 @Composable
 fun AppList(
     items: List<InstalledApp>,
-    emptyMessage: String,
     onAppSelected: (InstalledApp) -> Unit
 ) {
     if (items.isEmpty()) {
-        EmptyView(message = emptyMessage)
+        EmptyView(message = stringResource(id = R.string.no_apps))
     } else {
         LazyColumn {
             items(
                 count = items.size,
                 key = { "($it)${items[it]}" },
-                itemContent = { AppListItem(app = items[it], onAppSelected = onAppSelected) }
+                itemContent = {
+                    AppListItem(
+                        app = items[it],
+                        onAppSelected = onAppSelected
+                    )
+                }
             )
         }
     }
@@ -46,13 +55,16 @@ fun AppListItem(
     app: InstalledApp,
     onAppSelected: (InstalledApp) -> Unit
 ) {
+    val sharedTransitionScope = LocalSharedTransitionScope.current
+    val animatedVisibilityScope = LocalAnimatedVisibilityScope.current
     val interactionSource = remember { MutableInteractionSource() }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(
                 interactionSource = interactionSource,
-                indication = rememberRipple(bounded = true),
+                indication = ripple(bounded = true),
                 onClick = { onAppSelected(app) }
             )
     ) {
@@ -61,7 +73,20 @@ fun AppListItem(
         ) {
             GrayScaleAppIcon(
                 app = app,
-                modifier = Modifier.size(56.dp),
+                modifier = Modifier
+                    .size(56.dp)
+                    .then(
+                        if (sharedTransitionScope != null && animatedVisibilityScope != null) {
+                            with(sharedTransitionScope) {
+                                Modifier.sharedElement(
+                                    rememberSharedContentState(key = app.iconSharedTransitionKey),
+                                    animatedVisibilityScope = animatedVisibilityScope
+                                )
+                            }
+                        } else {
+                            Modifier
+                        }
+                    ),
                 isInListView = true
             )
             Box(
@@ -84,7 +109,7 @@ fun AppListItem(
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun AppListPreview() {
+private fun AppListPreview() {
     val items = listOf(
         InstalledApp("Sample App", "me.nya_n.notificationnotifier"),
         InstalledApp(
@@ -95,7 +120,6 @@ fun AppListPreview() {
     AppTheme {
         AppList(
             items = items,
-            emptyMessage = "empty",
             onAppSelected = { }
         )
     }
@@ -103,11 +127,10 @@ fun AppListPreview() {
 
 @Preview(backgroundColor = 0xFFC7B5A8, showBackground = true)
 @Composable
-fun EmptyAppListPreview() {
+private fun EmptyAppListPreview() {
     AppTheme {
         AppList(
             items = emptyList(),
-            emptyMessage = "empty",
             onAppSelected = { }
         )
     }

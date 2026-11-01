@@ -1,8 +1,7 @@
 package me.nya_n.notificationnotifier.ui.screen.main
 
-import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,41 +13,76 @@ import androidx.compose.material.icons.automirrored.rounded.List
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import me.nya_n.notificationnotifier.model.InstalledApp
 import me.nya_n.notificationnotifier.ui.R
 import me.nya_n.notificationnotifier.ui.common.AppScaffold
 import me.nya_n.notificationnotifier.ui.common.EmptyView
+import me.nya_n.notificationnotifier.ui.screen.app.Screen
+import me.nya_n.notificationnotifier.ui.screen.detail.DetailScreen
 import me.nya_n.notificationnotifier.ui.screen.selection.SelectionScreen
 import me.nya_n.notificationnotifier.ui.screen.settings.SettingsScreen
 import me.nya_n.notificationnotifier.ui.screen.target.TargetScreen
 import me.nya_n.notificationnotifier.ui.theme.AppTheme
+import me.nya_n.notificationnotifier.ui.util.LocalAnimatedVisibilityScope
 
 /** メイン画面 */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(navController: NavController) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val activity = LocalContext.current as? Activity
+    val tab1NavController = rememberNavController()
+    val activity = LocalActivity.current
     val scope = rememberCoroutineScope()
     val tabItems = listOf(
         TabItem(stringResource(id = R.string.targets), Icons.Outlined.NotificationsActive) {
-            TargetScreen(
-                navController = navController,
-                snackbarHostState = snackbarHostState
-            )
+            NavHost(
+                navController = tab1NavController,
+                startDestination = Screen.Main.Targets.name
+            ) {
+                composable(Screen.Main.Targets.route) {
+                    CompositionLocalProvider(
+                        LocalAnimatedVisibilityScope provides this@composable
+                    ) {
+                        TargetScreen(
+                            navController = tab1NavController,
+                            snackbarHostState = snackbarHostState
+                        )
+                    }
+                }
+                composable(Screen.Main.Detail.route) {
+                    val app = Gson().fromJson(
+                        it.arguments?.getString("app"),
+                        InstalledApp::class.java
+                    )
+                    CompositionLocalProvider(
+                        LocalAnimatedVisibilityScope provides this@composable
+                    ) {
+                        DetailScreen(
+                            navController = tab1NavController,
+                            app = app
+                        )
+                    }
+                }
+            }
         },
         TabItem(stringResource(id = R.string.apps), Icons.AutoMirrored.Rounded.List) {
             SelectionScreen(snackbarHostState = snackbarHostState)
@@ -61,7 +95,13 @@ fun MainScreen(navController: NavController) {
         },
     )
     val pagerState = rememberPagerState(pageCount = { tabItems.size })
+    val isTab1RootScreen =
+        tab1NavController.currentBackStackEntryAsState().value?.destination?.route == Screen.Main.Targets.route
+    val onBack: (() -> Unit)? = if (pagerState.currentPage == 0 && !isTab1RootScreen) {
+        { tab1NavController.popBackStack() }
+    } else null
     BackHandler(true) {
+        snackbarHostState.currentSnackbarData?.dismiss()
         if (pagerState.currentPage == 0) {
             activity?.finish()
         } else {
@@ -71,23 +111,27 @@ fun MainScreen(navController: NavController) {
     MainContent(
         snackbarHostState = snackbarHostState,
         tabItems = tabItems,
-        pagerState = pagerState
-    ) {
-        scope.launch { pagerState.scrollToPage(it, 0f) }
-    }
+        pagerState = pagerState,
+        onBack = onBack,
+        onTabSelected = {
+            snackbarHostState.currentSnackbarData?.dismiss()
+            scope.launch { pagerState.scrollToPage(it, 0f) }
+        }
+    )
 }
 
 /** メイン画面のコンテンツ本体 */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainContent(
     snackbarHostState: SnackbarHostState,
     tabItems: List<TabItem>,
     pagerState: PagerState,
-    onTabSelected: (selected: Int) -> Unit
+    onBack: (() -> Unit)? = null,
+    onTabSelected: (selected: Int) -> Unit,
 ) {
     AppScaffold(
         snackbarHostState = snackbarHostState,
+        onBack = onBack,
         bottomBar = {
             BottomBar(
                 items = tabItems,
@@ -109,12 +153,14 @@ fun MainContent(
 }
 
 @Composable
-fun BottomBar(
+private fun BottomBar(
     items: List<TabItem>,
     currentPage: Int,
     onTabSelected: (selected: Int) -> Unit
 ) {
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = index == currentPage,
@@ -138,10 +184,9 @@ data class TabItem(
     }
 )
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
-fun MainPreview() {
+private fun MainPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
     val tabItems = listOf(
         TabItem("タブ1", Icons.Outlined.NotificationsActive),
@@ -153,14 +198,16 @@ fun MainPreview() {
         MainContent(
             snackbarHostState = snackbarHostState,
             tabItems = tabItems,
-            pagerState = pagerState
-        ) { }
+            pagerState = pagerState,
+            onTabSelected = { },
+            onBack = null
+        )
     }
 }
 
 @Preview
 @Composable
-fun BottomBarPreview() {
+private fun BottomBarPreview() {
     val tabItems = listOf(
         TabItem("タブ1", Icons.Outlined.NotificationsActive),
         TabItem("タブ2", Icons.AutoMirrored.Rounded.List),
